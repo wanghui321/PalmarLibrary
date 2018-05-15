@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:background="#3f40b5"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:background="@drawable/back"
+            android:textSize="30dp"
+            android:textColor="#FFF"
+            android:id="@+id/back"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+        <TextView
+            android:layout_marginLeft="100dp"
+            android:gravity="center"
+            android:text="添加评论"
+            android:textSize="20dp"
+            android:textColor="#FFF"
+            android:layout_width="100dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/my_comment"
+        android:hint="我想说..."
+        android:textSize="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="160dp" />
+    <Button
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="300dp"
+        android:text="提交"
+        android:id="@+id/confirm"
+        android:textSize="15dp"
+        android:textColor="#FFF"
+        android:background="#3f40b5"
+        android:layout_width="80dp"
+        android:layout_height="40dp" />
+</LinearLayout>
