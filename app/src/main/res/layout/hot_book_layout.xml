@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:gravity="center"
+        android:background="#3f40b5"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:background="@drawable/back"
+            android:textSize="30dp"
+            android:textColor="#FFF"
+            android:id="@+id/back"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+        <TextView
+            android:layout_marginLeft="50dp"
+            android:gravity="center"
+            android:text="热门书籍"
+            android:textSize="20dp"
+            android:textColor="#FFF"
+            android:layout_width="100dp"
+            android:layout_height="match_parent" />
+        <TextView
+            android:layout_marginLeft="50dp"
+            android:gravity="center"
+            android:text="个人推荐"
+            android:id="@+id/myself_tuijian"
+            android:textSize="15dp"
+            android:textColor="#FFF"
+            android:layout_width="100dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/page_main"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp">
+        <ListView
+            android:id="@+id/lv_book"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </ListView>
+    </FrameLayout>
+</LinearLayout>
