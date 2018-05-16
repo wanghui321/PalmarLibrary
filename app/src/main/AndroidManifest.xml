@@ -18,6 +18,8 @@
         </activity>
         <activity android:name=".ReadBookActivity"/>
         <activity android:name=".MainActivity"/>
+        <activity android:name=".BookReviewActivity"/>
+        <activity android:name=".BookDetailActivity"/>
     </application>
 
 </manifest>
