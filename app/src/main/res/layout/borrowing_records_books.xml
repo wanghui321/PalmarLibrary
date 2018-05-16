@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/layout_showArea"
@@ -11,6 +12,7 @@
         android:padding="10dp">
 
         <TextView
+            android:layout_weight="1"
             android:id="@+id/tv_borrow_bookname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -19,13 +21,128 @@
             android:textSize="25dp" />
 
         <ImageView
-
-            android:gravity="right"
+            android:layout_marginRight="30dp"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:src="@drawable/caretdown"
             android:id="@+id/iv_img"/>
 
     </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_hideArea"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp" >
+
+        <TextView
+            android:id="@+id/tv_tiaoxingma"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tv_tiaoxingma_number"
+            android:text="条形码："
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/tv_tiaoxingma_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:layout_toRightOf="@id/tv_tiaoxingma"
+            android:text="20160210"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/tv_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_tiaoxingma"
+            android:layout_marginTop="20dp"
+            android:text="作者："
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/tv_author_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/tv_tiaoxingma_number"
+            android:layout_toRightOf="@id/tv_author"
+            android:gravity="bottom"
+            android:text="马克吐温"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/tv_borrow_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_author"
+            android:layout_marginTop="40dp"
+            android:text="借书时间："
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/tv_borrow_time_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="40dp"
+            android:layout_below="@id/tv_author_name"
+            android:layout_toRightOf="@id/tv_borrow_time"
+            android:gravity="bottom"
+            android:text="20180502"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/tv_return_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_borrow_time"
+            android:layout_marginTop="60dp"
+            android:text="归还时间："
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/tv_return_time_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="60dp"
+            android:layout_below="@id/tv_borrow_time_number"
+            android:layout_toRightOf="@id/tv_return_time"
+            android:gravity="bottom"
+            android:text="20180503"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/tv_borrowagin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_return_time"
+            android:layout_marginTop="80dp"
+            android:text="续借次数："
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/tv_borrowagin_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="80dp"
+            android:layout_below="@id/tv_return_time_number"
+            android:layout_toRightOf="@id/tv_borrowagin"
+            android:gravity="bottom"
+            android:text="0"
+            android:textSize="15dp" />
+
+        <Button
+            android:id="@+id/bt_borrowagin"
+            android:layout_width="54dp"
+            android:layout_height="38dp"
+            android:text="续借"
+            android:layout_marginTop="73dp"
+            android:layout_marginLeft="110dp"/>
+    </RelativeLayout>
 
 </LinearLayout>
