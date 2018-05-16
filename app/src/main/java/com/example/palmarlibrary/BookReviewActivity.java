@@ -14,6 +14,5 @@ public class BookReviewActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.book_review_layout);
 
-
     }
 }
