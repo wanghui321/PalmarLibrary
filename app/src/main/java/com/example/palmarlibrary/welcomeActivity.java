@@ -22,5 +22,6 @@ public class welcomeActivity extends Activity {
         animator.setDuration(5000);//shichang
         animator.setStartDelay(500);
         animator.start();
+        
     }
 }
