@@ -33,7 +33,7 @@
         android:id="@+id/layout_hideArea"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp" >
+        android:paddingLeft="10dp">
 
         <TextView
             android:id="@+id/tv_tiaoxingma"
@@ -47,7 +47,6 @@
             android:id="@+id/tv_tiaoxingma_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp"
             android:layout_toRightOf="@id/tv_tiaoxingma"
             android:text="20160210"
             android:textSize="15dp" />
@@ -57,7 +56,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_tiaoxingma"
-            android:layout_marginTop="20dp"
             android:text="作者："
             android:textSize="15dp" />
 
@@ -65,8 +63,6 @@
             android:id="@+id/tv_author_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="20dp"
             android:layout_below="@id/tv_tiaoxingma_number"
             android:layout_toRightOf="@id/tv_author"
             android:gravity="bottom"
@@ -78,7 +74,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_author"
-            android:layout_marginTop="40dp"
             android:text="借书时间："
             android:textSize="15dp" />
 
@@ -86,8 +81,6 @@
             android:id="@+id/tv_borrow_time_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="40dp"
             android:layout_below="@id/tv_author_name"
             android:layout_toRightOf="@id/tv_borrow_time"
             android:gravity="bottom"
@@ -99,7 +92,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_borrow_time"
-            android:layout_marginTop="60dp"
             android:text="归还时间："
             android:textSize="15dp" />
 
@@ -107,8 +99,6 @@
             android:id="@+id/tv_return_time_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="60dp"
             android:layout_below="@id/tv_borrow_time_number"
             android:layout_toRightOf="@id/tv_return_time"
             android:gravity="bottom"
@@ -120,7 +110,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_return_time"
-            android:layout_marginTop="80dp"
             android:text="续借次数："
             android:textSize="15dp" />
 
@@ -128,8 +117,6 @@
             android:id="@+id/tv_borrowagin_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="80dp"
             android:layout_below="@id/tv_return_time_number"
             android:layout_toRightOf="@id/tv_borrowagin"
             android:gravity="bottom"
@@ -140,9 +127,13 @@
             android:id="@+id/bt_borrowagin"
             android:layout_width="54dp"
             android:layout_height="38dp"
-            android:text="续借"
-            android:layout_marginTop="73dp"
-            android:layout_marginLeft="110dp"/>
+            android:layout_alignBaseline="@+id/tv_borrowagin_number"
+            android:layout_alignBottom="@+id/tv_borrowagin_number"
+            android:layout_marginLeft="22dp"
+            android:layout_marginStart="22dp"
+            android:layout_toEndOf="@+id/tv_return_time_number"
+            android:layout_toRightOf="@+id/tv_return_time_number"
+            android:text="续借" />
     </RelativeLayout>
 
 </LinearLayout>
