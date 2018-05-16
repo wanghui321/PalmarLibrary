@@ -14,11 +14,9 @@
             android:top="270dp"
             android:layout_width="101dp"
             android:layout_height="29dp"
-            android:line-height="29dp"
             android:textColor="#FFFFFF"
             android:textSize="20dp"
             android:gravity="center"
-            android:font-family="Roboto"
             android:text="借书卡号："
             />
         <EditText
@@ -39,11 +37,9 @@
             android:top="330dp"
             android:layout_width="101dp"
             android:layout_height="29dp"
-            android:line-height="29dp"
             android:textColor="#FFFFFF"
             android:textSize="20dp"
             android:gravity="center"
-            android:font-family="Roboto"
             android:text="密        码："
             />
         <EditText
