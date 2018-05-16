@@ -11,8 +11,9 @@
             android:layout_width="80dp"
             android:layout_height="80dp" />
         <TextView
+            android:id="@+id/book_review_userName"
             android:layout_margin="10dp"
-            android:textSize="35dp"
+            android:textSize="30dp"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -22,6 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <TextView
+            android:id="@+id/book_review_detail"
             android:textSize="25dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
