@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <ImageView
+        android:id="@+id/red_bookImg"
         android:layout_width="90dp"
         android:layout_height="120dp" />
     <LinearLayout
@@ -11,12 +12,12 @@
         android:orientation="vertical"
         android:gravity="center">
         <TextView
-            android:text="钢铁是怎样炼成的"
+            android:id="@+id/red_bookName"
             android:textSize="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <TextView
-            android:text="奥斯特洛夫斯基"
+            android:id="@+id/red_author"
             android:textSize="25dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
