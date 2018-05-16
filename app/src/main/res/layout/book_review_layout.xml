@@ -20,28 +20,25 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_margin="10dp"
-            android:layout_weight="4"
-            android:text="热门书籍"
+            android:layout_weight="5"
+            android:text="相关评论"
             android:textColor="#ffffff"
             android:textSize="30dp" />
 
         <TextView
-            android:text="个人推荐"
+            android:text="+"
+            android:textSize="35dp"
             android:textColor="#ffffff"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
     </LinearLayout>
-    <FrameLayout
-        android:id="@+id/page_main"
+    <ListView
+        android:id="@+id/book_review_list"
         android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="0dp">
-        <ListView
-            android:id="@+id/lv_book"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:layout_height="match_parent">
 
-        </ListView>
-    </FrameLayout>
+    </ListView>
 </LinearLayout>

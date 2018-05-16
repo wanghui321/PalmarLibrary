@@ -4,25 +4,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     <LinearLayout
-        android:background="#3f40b5"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
-        <Button
-            android:background="@drawable/back"
-            android:textSize="30dp"
-            android:textColor="#FFF"
-            android:id="@+id/back"
-            android:layout_width="30dp"
-            android:layout_height="30dp" />
+        android:layout_height="wrap_content"
+        android:background="#3f40b5">
+
+        <ImageView
+            android:src="@drawable/back"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"/>
+
         <TextView
-            android:layout_marginLeft="100dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:gravity="center"
+            android:layout_margin="10dp"
+            android:layout_weight="5"
             android:text="我的收藏"
-            android:textSize="20dp"
-            android:textColor="#FFF"
-            android:layout_width="100dp"
-            android:layout_height="match_parent" />
+            android:textColor="#ffffff"
+            android:textSize="30dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
     </LinearLayout>
     <FrameLayout
         android:id="@+id/page_main"
