@@ -1,5 +1,8 @@
 package com.example.palmarlibrary;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -8,7 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -21,6 +27,9 @@ import java.util.Map;
  */
 
 public class BorrowingRecords extends Activity {
+
+    private int mHiddenHight = 350;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,9 +47,10 @@ public class BorrowingRecords extends Activity {
         }
 
         BorrowRecordAdapter borrowRecordAdapter = new BorrowRecordAdapter(this,
-                R.layout.borrowing_records_books,dataSource);
+                R.layout.borrowing_records_book,dataSource);
         ListView listView = findViewById(R.id.lv_borrow_books);
         listView.setAdapter(borrowRecordAdapter);
+
 
     }
 
@@ -75,6 +85,33 @@ public class BorrowingRecords extends Activity {
             if (convertView == null){
                 convertView = LayoutInflater.from(context).inflate(item_layout_id,null);
             }
+            //实现点击展开
+            final LinearLayout layoutMsg = convertView.findViewById(R.id.layout_hideArea);
+            final ImageView imageView = convertView.findViewById(R.id.iv_img);
+            layoutMsg.setVisibility(View.GONE);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (layoutMsg.getVisibility() == View.GONE){
+                        //需要显示
+                        layoutMsg.setVisibility(View.VISIBLE);
+                        ValueAnimator animator = createDropAnimator(0,mHiddenHight,layoutMsg);
+                        animator.start();
+                        imageView.setImageResource(R.drawable.caretup);
+                    }else{
+                        //需要隐藏
+                        ValueAnimator animator = createDropAnimator(mHiddenHight,0,layoutMsg);
+                        animator.addListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                layoutMsg.setVisibility(View.GONE);
+                            }
+                        });
+                        animator.start();
+                        imageView.setImageResource(R.drawable.caretdown);
+                    }
+                }
+            });
 
             TextView tiaoxingma = convertView.findViewById(R.id.tv_tiaoxingma_number);
             TextView author = convertView.findViewById(R.id.tv_author_name);
@@ -89,5 +126,20 @@ public class BorrowingRecords extends Activity {
             borrowAgin.setText(dataSource.get(position).get("borrowAgin").toString());
             return convertView;
         }
+    }
+
+    private ValueAnimator createDropAnimator(int start,int end,final View view){
+        ValueAnimator animator = ValueAnimator.ofInt(start,end);
+        animator.setDuration(1000);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int value = (int)animation.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+                layoutParams.height = value;
+                view.setLayoutParams(layoutParams);
+            }
+        });
+        return animator;
     }
 }
