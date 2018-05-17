@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,7 +22,7 @@
             android:gravity="center"
             android:layout_margin="10dp"
             android:layout_weight="5"
-            android:text="借阅记录"
+            android:text="选择学校"
             android:textColor="#ffffff"
             android:textSize="30dp" />
 
@@ -30,10 +31,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1" />
     </LinearLayout>
-
     <ListView
-        android:id="@+id/lv_borrow_books"
+        android:id="@+id/read_book_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
+        android:layout_height="match_parent">
+
+    </ListView>
 
 </LinearLayout>
