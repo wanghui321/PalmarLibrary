@@ -22,6 +22,8 @@
         <activity android:name=".BookDetailActivity"/>
         <activity android:name=".BorrowingRecords"/>
         <activity android:name=".HoldingInformationActivity"/>
+        <activity android:name=".choseprovinceActivity"/>
+        <activity android:name=".choseschoolActivity"/>
     </application>
 
 </manifest>
