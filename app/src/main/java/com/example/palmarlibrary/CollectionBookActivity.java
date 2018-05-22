@@ -3,73 +3,59 @@ package com.example.palmarlibrary;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by ruiwang on 2018/5/20.
  */
 
-public class CollectionBookActivity extends FragmentActivity {
+public class CollectionBookActivity extends AppCompatActivity {
 
-    //定义一个布局
-    private LayoutInflater layoutInflater;
-
-    private String mFragmentTags[] = {"书名", "作者", "类型"};
-    //定义FragmentTabHost对象
-    private FragmentTabHost myTabhost;
-
-    // 加载Fragment页面
-    private Class mFragment[] = {
-            CollectionBookFragmentOne.class,
-            CollectionBookFragmentTwo.class,
-            CollectionBookFragmentThree.class
-    };
+    private FragmentTabHost myTabHost;
+    private Map<String,View> map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.collection_inquiries_layout);
-        initTabHost(); // 初始化FragmentTabHost，并创建选项卡
 
-        // 在Activity的onCreate方法中给FragmentTabHost控件注册选项改变事件监听器
-        // 注册事件监听器
-        myTabhost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
-            @Override
-            public void onTabChanged(String tabId) {
-                Toast.makeText(getApplicationContext(), tabId, Toast.LENGTH_SHORT).show();
-            }
-        });
+        map = new HashMap<>();
 
+        //初始化
+        initTabHost();
     }
 
     private void initTabHost() {
-        myTabhost = (FragmentTabHost) findViewById(android.R.id.tabhost);
-        myTabhost.setup(this, getSupportFragmentManager(), android.R.id.tabhost);
-        // 去掉分割线
-        myTabhost.getTabWidget().setDividerDrawable(null);
-        for (int i = 0; i < mFragmentTags.length; i++) {
-            // 对Tab按钮添加标记和图片，getTextView(i)方法是获取了一个标签项
-            TabHost.TabSpec tabSpec = myTabhost
-                    .newTabSpec(mFragmentTags[i]).setIndicator(getTextView(i));
-            // 添加Fragment
-            myTabhost.addTab(tabSpec, mFragment[i], null);
-        }
-// 设置默认选中的选项卡
-        myTabhost.setCurrentTab(0);
+        myTabHost = findViewById(android.R.id.tabhost);
+        myTabHost.setup(this, getSupportFragmentManager(), android.R.id.tabhost);
+
+        addTabSpec("tab1","书名",FragmentTab1.class);
+        addTabSpec("tab2","作者",FragmentTab2.class);
+        addTabSpec("tab3","类型",FragmentTab3.class);
+
+        myTabHost.setCurrentTab(0);
+    }
+    private void addTabSpec(String id,String text,Class<?> fragment){
+        View viewTab = getTabView(text);
+        TabHost.TabSpec tabSpec = myTabHost.newTabSpec(id)
+                .setIndicator(viewTab);
+        myTabHost.addTab(tabSpec, fragment, null);
+        map.put(id,viewTab);
     }
 
-    private View getTextView(int index){
-        View view = getLayoutInflater().inflate(R.layout.collection_fragment_tab, null);
-        TextView textView = view.findViewById(R.id.txt_tab);
-        textView.setText(mFragmentTags[index]);
+    private View getTabView(String str) {
+        View view = getLayoutInflater().inflate(R.layout.fragment_tab_layout,null);
+        TextView textView = view.findViewById(R.id.tv_tab);
+        textView.setText(str);
         return view;
     }
-
-
-
 
 }
