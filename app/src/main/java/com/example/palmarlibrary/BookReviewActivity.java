@@ -2,12 +2,14 @@ package com.example.palmarlibrary;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -39,6 +41,17 @@ public class BookReviewActivity extends Activity {
                 R.layout.book_review_item_layout,dataSource);
         ListView listView = findViewById(R.id.book_review_list);
         listView.setAdapter(bookReviewAdapter);
+
+        ImageView reviewback = findViewById(R.id.review_back);
+
+        reviewback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(BookReviewActivity.this,BookDetailActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 

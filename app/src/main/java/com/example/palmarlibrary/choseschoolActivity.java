@@ -2,6 +2,7 @@ package com.example.palmarlibrary;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -22,7 +24,26 @@ public class choseschoolActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chose_school_layout);
 
+        ImageView schoolback = findViewById(R.id.school_back);
+        ListView schoollist = findViewById(R.id.school_list);
 
+        schoollist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                //intent.setClass(choseschoolActivity.this,LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        schoolback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(choseschoolActivity.this,choseprovinceActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
     public class choseschoolListAdapter extends BaseAdapter {

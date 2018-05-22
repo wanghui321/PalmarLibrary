@@ -5,16 +5,17 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ import java.util.Map;
  * Created by ruiwang on 2018/5/16.
  */
 
-public class BorrowingRecords extends Activity {
+public class BorrowingRecordsActivity extends Activity {
 
     private int mHiddenHight = 350;
 
@@ -50,6 +51,27 @@ public class BorrowingRecords extends Activity {
                 R.layout.borrowing_records_book,dataSource);
         ListView listView = findViewById(R.id.lv_borrow_books);
         listView.setAdapter(borrowRecordAdapter);
+
+        ImageView borrowback = findViewById(R.id.borrow_back);
+        Button borrowagin = findViewById(R.id.bt_borrowagin);
+
+        borrowagin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                //intent.setClass(BorrowingRecordsActivity.this,.class);
+                startActivity(intent);
+            }
+        });
+
+        borrowback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                //intent.setClass(BorrowingRecordsActivity.this,HomePageActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
     }
