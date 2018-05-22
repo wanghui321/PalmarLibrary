@@ -10,6 +10,7 @@
         android:background="#3f40b5">
 
         <ImageView
+            android:id="@+id/school_back"
             android:src="@drawable/back"
             android:layout_width="0dp"
             android:layout_height="30dp"
@@ -32,7 +33,7 @@
             android:layout_weight="1" />
     </LinearLayout>
     <ListView
-        android:id="@+id/read_book_list"
+        android:id="@+id/school_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

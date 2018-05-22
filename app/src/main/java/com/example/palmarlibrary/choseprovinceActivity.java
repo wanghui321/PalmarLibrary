@@ -2,6 +2,7 @@ package com.example.palmarlibrary;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -24,6 +26,27 @@ public class choseprovinceActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chose_province_layout);
 
+
+        ImageView provinceback = findViewById(R.id.province_back);
+        ListView provincelist = findViewById(R.id.province_list);
+
+        provinceback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(choseprovinceActivity.this,welcomeActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        provincelist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(choseprovinceActivity.this,choseschoolActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
     }
