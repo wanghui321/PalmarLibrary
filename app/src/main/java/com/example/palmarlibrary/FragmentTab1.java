@@ -67,7 +67,6 @@ public class FragmentTab1 extends android.support.v4.app.Fragment {
         public long getItemId(int position) {
             return position;
         }
-
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null){
