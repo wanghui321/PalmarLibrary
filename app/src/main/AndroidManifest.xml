@@ -10,7 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".welcomeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".ReadBookActivity"/>
         <activity android:name=".BookReviewActivity"/>
@@ -23,13 +27,7 @@
         <activity android:name=".AdviseActivity"/>
         <activity android:name=".AdviseSubmitLoadingActivity"/>
         <activity android:name=".RecommendationActivity"/>
-        <activity android:name=".HomePageActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".HomePageActivity"/>
         <activity android:name=".HotBookActivity"/>
         <activity android:name=".MyFavoritesActivity"/>
         <activity android:name=".UserSettingActivity"/>
