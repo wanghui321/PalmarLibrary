@@ -159,7 +159,7 @@
             android:orientation="vertical"
             android:gravity="center"
             android:background="#3f40b5"
-            android:layout_marginLeft="2dp"
+            android:layout_marginLeft="3dp"
             android:id="@+id/message">
             <ImageView
                 android:layout_width="42dp"
