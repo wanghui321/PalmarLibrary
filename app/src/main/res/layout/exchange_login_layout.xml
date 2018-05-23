@@ -58,13 +58,13 @@
         android:layout_margin="10dp"
         android:gravity="center">
         <Button
-            android:id="@+id/btn_login"
+            android:id="@+id/ex_btn_login"
             android:text="登录"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <Button
             android:layout_marginLeft="50dp"
-            android:id="@+id/btn_reset"
+            android:id="@+id/ex_btn_reset"
             android:text="重置"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
