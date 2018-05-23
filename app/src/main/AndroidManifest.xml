@@ -17,7 +17,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".ReadBookActivity"/>
-        <activity android:name=".MainActivity"/>
         <activity android:name=".BookReviewActivity"/>
         <activity android:name=".BookDetailActivity"/>
         <activity android:name=".BorrowingRecordsActivity"/>
@@ -25,6 +24,9 @@
         <activity android:name=".choseprovinceActivity"/>
         <activity android:name=".choseschoolActivity"/>
         <activity android:name=".CollectionBookActivity"/>
+        <activity android:name=".AdviseActivity"/>
+        <activity android:name=".AdviseSubmitLoadingActivity"/>
+        <activity android:name=".RecommendationActivity"/>
     </application>
 
 </manifest>
