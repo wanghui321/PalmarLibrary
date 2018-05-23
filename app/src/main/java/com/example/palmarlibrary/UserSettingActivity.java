@@ -1,8 +1,10 @@
 package com.example.palmarlibrary;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,5 +24,14 @@ public class UserSettingActivity extends Activity{
         TextView departName = findViewById(R.id.user_setting_department_name);
         TextView userMail = findViewById(R.id.user_setting_user_mail);
         ImageView exLogin = findViewById(R.id.user_setting_exchange_login);
+        ImageView back = findViewById(R.id.user_setting_back);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =  new Intent(UserSettingActivity.this,HomePageActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

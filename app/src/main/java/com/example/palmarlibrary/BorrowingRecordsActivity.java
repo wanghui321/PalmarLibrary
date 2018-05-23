@@ -36,6 +36,15 @@ public class BorrowingRecordsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.borrowing_records);
 
+        final ImageView imageView = findViewById(R.id.borrow_back);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BorrowingRecordsActivity.this,HomePageActivity.class);
+                startActivity(intent);
+            }
+        });
+
         List<Map<String,Object>> dataSource = new ArrayList<>();
         for (int i = 0; i < 10; ++i){
             Map<String,Object> map = new HashMap<>();
@@ -55,20 +64,20 @@ public class BorrowingRecordsActivity extends Activity {
         ImageView borrowback = findViewById(R.id.borrow_back);
         Button borrowagin = findViewById(R.id.bt_borrowagin);
 
-        borrowagin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                //intent.setClass(BorrowingRecordsActivity.this,.class);
-                startActivity(intent);
-            }
-        });
+//        borrowagin.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent();
+//                //intent.setClass(BorrowingRecordsActivity.this,.class);
+//                startActivity(intent);
+//            }
+//        });
 
         borrowback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                //intent.setClass(BorrowingRecordsActivity.this,HomePageActivity.class);
+                intent.setClass(BorrowingRecordsActivity.this,HomePageActivity.class);
                 startActivity(intent);
             }
         });

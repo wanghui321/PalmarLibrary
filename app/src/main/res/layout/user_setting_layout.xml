@@ -8,6 +8,7 @@
         android:layout_height="wrap_content"
         android:background="#3f40b5">
         <ImageView
+            android:id="@+id/user_setting_back"
             android:src="@drawable/back"
             android:layout_width="0dp"
             android:layout_height="30dp"

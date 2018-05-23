@@ -34,7 +34,7 @@ public class AdviseActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                //intent.setClass(AdviseActivity.this,HomePageActivity.class);
+                intent.setClass(AdviseActivity.this,HomePageActivity.class);
                 startActivity(intent);
             }
         });
