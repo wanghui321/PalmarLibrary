@@ -68,7 +68,7 @@ public class BorrowingRecordsActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                //intent.setClass(BorrowingRecordsActivity.this,HomePageActivity.class);
+                intent.setClass(BorrowingRecordsActivity.this,HomePageActivity.class);
                 startActivity(intent);
             }
         });
