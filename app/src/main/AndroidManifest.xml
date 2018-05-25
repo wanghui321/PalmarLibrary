@@ -30,6 +30,11 @@
         <activity android:name=".AdviseActivity"/>
         <activity android:name=".AdviseSubmitLoadingActivity"/>
         <activity android:name=".RecommendationActivity"/>
+        <activity android:name=".HomePageActivity"/>
+        <activity android:name=".HotBookActivity"/>
+        <activity android:name=".MyFavoritesActivity"/>
+        <activity android:name=".UserSettingActivity"/>
+        <activity android:name=".PersonalActivity"/>
     </application>
 
 

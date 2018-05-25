@@ -26,7 +26,7 @@ public class BookDetailActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                //intent.setClass(BookDetailActivity.this,BookReviewActivity.class);
+                intent.setClass(BookDetailActivity.this,BookReviewActivity.class);
                 startActivity(intent);
             }
         });

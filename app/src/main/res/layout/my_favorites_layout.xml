@@ -9,6 +9,7 @@
         android:background="#3f40b5">
 
         <ImageView
+            android:id="@+id/my_favorities_back"
             android:src="@drawable/back"
             android:layout_width="0dp"
             android:layout_height="30dp"
@@ -35,11 +36,11 @@
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="0dp">
-        <ListView
+        <GridView
             android:id="@+id/lv_book"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        </ListView>
+        </GridView>
     </FrameLayout>
 </LinearLayout>

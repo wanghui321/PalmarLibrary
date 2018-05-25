@@ -2,12 +2,14 @@ package com.example.palmarlibrary;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -24,6 +26,14 @@ public class ReadBookActivity extends Activity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.read_book_layout);
+        ImageView imageView = findViewById(R.id.read_book_back);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ReadBookActivity.this,HomePageActivity.class);
+                startActivity(intent);
+            }
+        });
 
         List<Book> books = new ArrayList<Book>();
         for (int i = 0; i < 10; ++i){
