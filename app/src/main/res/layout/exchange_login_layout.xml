@@ -63,11 +63,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <Button
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:id="@+id/ex_btn_reset"
             android:text="重置"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/backlogin"
+            android:text="注册"/>
     </LinearLayout>
 
 </LinearLayout>

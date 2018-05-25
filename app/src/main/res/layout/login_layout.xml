@@ -81,13 +81,19 @@
         android:gravity="center">
         <Button
             android:id="@+id/btn_login"
-            android:text="登录"
+            android:text="注册登录"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <Button
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:id="@+id/btn_reset"
             android:text="重置"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/go_exchange_login"
+            android:text="已有账号登录"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
