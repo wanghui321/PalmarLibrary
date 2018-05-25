@@ -5,21 +5,37 @@ package com.example.palmarlibrary;
  */
 
 public class School {
-    private String img;
-    private String name;
+    private String schoolId;
+    private String imgUrl;
+    private String schoolName;
+    private String province;
+    public String getSchoolId(){return schoolId;}
+
+    public void setSchoolId(String schoolId) {
+        this.schoolId = schoolId;
+    }
+
     public String getImg() {
-        return img;
+        return imgUrl;
     }
 
     public void setImg(String img) {
-        this.img = img;
+        this.imgUrl = img;
     }
 
     public String getName() {
-        return name;
+        return schoolName;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.schoolName = name;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
     }
 }
