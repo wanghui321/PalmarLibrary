@@ -5,9 +5,49 @@ package com.example.palmarlibrary;
  */
 
 public class Book {
+    private String indexId;
     private String bookName;
     private String author;
-    private String image;
+    private String publisher;
+    private String ISBN;
+    private Double price;
+    private String shape;
+    private String series;
+    private String location;
+    private String imgUrl;
+    private Integer hot;
+
+    public String getIndexId() { return indexId;}
+
+    public void setIndexId(String indexId) { this.indexId = indexId;}
+
+    public String getPublisher() {  return publisher;}
+
+    public void setPublisher(String publisher) {    this.publisher = publisher;}
+
+    public String getISBN() { return ISBN;}
+
+    public void setISBN(String ISBN) { this.ISBN = ISBN;}
+
+    public Double getPrice() { return price;}
+
+    public void setPrice(Double price) { this.price = price;}
+
+    public String getShape() { return shape;}
+
+    public void setShape(String shape) { this.shape = shape;}
+
+    public String getSeries() { return series;}
+
+    public void setSeries(String series) { this.series = series;}
+
+    public String getLocation() { return location;}
+
+    public void setLocation(String location) { this.location = location;}
+
+    public Integer getHot() { return hot;}
+
+    public void setHot(Integer hot) { this.hot = hot;}
 
     public String getBookName() {
         return bookName;
@@ -26,11 +66,11 @@ public class Book {
     }
 
     public String getImage() {
-        return image;
+        return imgUrl;
     }
 
     public void setImage(String image) {
-        this.image = image;
+        this.imgUrl = image;
     }
 
 }
