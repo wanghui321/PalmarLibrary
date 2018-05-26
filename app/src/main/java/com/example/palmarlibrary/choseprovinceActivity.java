@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
@@ -57,7 +58,7 @@ public class choseprovinceActivity extends Activity {
         OkHttpClient okHttpClient = new OkHttpClient();
 
         Request request = new Request.Builder()
-                .url(Constant.BASE_URL + "GetProvince")
+                .url(Constant.BASE_URL + "getProvince.do")
                 .build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
@@ -69,11 +70,12 @@ public class choseprovinceActivity extends Activity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String provinceListStr = response.body().string();//获取从服务器端获取的字符串
+                Log.e("test",provinceListStr);
                 Gson gson = new Gson();
-                Type type = new TypeToken<List<Province>>(){}.getType();
-                List<Province> provincesList = gson.fromJson(provinceListStr,type);
+                Type type = new TypeToken<List<String>>(){}.getType();
+                List<String> provincesList = gson.fromJson(provinceListStr,type);
                 final choseprovinceListAdapter provinceListAdapter = new choseprovinceListAdapter(
-                        choseprovinceActivity.this,provincesList,provincelist.getId());
+                        choseprovinceActivity.this,provincesList,R.layout.chose_province_item_layout);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -87,9 +89,9 @@ public class choseprovinceActivity extends Activity {
     }
     public class choseprovinceListAdapter extends BaseAdapter {
         private Context context;
-        private List<Province> provinces;
+        private List<String> provinces;
         private int item_layout_id;
-        public choseprovinceListAdapter(Context context,List<Province> provinces,int item_layout_id){
+        public choseprovinceListAdapter(Context context,List<String> provinces,int item_layout_id){
             this.context = context;
             this.provinces = provinces;
             this.item_layout_id = item_layout_id;
@@ -116,14 +118,9 @@ public class choseprovinceActivity extends Activity {
             if (convertView == null){
                 convertView = LayoutInflater.from(context).inflate(item_layout_id,null);
             }
-            ImageView tvProImg = convertView.findViewById(R.id.pro_img);
             final TextView tvProvince = convertView.findViewById(R.id.pro_name);
 
-//            Province province = provinces.get(position);
-//            tvRedBookName.setText(province.getName());
-//            tvRedAuthor.setText(province.getName());
-
-            tvProvince.setText(provinces.get(position).getName());
+            tvProvince.setText(provinces.get(position));
 
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override

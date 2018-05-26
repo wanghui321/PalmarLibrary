@@ -112,7 +112,7 @@ public class choseschoolActivity extends Activity {
             final TextView tvSchName = convertView.findViewById(R.id.sch_name);
 
             School school = schools.get(position);
-            tvSchName.setText(school.getName());
+//            tvSchName.setText(school.getName());
 
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
