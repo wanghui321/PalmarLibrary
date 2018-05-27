@@ -35,6 +35,7 @@
         <activity android:name=".MyFavoritesActivity"/>
         <activity android:name=".UserSettingActivity"/>
         <activity android:name=".PersonalActivity"/>
+        <activity android:name=".LoginActivity"/>
     </application>
 
 

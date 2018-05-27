@@ -2,12 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ImageView
-        android:id="@+id/sch_img"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/hbsf"/>
     <TextView
         android:id="@+id/sch_name"
         android:text="河北师范大学"

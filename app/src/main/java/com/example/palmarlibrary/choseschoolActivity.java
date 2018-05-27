@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +23,11 @@ import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -47,10 +51,16 @@ public class choseschoolActivity extends Activity {
             }
         });
 
+        Intent intent = getIntent();
+        String province = intent.getStringExtra("provincename");
+        Log.e("province",province);
         OkHttpClient okHttpClient = new OkHttpClient();
-
+        RequestBody requestBody = new FormBody.Builder()
+                .add("province",province)
+                .build();
         Request request = new Request.Builder()
-                .url(Constant.BASE_URL + "GetSchool")
+                .post(requestBody)
+                .url(Constant.BASE_URL + "getSchool.do")
                 .build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
@@ -63,10 +73,10 @@ public class choseschoolActivity extends Activity {
             public void onResponse(Call call, Response response) throws IOException {
                 String provinceListStr = response.body().string();//获取从服务器端获取的字符串
                 Gson gson = new Gson();
-                Type type = new TypeToken<List<School>>(){}.getType();
-                List<School> schoolList = gson.fromJson(provinceListStr,type);
+                Type type = new TypeToken<List<String>>(){}.getType();
+                List<String> schoolList = gson.fromJson(provinceListStr,type);
                 final choseschoolListAdapter schoolListAdapter = new choseschoolListAdapter(
-                        choseschoolActivity.this,schoolList,schoollist.getId());
+                        choseschoolActivity.this,schoolList,R.layout.chose_school_item_layout);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -79,9 +89,9 @@ public class choseschoolActivity extends Activity {
     }
     public class choseschoolListAdapter extends BaseAdapter {
         private Context context;
-        private List<School> schools;
+        private List<String> schools;
         private int item_layout_id;
-        public choseschoolListAdapter(Context context,List<School> schools,int item_layout_id){
+        public choseschoolListAdapter(Context context,List<String> schools,int item_layout_id){
             this.context = context;
             this.schools = schools;
             this.item_layout_id = item_layout_id;
@@ -108,17 +118,16 @@ public class choseschoolActivity extends Activity {
             if (convertView == null){
                 convertView = LayoutInflater.from(context).inflate(item_layout_id,null);
             }
-            ImageView tvSchImg = convertView.findViewById(R.id.sch_img);
             final TextView tvSchName = convertView.findViewById(R.id.sch_name);
 
-            School school = schools.get(position);
-//            tvSchName.setText(school.getName());
+            String schoolName = schools.get(position);
+            tvSchName.setText(schoolName);
 
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
-                    intent.setClass(choseschoolActivity.this,HomePageActivity.class).putExtra("schoolname",tvSchName.getText());
+                    intent.setClass(choseschoolActivity.this,LoginActivity.class).putExtra("schoolname",tvSchName.getText());
                     startActivity(intent);
                 }
             });
