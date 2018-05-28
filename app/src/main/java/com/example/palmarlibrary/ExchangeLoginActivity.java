@@ -4,9 +4,20 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * Created by 52943 on 2018/5/22.
@@ -17,13 +28,25 @@ public class ExchangeLoginActivity extends Activity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.exchange_login_layout);
-        TextView cardNum = findViewById(R.id.exchange_login_card_number);
-        TextView newPassword = findViewById(R.id.exchange_login_password);
+        final TextView cardNum = findViewById(R.id.exchange_login_card_number);
+        final TextView newPassword = findViewById(R.id.exchange_login_password);
+        final TextView error = findViewById(R.id.ex_login_error);
         Button login = findViewById(R.id.ex_btn_login);
         Button reset = findViewById(R.id.ex_btn_reset);
-        Button backlogin = findViewById(R.id.backlogin);
+        Button regist = findViewById(R.id.ex_btn_regist);
 
-        backlogin.setOnClickListener(new View.OnClickListener() {
+        Intent intent = getIntent();
+        final String schoolName = intent.getStringExtra("schoolName");
+
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cardNum.setText("");
+                newPassword.setText("");
+            }
+        });
+
+        regist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
@@ -35,9 +58,49 @@ public class ExchangeLoginActivity extends Activity{
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(ExchangeLoginActivity.this,choseprovinceActivity.class);
-                startActivity(intent);
+                RequestBody requestBody = new FormBody.Builder()
+                        .add("schoolName",schoolName)
+                        .add("userId",cardNum.getText().toString())
+                        .add("password",newPassword.getText().toString())
+                        .build();
+                Request request = new Request.Builder()
+                        .post(requestBody)
+                        .url(Constant.BASE_URL + "login.do")
+                        .build();
+                OkHttpClient okHttpClient = new OkHttpClient();
+                Call call = okHttpClient.newCall(request);
+                call.enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        String msg = response.body().string();
+                        Log.e("Login",msg);
+                        if (msg.equals("success")){
+                            Intent intent = new Intent();
+                            intent.setClass(ExchangeLoginActivity.this,
+                                    HomePageActivity.class);
+                            startActivity(intent);
+                        } else if (msg.equals("noUser")){
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    error.setText("用户还未注册，请先注册！");
+                                }
+                            });
+                        } else{
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    error.setText("借书卡号或密码错误！");
+                                }
+                            });
+                        }
+                    }
+                });
             }
         });
     }

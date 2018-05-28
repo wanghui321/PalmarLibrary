@@ -36,6 +36,7 @@
         <activity android:name=".UserSettingActivity"/>
         <activity android:name=".PersonalActivity"/>
         <activity android:name=".LoginActivity"/>
+        <activity android:name=".ExchangeLoginActivity"/>
     </application>
 
 

@@ -3,6 +3,7 @@ package com.example.palmarlibrary;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -54,44 +55,26 @@ public class choseschoolActivity extends Activity {
         Intent intent = getIntent();
         String province = intent.getStringExtra("provincename");
         Log.e("province",province);
-        OkHttpClient okHttpClient = new OkHttpClient();
-        RequestBody requestBody = new FormBody.Builder()
-                .add("province",province)
-                .build();
-        Request request = new Request.Builder()
-                .post(requestBody)
-                .url(Constant.BASE_URL + "getSchool.do")
-                .build();
-        Call call = okHttpClient.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String provinceListStr = response.body().string();//获取从服务器端获取的字符串
-                Gson gson = new Gson();
-                Type type = new TypeToken<List<String>>(){}.getType();
-                List<String> schoolList = gson.fromJson(provinceListStr,type);
-                final choseschoolListAdapter schoolListAdapter = new choseschoolListAdapter(
-                        choseschoolActivity.this,schoolList,R.layout.chose_school_item_layout);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        schoollist.setAdapter(schoolListAdapter);
-                    }
-                });
-            }
-        });
+        Resources res = getResources();
+        String [] school = null;
+        switch (province){
+            case "河北省":
+                school = res.getStringArray(R.array.河北);
+                break;
+            case "北京市":
+                school = res.getStringArray(R.array.北京);
+                break;
+        }
+        ChoseschoolListAdapter adapter = new ChoseschoolListAdapter(
+            choseschoolActivity.this,school,R.layout.chose_school_item_layout);
+        schoollist.setAdapter(adapter);
 
     }
-    public class choseschoolListAdapter extends BaseAdapter {
+    public class ChoseschoolListAdapter extends BaseAdapter {
         private Context context;
-        private List<String> schools;
+        private String [] schools;
         private int item_layout_id;
-        public choseschoolListAdapter(Context context,List<String> schools,int item_layout_id){
+        public ChoseschoolListAdapter(Context context,String [] schools,int item_layout_id){
             this.context = context;
             this.schools = schools;
             this.item_layout_id = item_layout_id;
@@ -99,12 +82,12 @@ public class choseschoolActivity extends Activity {
 
         @Override
         public int getCount() {
-            return schools.size();
+            return schools.length;
         }
 
         @Override
         public Object getItem(int position) {
-            return schools.get(position);
+            return schools[position];
         }
 
         @Override
@@ -120,7 +103,7 @@ public class choseschoolActivity extends Activity {
             }
             final TextView tvSchName = convertView.findViewById(R.id.sch_name);
 
-            String schoolName = schools.get(position);
+            String schoolName = schools[position];
             tvSchName.setText(schoolName);
 
             convertView.setOnClickListener(new View.OnClickListener() {

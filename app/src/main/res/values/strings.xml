@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">PalmarLibrary</string>
+    <string-array name="province">
+        <item>"河北省"</item>
+        <item>"北京市"</item>
+    </string-array>
+    <string-array name="河北">
+        <item>河北师范大学</item>
+        <item>河北科技大学</item>
+    </string-array>
+    <string-array name="北京">
+        <item>北京大学</item>
+        <item>清华大学</item>
+    </string-array>
 </resources>

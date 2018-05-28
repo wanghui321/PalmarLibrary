@@ -46,8 +46,7 @@
             android:layout_width="210dp"
             android:layout_height="29dp"
             android:textColor="#3f40b5"
-            android:textSize="23dp"
-            android:text="张三" />
+            android:textSize="23dp" />
         <ImageView
             android:layout_marginTop="80dp"
             android:layout_width="0dp"
@@ -58,7 +57,8 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -78,7 +78,6 @@
                     android:layout_height="match_parent"
                     android:background="#ffffff"
                     android:layout_marginLeft="1dp"
-                    android:text="1234567"
                     android:textSize="18dp"
                     android:gravity="center"
                     android:layout_weight="1"/>
@@ -92,13 +91,13 @@
                     android:textSize="18dp"
                     android:gravity="center"
                     android:background="#ffffff"/>
-                <TextView
+                <EditText
                     android:id="@+id/user_setting_user_realname"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:background="#ffffff"
                     android:layout_marginLeft="1dp"
-                    android:text="realname"
+                    android:hint="未设置"
                     android:textSize="18dp"
                     android:gravity="center"
                     android:layout_weight="1"/>
@@ -112,13 +111,13 @@
                     android:textSize="18dp"
                     android:gravity="center"
                     android:background="#ffffff"/>
-                <TextView
+                <EditText
                     android:id="@+id/user_setting_department_name"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:background="#ffffff"
                     android:layout_marginLeft="1dp"
-                    android:text="software"
+                    android:hint="未设置"
                     android:textSize="18dp"
                     android:gravity="center"
                     android:layout_weight="1"/>
@@ -132,18 +131,27 @@
                     android:textSize="18dp"
                     android:gravity="center"
                     android:background="#ffffff"/>
-                <TextView
+                <EditText
                     android:id="@+id/user_setting_user_mail"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:background="#ffffff"
                     android:layout_marginLeft="1dp"
-                    android:text="1234567@qq.com"
+                    android:hint="未设置"
                     android:textSize="18dp"
                     android:gravity="center"
                     android:layout_weight="1"/>
             </TableRow>
         </TableLayout>
+        <Button
+            android:layout_marginTop="20dp"
+            android:id="@+id/user_setting_btn"
+            android:layout_gravity="center"
+            android:background="#3f40b5"
+            android:text="修改"
+            android:textColor="#ffffff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </LinearLayout>

@@ -3,6 +3,7 @@ package com.example.palmarlibrary;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -20,6 +21,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Call;
@@ -54,44 +56,21 @@ public class choseprovinceActivity extends Activity {
             }
         });
 
-
-        OkHttpClient okHttpClient = new OkHttpClient();
-
-        Request request = new Request.Builder()
-                .url(Constant.BASE_URL + "getProvince.do")
-                .build();
-        Call call = okHttpClient.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String provinceListStr = response.body().string();//获取从服务器端获取的字符串
-                Log.e("test",provinceListStr);
-                Gson gson = new Gson();
-                Type type = new TypeToken<List<String>>(){}.getType();
-                List<String> provincesList = gson.fromJson(provinceListStr,type);
-                final choseprovinceListAdapter provinceListAdapter = new choseprovinceListAdapter(
-                        choseprovinceActivity.this,provincesList,R.layout.chose_province_item_layout);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        provincelist.setAdapter(provinceListAdapter);
-                    }
-                });
-            }
-        });
-
+        Resources res = getResources();
+        String [] province = res.getStringArray(R.array.province);
+        for (int i = 0 ; i < province.length; i ++){
+            Log.e("province",province[i]);
+        }
+        ChoseprovinceListAdapter adapter = new ChoseprovinceListAdapter(
+            choseprovinceActivity.this,province,R.layout.chose_province_item_layout);
+        provincelist.setAdapter(adapter);
 
     }
-    public class choseprovinceListAdapter extends BaseAdapter {
+    public class ChoseprovinceListAdapter extends BaseAdapter {
         private Context context;
-        private List<String> provinces;
+        private String [] provinces;
         private int item_layout_id;
-        public choseprovinceListAdapter(Context context,List<String> provinces,int item_layout_id){
+        public ChoseprovinceListAdapter(Context context,String [] provinces,int item_layout_id){
             this.context = context;
             this.provinces = provinces;
             this.item_layout_id = item_layout_id;
@@ -99,12 +78,12 @@ public class choseprovinceActivity extends Activity {
 
         @Override
         public int getCount() {
-            return provinces.size();
+            return provinces.length;
         }
 
         @Override
         public Object getItem(int position) {
-            return provinces.get(position);
+            return provinces[position];
         }
 
         @Override
@@ -120,7 +99,8 @@ public class choseprovinceActivity extends Activity {
             }
             final TextView tvProvince = convertView.findViewById(R.id.pro_name);
 
-            tvProvince.setText(provinces.get(position));
+            tvProvince.setText(provinces[position]);
+            Log.e("province",provinces[position]);
 
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
