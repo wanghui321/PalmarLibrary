@@ -4,6 +4,7 @@ package com.example.palmarlibrary;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +12,22 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.IOException;
+import java.lang.reflect.*;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by Administrator on 2018/5/21.
@@ -22,23 +35,43 @@ import java.util.Map;
 
 public class FragmentTab1 extends android.support.v4.app.Fragment {
 
+    private List<Map<String,Object>> bookList = new ArrayList<>();
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.collection_bookname_layout,container,false);
+        final View view = inflater.inflate(R.layout.collection_bookname_layout, container, false);
 
-        List<Map<String,Object>> dataSource = new ArrayList<>();
-        for (int i = 0; i < 10; ++i){
-            Map<String,Object> map = new HashMap<>();
-            map.put("bookName","钢铁是怎样炼成的");
-            map.put("author","奥斯特洛夫斯基");
-            dataSource.add(map);
-        }
-        BookNameAdapter bookNameAdapter = new BookNameAdapter(this.getActivity(),R.layout.bookname_item_layout,dataSource);
-        ListView listView = view.findViewById(R.id.lv_collection_book);
-        listView.setAdapter(bookNameAdapter);
+        final Context context = this.getActivity();
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(Constant.BASE_URL + "getHotBook.do")
+                .build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String bookListStr = response.body().string();
+                Log.e("boolList",bookListStr);
+                Gson gson = new Gson();
+                Type type = new TypeToken<List<Map<String,Object>>>(){}.getType();
+                bookList = gson.fromJson(bookListStr,type);
+                Log.e("bookList",bookList.size()+"");
+                BookNameAdapter adapter = new BookNameAdapter(context,R.layout.bookname_item_layout,
+                        bookList);
+                ListView listView = view.findViewById(R.id.lv_collection_book);
+                listView.setAdapter(adapter);
+            }
+        });
+
         return view;
     }
 
@@ -72,6 +105,9 @@ public class FragmentTab1 extends android.support.v4.app.Fragment {
             if (convertView == null){
                 convertView = LayoutInflater.from(context).inflate(item_layout_id,null);
             }
+
+            Log.e("bookName",dataSource.get(position).get("bookName").toString());
+            Log.e("author",dataSource.get(position).get("author").toString());
 
             TextView tv_bookName = convertView.findViewById(R.id.collection_bookName);
             TextView tv_author = convertView.findViewById(R.id.collection_author);

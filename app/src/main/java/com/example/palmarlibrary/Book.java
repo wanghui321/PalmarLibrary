@@ -9,7 +9,7 @@ public class Book {
     private String bookName;
     private String author;
     private String publisher;
-    private String ISBN;
+    private String isbn;
     private Double price;
     private String shape;
     private String series;
@@ -25,9 +25,21 @@ public class Book {
 
     public void setPublisher(String publisher) {    this.publisher = publisher;}
 
-    public String getISBN() { return ISBN;}
+    public String getIsbn() {
+        return isbn;
+    }
 
-    public void setISBN(String ISBN) { this.ISBN = ISBN;}
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
 
     public Double getPrice() { return price;}
 
