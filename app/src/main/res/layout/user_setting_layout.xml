@@ -39,14 +39,27 @@
             android:src="@drawable/userhead"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="70dp"/>
-        <TextView
+        <EditText
             android:id="@+id/user_setting_username"
+            android:layout_width="210dp"
+            android:layout_marginTop="70dp"
+            android:layout_height="60dp"
+            android:background="#ffffff"
+            android:layout_marginLeft="1dp"
+            android:hint="未设置"
+            android:textSize="18dp"
+            android:gravity="center"
+            android:layout_weight="1"/>
+        <!--
+        <TextView
+            android:id="@+id/"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="90dp"
             android:layout_width="210dp"
             android:layout_height="29dp"
             android:textColor="#3f40b5"
             android:textSize="23dp" />
+            -->
         <ImageView
             android:layout_marginTop="80dp"
             android:layout_width="0dp"
