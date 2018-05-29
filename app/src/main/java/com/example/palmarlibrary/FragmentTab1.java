@@ -2,16 +2,19 @@ package com.example.palmarlibrary;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -26,8 +29,10 @@ import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -125,11 +130,49 @@ public class FragmentTab1 extends android.support.v4.app.Fragment {
             Log.e("bookName",dataSource.get(position).get("bookName").toString());
             Log.e("author",dataSource.get(position).get("author").toString());
 
-            TextView tv_bookName = convertView.findViewById(R.id.collection_bookName);
-            TextView tv_author = convertView.findViewById(R.id.collection_author);
+            final TextView tv_bookName = convertView.findViewById(R.id.collection_bookName);
+            final TextView tv_author = convertView.findViewById(R.id.collection_author);
 
             tv_bookName.setText(dataSource.get(position).get("bookName").toString());
             tv_author.setText(dataSource.get(position).get("author").toString());
+
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    RequestBody requestBody = new FormBody.Builder()
+                            .add("bookName",tv_bookName.getText().toString())
+                            .add("bookAuthor",tv_author.getText().toString())
+                            .build();
+                    Request request = new Request.Builder()
+                            .post(requestBody)
+                            .url(Constant.BASE_URL + "bookdetail.do")
+                            .build();
+                    OkHttpClient okHttpClient = new OkHttpClient();
+                    Call call = okHttpClient.newCall(request);
+                    call.enqueue(new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            String msg = response.body().string();
+                            if (msg.equals("success")){
+                                Intent intent = new Intent();
+                                intent.setClass(getActivity(),BookDetailActivity.class);
+                                String str = response.body().string();
+                                intent.putExtra("bookdetailstr",str);
+                                startActivity(intent);
+                            } else{
+                                Toast toastTip = Toast.makeText(getActivity(),"获取失败",Toast.LENGTH_SHORT);
+                                toastTip.setGravity(Gravity.CENTER,0,0);
+                                toastTip.show();
+                            }
+                        }
+                    });
+                }
+            });
 
             return convertView;
         }

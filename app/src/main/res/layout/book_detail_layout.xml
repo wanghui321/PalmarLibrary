@@ -148,6 +148,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
+            android:id="@+id/book_detail_congbianxiang"
             android:text="中国当代名家作品精选"
             android:textSize="18dp"
             android:layout_width="wrap_content"
@@ -164,6 +165,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
+            android:id="@+id/book_detail_topic"
             android:text="中篇小说-翻译-文学"
             android:textSize="18dp"
             android:layout_width="wrap_content"
