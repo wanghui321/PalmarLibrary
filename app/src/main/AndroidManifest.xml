@@ -3,6 +3,9 @@
     package="com.example.palmarlibrary">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 
     <application
@@ -12,8 +15,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".welcomeActivity"/>
+        <activity android:name=".welcomeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ReadBookActivity"/>
         <activity android:name=".BookReviewActivity"/>
         <activity android:name=".BookDetailActivity"/>
@@ -28,13 +36,7 @@
         <activity android:name=".HomePageActivity"/>
         <activity android:name=".HotBookActivity"/>
         <activity android:name=".MyFavoritesActivity"/>
-        <activity android:name=".UserSettingActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".UserSettingActivity"/>
         <activity android:name=".PersonalActivity"/>
         <activity android:name=".LoginActivity"/>
         <activity android:name=".ExchangeLoginActivity"/>

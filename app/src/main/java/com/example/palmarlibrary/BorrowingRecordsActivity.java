@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +19,25 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.IOException;
+import java.lang.reflect.*;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.internal.tls.OkHostnameVerifier;
 
 /**
  * Created by ruiwang on 2018/5/16.
@@ -37,6 +53,8 @@ public class BorrowingRecordsActivity extends Activity {
         setContentView(R.layout.borrowing_records);
 
         final ImageView imageView = findViewById(R.id.borrow_back);
+        final ListView listView = findViewById(R.id.lv_borrow_books);
+        final Context context = this.getApplicationContext();
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,23 +63,41 @@ public class BorrowingRecordsActivity extends Activity {
             }
         });
 
-        List<Map<String,Object>> dataSource = new ArrayList<>();
-        for (int i = 0; i < 10; ++i){
-            Map<String,Object> map = new HashMap<>();
-            map.put("tiaoxingma","20111115"+i);
-            map.put("author","赵老" + i);
-            map.put("borrowTime","2015050"+i);
-            map.put("returnTime","2016020" + i);
-            map.put("borrowAgin","2"+i);
-            dataSource.add(map);
-        }
+        User user = Constant.user;
+        OkHttpClient okHttpClient = new OkHttpClient();
+        String userId = user.getUserId();
+        RequestBody requestBody = new FormBody.Builder()
+                .add("userId",userId)
+                .build();
+        Request request = new Request.Builder()
+                .post(requestBody)
+                .url(Constant.BASE_URL + "getBorrowRecords.do")
+                .build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
 
-        BorrowRecordAdapter borrowRecordAdapter = new BorrowRecordAdapter(this,
-                R.layout.borrowing_records_book,dataSource);
-        ListView listView = findViewById(R.id.lv_borrow_books);
-        listView.setAdapter(borrowRecordAdapter);
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String str = response.body().string();
+                Log.e("boolList",str);
+                Gson gson = new Gson();
+                Type type = new TypeToken<List<Map<String,Object>>>(){}.getType();
+                List<Map<String,Object>> list = gson.fromJson(str,type);
+                final BorrowRecordAdapter borrowRecordAdapter = new BorrowRecordAdapter(context,
+                        R.layout.borrowing_records_book,list);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        listView.setAdapter(borrowRecordAdapter);
+                    }
+                });
 
-        ImageView borrowback = findViewById(R.id.borrow_back);
+            }
+        });
         Button borrowagin = findViewById(R.id.bt_borrowagin);
 
 //        borrowagin.setOnClickListener(new View.OnClickListener() {
@@ -72,16 +108,6 @@ public class BorrowingRecordsActivity extends Activity {
 //                startActivity(intent);
 //            }
 //        });
-
-        borrowback.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(BorrowingRecordsActivity.this,HomePageActivity.class);
-                startActivity(intent);
-            }
-        });
-
 
     }
 
@@ -144,17 +170,19 @@ public class BorrowingRecordsActivity extends Activity {
                 }
             });
 
+            TextView bookName = convertView.findViewById(R.id.tv_borrow_bookname);
             TextView tiaoxingma = convertView.findViewById(R.id.tv_tiaoxingma_number);
             TextView author = convertView.findViewById(R.id.tv_author_name);
             TextView borrowTime = convertView.findViewById(R.id.tv_borrow_time_number);
             TextView returnTime = convertView.findViewById(R.id.tv_return_time_number);
             TextView borrowAgin = convertView.findViewById(R.id.tv_borrowagin_number);
 
-            tiaoxingma.setText(dataSource.get(position).get("tiaoxingma").toString());
+            bookName.setText(dataSource.get(position).get("bookName").toString());
+            tiaoxingma.setText(dataSource.get(position).get("indexId").toString());
             author.setText(dataSource.get(position).get("author").toString());
-            borrowTime.setText(dataSource.get(position).get("borrowTime").toString());
-            returnTime.setText(dataSource.get(position).get("returnTime").toString());
-            borrowAgin.setText(dataSource.get(position).get("borrowAgin").toString());
+            borrowTime.setText(dataSource.get(position).get("borrowDate").toString());
+            returnTime.setText(dataSource.get(position).get("returnDate").toString());
+            borrowAgin.setText(dataSource.get(position).get("number").toString());
             return convertView;
         }
     }

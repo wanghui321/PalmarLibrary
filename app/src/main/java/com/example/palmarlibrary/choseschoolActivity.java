@@ -110,7 +110,7 @@ public class choseschoolActivity extends Activity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
-                    intent.setClass(choseschoolActivity.this,LoginActivity.class).putExtra("schoolname",tvSchName.getText());
+                    intent.setClass(choseschoolActivity.this,LoginActivity.class).putExtra("schoolName",tvSchName.getText());
                     startActivity(intent);
                 }
             });

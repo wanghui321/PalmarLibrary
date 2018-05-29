@@ -13,6 +13,9 @@ import android.widget.LinearLayout;
  */
 
 public class HomePageActivity extends Activity implements View.OnClickListener{
+
+    private String schoolName = null;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +36,9 @@ public class HomePageActivity extends Activity implements View.OnClickListener{
         readed.setOnClickListener(this);
         hotbooks.setOnClickListener(this);
         message.setOnClickListener(this);
+
+        Intent intent = getIntent();
+        schoolName = intent.getStringExtra("schoolName");
     }
 
     @Override
@@ -64,6 +70,7 @@ public class HomePageActivity extends Activity implements View.OnClickListener{
                 break;
             case R.id.home_page_user:
                 Intent intent7 = new Intent(HomePageActivity.this,UserSettingActivity.class);
+                intent7.putExtra("schoolName",schoolName);
                 startActivity(intent7);
         }
     }

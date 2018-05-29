@@ -59,11 +59,15 @@ public class UserSettingActivity extends Activity{
         final Button userSetting = findViewById(R.id.user_setting_btn);
         ImageView back = findViewById(R.id.user_setting_back);
 
+        Intent intent = getIntent();
+        final String schoolName = intent.getStringExtra("schoolName");
+
         //切换账户
         exLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent =  new Intent(UserSettingActivity.this,ExchangeLoginActivity.class);
+                intent.putExtra("schoolName",schoolName);
                 startActivity(intent);
             }
         });
@@ -83,11 +87,17 @@ public class UserSettingActivity extends Activity{
         userSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                User user = Constant.user;
+                user.setNickname(userName.getText().toString());
+                user.setUserName(realName.getText().toString());
+                user.setDepartment(departName.getText().toString());
+                user.setEmail(userMail.getText().toString());
                 RequestBody requestBody = new FormBody.Builder()
-                        .add("userName",userName.getText().toString())
-                        .add("realName",realName.getText().toString())
-                        .add("departName",departName.getText().toString())
-                        .add("userMail",userMail.getText().toString())
+                        .add("userId",user.getUserId())
+                        .add("nickname",userName.getText().toString())
+                        .add("userName",realName.getText().toString())
+                        .add("department",departName.getText().toString())
+                        .add("email",userMail.getText().toString())
                         .build();
                 Request request = new Request.Builder()
                         .post(requestBody)
@@ -105,9 +115,15 @@ public class UserSettingActivity extends Activity{
                     public void onResponse(Call call, Response response) throws IOException {
                         String msg = response.body().string();
                         if (msg.equals("success")){
-                            Toast toastTip = Toast.makeText(UserSettingActivity.this,"修改成功",Toast.LENGTH_SHORT);
-                            toastTip.setGravity(Gravity.CENTER,0,0);
-                            toastTip.show();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast toastTip = Toast.makeText(UserSettingActivity.this,"修改成功",Toast.LENGTH_SHORT);
+                                    toastTip.setGravity(Gravity.CENTER,0,0);
+                                    toastTip.show();
+                                }
+                            });
+
                         } else{
                             runOnUiThread(new Runnable() {
                                 @Override
@@ -195,11 +211,12 @@ public class UserSettingActivity extends Activity{
     }
 
     private void doUploadFile(File file) {
+        Log.e("xiangce","123123123");
         //构建请求体
         RequestBody requestBody = RequestBody.create(
                 MediaType.parse("image/#"),file);
         Request request = new Request.Builder()
-                .url(Constant.BASE_URL + "uploadFile")
+                .url(Constant.BASE_URL + "uploadFile.do")
                 .post(requestBody)
                 .build();
         OkHttpClient okHttpClient = new OkHttpClient();
@@ -212,9 +229,9 @@ public class UserSettingActivity extends Activity{
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                String userStr = response.body().string();
-                Gson gson = new Gson();
-                final User user = gson.fromJson(userStr,User.class);
+                String realPath = response.body().string();
+                final User user = Constant.user;
+                user.setImgUrl(realPath);
                 final RequestOptions requestOptions = new RequestOptions().circleCrop();
                 runOnUiThread(new Runnable() {
                     @Override

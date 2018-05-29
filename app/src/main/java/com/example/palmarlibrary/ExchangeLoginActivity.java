@@ -9,7 +9,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.io.IOException;
+import java.lang.reflect.*;
+import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -50,6 +56,7 @@ public class ExchangeLoginActivity extends Activity{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
+                intent.putExtra("schoolName",schoolName);
                 intent.setClass(ExchangeLoginActivity.this,LoginActivity.class);
                 startActivity(intent);
             }
@@ -79,11 +86,14 @@ public class ExchangeLoginActivity extends Activity{
                     public void onResponse(Call call, Response response) throws IOException {
                         String msg = response.body().string();
                         Log.e("Login",msg);
-                        if (msg.equals("success")){
-                            Intent intent = new Intent();
-                            intent.setClass(ExchangeLoginActivity.this,
-                                    HomePageActivity.class);
-                            startActivity(intent);
+                        if (msg.equals("fail")){
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    error.setText("借书卡号或密码错误！");
+                                }
+                            });
+
                         } else if (msg.equals("noUser")){
                             runOnUiThread(new Runnable() {
                                 @Override
@@ -92,12 +102,21 @@ public class ExchangeLoginActivity extends Activity{
                                 }
                             });
                         } else{
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    error.setText("借书卡号或密码错误！");
-                                }
-                            });
+                            User user = Constant.user;
+                            Gson gson = new Gson();
+                            Log.e("Login",msg);
+                            Type type = new TypeToken<Map<String,Object>>(){}.getType();
+                            Map <String,Object> map = gson.fromJson(msg,type);
+                            user.setUserId(cardNum.getText().toString());
+                            user.setNickname(map.get("nickname").toString());
+                            user.setUserName(map.get("userName").toString());
+                            user.setDepartment(map.get("department").toString());
+                            user.setEmail(map.get("email").toString());
+                            Intent intent = new Intent();
+                            intent.setClass(ExchangeLoginActivity.this,
+                                    HomePageActivity.class);
+                            intent.putExtra("schoolName",schoolName);
+                            startActivity(intent);
                         }
                     }
                 });

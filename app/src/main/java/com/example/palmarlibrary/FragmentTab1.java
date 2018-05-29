@@ -3,6 +3,7 @@ package com.example.palmarlibrary;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,6 +37,9 @@ import okhttp3.Response;
 public class FragmentTab1 extends android.support.v4.app.Fragment {
 
     private List<Map<String,Object>> bookList = new ArrayList<>();
+    private Handler handler=null;
+    private ListView listView=null;
+    private BookNameAdapter adapter=null;
 
     @Nullable
     @Override
@@ -45,7 +49,7 @@ public class FragmentTab1 extends android.support.v4.app.Fragment {
         final View view = inflater.inflate(R.layout.collection_bookname_layout, container, false);
 
         final Context context = this.getActivity();
-
+        handler=new Handler();
         OkHttpClient okHttpClient = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(Constant.BASE_URL + "getHotBook.do")
@@ -65,15 +69,27 @@ public class FragmentTab1 extends android.support.v4.app.Fragment {
                 Type type = new TypeToken<List<Map<String,Object>>>(){}.getType();
                 bookList = gson.fromJson(bookListStr,type);
                 Log.e("bookList",bookList.size()+"");
-                BookNameAdapter adapter = new BookNameAdapter(context,R.layout.bookname_item_layout,
+                adapter = new BookNameAdapter(context,R.layout.bookname_item_layout,
                         bookList);
-                ListView listView = view.findViewById(R.id.lv_collection_book);
-                listView.setAdapter(adapter);
+                listView = view.findViewById(R.id.lv_collection_book);
+                new Thread(){
+                    @Override
+                    public void run() {
+                        handler.post(runnableUi);
+                    }
+                }.start();
             }
         });
 
         return view;
     }
+
+    Runnable runnableUi = new Runnable() {
+        @Override
+        public void run() {
+            listView.setAdapter(adapter);
+        }
+    };
 
     public class BookNameAdapter extends BaseAdapter{
         private Context context;

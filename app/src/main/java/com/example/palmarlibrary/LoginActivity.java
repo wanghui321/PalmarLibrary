@@ -1,6 +1,7 @@
 package com.example.palmarlibrary;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -36,7 +37,7 @@ public class LoginActivity extends Activity{
         Button gotoexchange = findViewById(R.id.go_exchange_login);
 
         Intent intent = getIntent();
-        final String schoolName = intent.getStringExtra("schoolname");
+        final String schoolName = intent.getStringExtra("schoolName");
 
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,8 +83,12 @@ public class LoginActivity extends Activity{
                     public void onResponse(Call call, Response response) throws IOException {
                         String msg = response.body().string();
                         if (msg.equals("success")){
+                            User user = Constant.user;
+                            user.setUserId(cardNum.getText().toString());
+                            user.setNickname(userName.getText().toString());
                             Intent intent = new Intent();
                             intent.setClass(LoginActivity.this,HomePageActivity.class);
+                            intent.putExtra("schoolName",schoolName);
                             startActivity(intent);
                         } else{
                             runOnUiThread(new Runnable() {

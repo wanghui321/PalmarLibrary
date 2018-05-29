@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/PalmarLibrary.iml" filepath="$PROJECT_DIR$/PalmarLibrary.iml" />
+      <module fileurl="file://E:\ProjectTraining\code\PalmarLibrary\PalmarLibrary.iml" filepath="E:\ProjectTraining\code\PalmarLibrary\PalmarLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
