@@ -141,11 +141,11 @@ public class FragmentTab1 extends android.support.v4.app.Fragment {
                 public void onClick(View v) {
                     RequestBody requestBody = new FormBody.Builder()
                             .add("bookName",tv_bookName.getText().toString())
-                            .add("bookAuthor",tv_author.getText().toString())
+                            .add("author",tv_author.getText().toString())
                             .build();
                     Request request = new Request.Builder()
                             .post(requestBody)
-                            .url(Constant.BASE_URL + "bookdetail.do")
+                            .url(Constant.BASE_URL + "getBookDetails.do")
                             .build();
                     OkHttpClient okHttpClient = new OkHttpClient();
                     Call call = okHttpClient.newCall(request);
@@ -158,17 +158,10 @@ public class FragmentTab1 extends android.support.v4.app.Fragment {
                         @Override
                         public void onResponse(Call call, Response response) throws IOException {
                             String msg = response.body().string();
-                            if (msg.equals("success")){
-                                Intent intent = new Intent();
-                                intent.setClass(getActivity(),BookDetailActivity.class);
-                                String str = response.body().string();
-                                intent.putExtra("bookdetailstr",str);
-                                startActivity(intent);
-                            } else{
-                                Toast toastTip = Toast.makeText(getActivity(),"获取失败",Toast.LENGTH_SHORT);
-                                toastTip.setGravity(Gravity.CENTER,0,0);
-                                toastTip.show();
-                            }
+                            Gson gson = new Gson();
+                            Type type = new TypeToken<Map<String,Object>>(){}.getType();
+                            Map<String,Object> map = gson.fromJson(msg,type);
+                            
                         }
                     });
                 }
