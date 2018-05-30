@@ -2,6 +2,7 @@ package com.example.palmarlibrary;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
-import java.lang.reflect.*;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +32,9 @@ import okhttp3.Response;
 
 public class FragmentTab2 extends android.support.v4.app.Fragment {
 
+    private Handler handler=null;
+    private ListView listView=null;
+    private AuthorNameAdapter adapter=null;
 
     @Nullable
     @Override
@@ -40,7 +44,7 @@ public class FragmentTab2 extends android.support.v4.app.Fragment {
         final View view = inflater.inflate(R.layout.collection_author_layout,container,false);
 
         final Context context = this.getActivity();
-
+        handler=new Handler();
         OkHttpClient okHttpClient = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(Constant.BASE_URL+"getAuthor.do")
@@ -57,24 +61,37 @@ public class FragmentTab2 extends android.support.v4.app.Fragment {
                 String bookListStr = response.body().string();
                 Log.e("boolList",bookListStr);
                 Gson gson = new Gson();
-                java.lang.reflect.Type type = new TypeToken<List<Map<String,Object>>>(){}.getType();
-//                bookList = gson.fromJson(bookListStr,type);
-//                Log.e("bookList",bookList.size()+"");
-//                FragmentTab1.BookNameAdapter adapter = new FragmentTab1.BookNameAdapter(context,R.layout.bookname_item_layout,
-//                        bookList);
-                ListView listView = view.findViewById(R.id.lv_collection_book);
-//                listView.setAdapter(adapter);
+                Type type = new TypeToken<List<String>>(){}.getType();
+                List<String>bookList = gson.fromJson(bookListStr,type);
+                Log.e("bookList",bookList.size()+"");
+                adapter = new AuthorNameAdapter(context,R.layout.author_item_layout,
+                        bookList);
+                listView = view.findViewById(R.id.lv_collection_author);
+                new Thread(){
+                    @Override
+                    public void run() {
+                        handler.post(runnableUi);
+                    }
+                }.start();
             }
         });
 
         return view;
     }
+
+    Runnable runnableUi = new Runnable() {
+        @Override
+        public void run() {
+            listView.setAdapter(adapter);
+        }
+    };
+
     public class AuthorNameAdapter extends BaseAdapter{
         private Context context;
         private int item_layout_id;
-        private List<Map<String,Object>>dataSource;
+        private List<String>dataSource;
 
-    public AuthorNameAdapter(Context context,int item_layout_id,List<Map<String,Object>>dataSource){
+    public AuthorNameAdapter(Context context,int item_layout_id,List<String>dataSource){
         this.context = context;
         this.item_layout_id = item_layout_id;
         this.dataSource = dataSource;
@@ -96,9 +113,9 @@ public class FragmentTab2 extends android.support.v4.app.Fragment {
             if(convertView == null){
                 convertView = LayoutInflater.from(context).inflate(item_layout_id,null);
             }
-            Log.e("author",dataSource.get(position).get("authot").toString());
-            TextView tv_author = convertView.findViewById(R.id.collection_author);
-            tv_author.setText(dataSource.get(position).get("author").toString());
+            Log.e("author",dataSource.get(position).toString());
+            TextView tv_author = convertView.findViewById(R.id.collection_author_tv);
+            tv_author.setText(dataSource.get(position).toString());
             return convertView;
         }
     }

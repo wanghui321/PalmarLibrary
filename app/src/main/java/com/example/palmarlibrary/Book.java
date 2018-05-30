@@ -85,4 +85,20 @@ public class Book {
         this.imgUrl = image;
     }
 
+    @Override
+    public String toString() {
+        return "Book{" +
+                "indexId='" + indexId + '\'' +
+                ", bookName='" + bookName + '\'' +
+                ", author='" + author + '\'' +
+                ", publisher='" + publisher + '\'' +
+                ", isbn='" + isbn + '\'' +
+                ", price=" + price +
+                ", shape='" + shape + '\'' +
+                ", series='" + series + '\'' +
+                ", location='" + location + '\'' +
+                ", imgUrl='" + imgUrl + '\'' +
+                ", hot=" + hot +
+                '}';
+    }
 }

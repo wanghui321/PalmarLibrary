@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -41,6 +42,7 @@ public class BookDetailActivity extends Activity {
 
         Intent intent = getIntent();
         String msg = intent.getStringExtra("msg");
+        Log.e("detail",msg);
         Gson gson = new Gson();
         Type type = new TypeToken<Map<String,Object>>(){}.getType();
         Map<String,Object> map = gson.fromJson(msg,type);
@@ -79,7 +81,7 @@ public class BookDetailActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(BookDetailActivity.this,BookReviewActivity.class);
+                intent.setClass(BookDetailActivity.this,CollectionBookActivity.class);
                 startActivity(intent);
             }
         });
@@ -133,7 +135,7 @@ public class BookDetailActivity extends Activity {
         bookname.setText(map.get("bookName").toString());
         author.setText(map.get("author").toString());
         booknumber.setText(map.get("indexId").toString());
-        publish.setText(map.get("publish").toString());
+        publish.setText(map.get("publisher").toString());
         price.setText(map.get("ISBN").toString() + "/" + map.get("price").toString());
         detailtype.setText(map.get("shape").toString());
         congbianxiang.setText(map.get("series").toString());
