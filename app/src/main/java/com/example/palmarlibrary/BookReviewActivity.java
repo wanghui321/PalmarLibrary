@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,13 +35,23 @@ public class BookReviewActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.book_review_layout);
 
-        List<Map<String,Object>> dataSource = new ArrayList<>();
-        for (int i = 0; i < 10; ++i){
-            Map<String,Object> map = new HashMap<>();
-            map.put("userName","张三"+i);
-            map.put("detail","我很喜欢这本书" + i);
-            dataSource.add(map);
-        }
+        Intent intent = getIntent();
+        String review = intent.getStringExtra("review");
+        Gson gson = new Gson();
+        java.lang.reflect.Type type = new TypeToken <List<Map<String,Object>>>(){}.getType();
+        List<Map<String,Object>> dataSource = gson.fromJson(review,type);
+
+//        ImageView head = findViewById(R.id.book_review_head);
+//        TextView username = findViewById(R.id.book_review_userName);
+//        TextView reviewdetail = findViewById(R.id.btn_book_detail_review);
+
+//        List<Map<String,Object>> dataSource = new ArrayList<>();
+//        for (int i = 0; i < 10; ++i){
+//            Map<String,Object> map = new HashMap<>();
+//            map.put("userName","张三"+i);
+//            map.put("detail","我很喜欢这本书" + i);
+//            dataSource.add(map);
+//        }
 
         BookReviewAdapter bookReviewAdapter = new BookReviewAdapter(this,
                 R.layout.book_review_item_layout,dataSource);
@@ -87,9 +103,18 @@ public class BookReviewActivity extends Activity {
                 convertView = LayoutInflater.from(context).inflate(item_layout_id,null);
             }
 
+            ImageView head = findViewById(R.id.book_review_head);
             TextView bookReviewUserName = convertView.findViewById(R.id.book_review_userName);
             TextView bookReviewDetail = convertView.findViewById(R.id.book_review_detail);
 
+            if (dataSource.get(position).get("userhead").toString()!=null){
+                head.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.userhead));
+            }else {
+                String myUrl = dataSource.get(position).toString();
+                Glide.with(BookReviewActivity.this)
+                        .load(myUrl)
+                        .into(head);
+            }
             bookReviewUserName.setText(dataSource.get(position).get("userName").toString());
             bookReviewDetail.setText(dataSource.get(position).get("detail").toString());
             return convertView;

@@ -14,11 +14,20 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.IOException;
 import java.lang.reflect.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * Created by Administrator on 2018/5/16.
@@ -40,8 +49,8 @@ public class BookDetailActivity extends Activity {
         Button btnSelect = findViewById(R.id.btn_book_detail_select);
         ImageView detailback = findViewById(R.id.detail_back);
         final ImageView collect = findViewById(R.id.book_detail_collect);
-        TextView bookname = findViewById(R.id.book_detail_bookName);
-        TextView author = findViewById(R.id.book_detail_author);
+        final TextView bookname = findViewById(R.id.book_detail_bookName);
+        final TextView author = findViewById(R.id.book_detail_author);
         TextView booknumber = findViewById(R.id.book_detail_bookNum);
         TextView publish = findViewById(R.id.book_detail_publish);
         TextView price = findViewById(R.id.book_detail_price);
@@ -78,10 +87,38 @@ public class BookDetailActivity extends Activity {
         btnReview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(BookDetailActivity.this,BookReviewActivity.class);
-                startActivity(intent);
-            }
+
+                RequestBody requestBody = new FormBody.Builder()
+                        .add("bookName",bookname.getText().toString())
+                        .add("author",author.getText().toString())
+                        .build();
+                Request request = new Request.Builder()
+                        .post(requestBody)
+                        .url(Constant.BASE_URL + "getBookReview.do")
+                        .build();
+                OkHttpClient okHttpClient = new OkHttpClient();
+                Call call = okHttpClient.newCall(request);
+                call.enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws
+                            IOException {
+                        String review = response.body().string();
+                        Intent intent = new Intent();
+                        intent.putExtra("review", review);
+                        intent.setClass(BookDetailActivity.this,
+                                BookReviewActivity.class);
+                        startActivity(intent);
+                    }
+//                Intent intent = new Intent();
+//                intent.setClass(BookDetailActivity.this,BookReviewActivity.class);
+//                startActivity(intent);
+                });
+            };
         });
 
         btnSelect.setOnClickListener(new View.OnClickListener() {
