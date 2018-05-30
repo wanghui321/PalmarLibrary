@@ -89,46 +89,19 @@ public class BookDetailActivity extends Activity {
         btnReview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                RequestBody requestBody = new FormBody.Builder()
-                        .add("bookName",bookname.getText().toString())
-                        .add("author",author.getText().toString())
-                        .build();
-                Request request = new Request.Builder()
-                        .post(requestBody)
-                        .url(Constant.BASE_URL + "getBookReview.do")
-                        .build();
-                OkHttpClient okHttpClient = new OkHttpClient();
-                Call call = okHttpClient.newCall(request);
-                call.enqueue(new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response response) throws
-                            IOException {
-                        String review = response.body().string();
-                        Intent intent = new Intent();
-                        intent.putExtra("review", review);
-                        intent.putExtra("indexId",map.get("indexId").toString());
-                        intent.setClass(BookDetailActivity.this,
-                                BookReviewActivity.class);
-                        startActivity(intent);
-                    }
-//                Intent intent = new Intent();
-//                intent.setClass(BookDetailActivity.this,BookReviewActivity.class);
-//                startActivity(intent);
-                });
-            };
+                Intent intent = new Intent();
+                intent.putExtra("indexId",map.get("indexId").toString());
+                intent.setClass(BookDetailActivity.this,BookReviewActivity.class);
+                startActivity(intent);
+            }
         });
 
         btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(BookDetailActivity.this,CollectionBookActivity.class);
+                intent.setClass(BookDetailActivity.this,HoldingInformationActivity.class);
+                intent.putExtra("indexId",map.get("indexId").toString());
                 startActivity(intent);
             }
         });

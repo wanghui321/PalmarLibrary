@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
@@ -33,8 +34,10 @@ import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -50,9 +53,16 @@ public class HoldingInformationActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.holding_information_layout);
 
+        Intent intent = getIntent();
+        String indexId = intent.getStringExtra("indexId");
+
         OkHttpClient okHttpClient = new OkHttpClient();
+        RequestBody requestBody = new FormBody.Builder()
+                .add("indexId",indexId)
+                .build();
         Request request = new Request.Builder()
-                .url(Constant.BASE_URL + "getBooks.do")
+                .post(requestBody)
+                .url(Constant.BASE_URL + "location.do")
                 .build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
@@ -124,9 +134,9 @@ public class HoldingInformationActivity extends Activity{
 
             tv_bookName.setText(dataSource.get(position).get("bookName").toString());
             tv_author.setText(dataSource.get(position).get("author").toString());
-            tv_place.setText(dataSource.get(position).get("place").toString());
-            tv_id.setText(dataSource.get(position).get("id").toString());
-            tv_state.setText(dataSource.get(position).get("state").toString());
+            tv_place.setText(dataSource.get(position).get("location").toString());
+            tv_id.setText(dataSource.get(position).get("indexId").toString());
+            tv_state.setText(dataSource.get(position).get("status").toString());
 
             final LinearLayout holdingBookDetail = convertView.findViewById(R.id.holding_book_detail);
             final ImageView imageView = convertView.findViewById(R.id.holding_care_img);

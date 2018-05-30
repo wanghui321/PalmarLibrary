@@ -45,7 +45,7 @@ import okhttp3.internal.tls.OkHostnameVerifier;
 
 public class BorrowingRecordsActivity extends Activity {
 
-    private int mHiddenHight = 350;
+    private int mHiddenHight = 500;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -189,7 +189,6 @@ public class BorrowingRecordsActivity extends Activity {
 
     private ValueAnimator createDropAnimator(int start,int end,final View view){
         ValueAnimator animator = ValueAnimator.ofInt(start,end);
-        animator.setDuration(1000);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {

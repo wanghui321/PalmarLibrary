@@ -51,9 +51,11 @@ public class AddreviewActivity extends Activity {
         subreview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                User user = Constant.user;
                 String str = editText.getText().toString();
                 RequestBody requestBody = new FormBody.Builder()
-                        .add("addreview",editText.getText().toString())
+                        .add("userId",user.getUserId())
+                        .add("content",editText.getText().toString())
                         .add("indexId",indexId)
                         .build();
                 Request request = new Request.Builder()
@@ -80,6 +82,10 @@ public class AddreviewActivity extends Activity {
                                     toastTip.show();
                                 }
                             });
+                            Intent intent = new Intent();
+                            intent.setClass(AddreviewActivity.this,BookReviewActivity.class);
+                            intent.putExtra("indexId",indexId);
+                            startActivity(intent);
                         } else{
                             runOnUiThread(new Runnable() {
                                 @Override
