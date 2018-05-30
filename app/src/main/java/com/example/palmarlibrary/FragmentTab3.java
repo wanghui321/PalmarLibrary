@@ -2,6 +2,7 @@ package com.example.palmarlibrary;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -9,32 +10,102 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.IOException;
+import java.lang.reflect.*;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by Administrator on 2018/5/21.
  */
 
 public class FragmentTab3 extends Fragment {
+
+
+    private List<String> bookTypeList = new ArrayList<>();
+    private Handler handler=null;
+    private ListView listView=null;
+    private TypeNameAdapter adapter=null;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.collection_type_layout,container,false);
+        final View view = inflater.inflate(R.layout.collection_type_layout,container,false);
+
+        final Context context = this.getActivity();
+        handler=new Handler();
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(Constant.BASE_URL+"getBookType.do")
+                .build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String bookTypeListStr = response.body().string();
+                Log.e("bookTypeList",bookTypeListStr);
+
+
+                Gson gson = new Gson();
+                Type type = new TypeToken<List<String>>(){}.getType();
+                bookTypeList = gson.fromJson(bookTypeListStr,type);
+                Log.e("bookList",bookTypeList.size()+"");
+                adapter = new TypeNameAdapter(context,R.layout.collection_type_item_layout,bookTypeList);
+
+                listView = view.findViewById(R.id.lv_collection_type);
+
+
+                new Thread(){
+                    @Override
+                    public void run() {
+                        handler.post(runnableUi);
+                    }
+                }.start();
+            }
+        });
+
+
+
+
+
         return view;
     }
-    final Context context = this.getActivity();
+
+    Runnable runnableUi = new Runnable() {
+        @Override
+        public void run() {
+            listView.setAdapter(adapter);
+        }
+    };
 
     public class TypeNameAdapter extends BaseAdapter {
         private Context context;
         private int item_layout_id;
-        private List<Map<String,Object>> dataSource;
+        private List<String> dataSource;
 
-        public TypeNameAdapter (Context context,int item_layout_id,List<Map<String,Object>> dataSource){
+        public TypeNameAdapter (Context context,int item_layout_id,List<String> dataSource){
             this.context = context;
             this.item_layout_id = item_layout_id;
             this.dataSource = dataSource;
@@ -60,13 +131,12 @@ public class FragmentTab3 extends Fragment {
                 convertView = LayoutInflater.from(context).inflate(item_layout_id,null);
             }
 
-            Log.e("typeName",dataSource.get(position).get("typeName").toString());
 
 
-            TextView tv_typeName = convertView.findViewById(R.id.tv_typeName);
+           final TextView tv_typeName = convertView.findViewById(R.id.tv_typeName);
+           final CheckBox cb_type = convertView.findViewById(R.id.type_cb);
 
-
-            tv_typeName.setText(dataSource.get(position).get("typeName").toString());
+            tv_typeName.setText(dataSource.get(position).toString());
 
 
             return convertView;
