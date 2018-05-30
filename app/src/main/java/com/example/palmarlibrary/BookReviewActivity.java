@@ -36,22 +36,23 @@ public class BookReviewActivity extends Activity {
         setContentView(R.layout.book_review_layout);
 
         Intent intent = getIntent();
+        final String indexId = intent.getStringExtra("indexId");
         String review = intent.getStringExtra("review");
         Gson gson = new Gson();
         java.lang.reflect.Type type = new TypeToken <List<Map<String,Object>>>(){}.getType();
         List<Map<String,Object>> dataSource = gson.fromJson(review,type);
 
-//        ImageView head = findViewById(R.id.book_review_head);
-//        TextView username = findViewById(R.id.book_review_userName);
-//        TextView reviewdetail = findViewById(R.id.btn_book_detail_review);
+        TextView addreview = findViewById(R.id.book_review_add);
 
-//        List<Map<String,Object>> dataSource = new ArrayList<>();
-//        for (int i = 0; i < 10; ++i){
-//            Map<String,Object> map = new HashMap<>();
-//            map.put("userName","张三"+i);
-//            map.put("detail","我很喜欢这本书" + i);
-//            dataSource.add(map);
-//        }
+        addreview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.putExtra("indexId",indexId);
+                intent.setClass(BookReviewActivity.this,AddreviewActivity.class);
+                startActivity(intent);
+            }
+        });
 
         BookReviewAdapter bookReviewAdapter = new BookReviewAdapter(this,
                 R.layout.book_review_item_layout,dataSource);

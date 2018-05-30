@@ -45,7 +45,7 @@ public class BookDetailActivity extends Activity {
         Log.e("detail",msg);
         Gson gson = new Gson();
         Type type = new TypeToken<Map<String,Object>>(){}.getType();
-        Map<String,Object> map = gson.fromJson(msg,type);
+        final Map<String,Object> map = gson.fromJson(msg,type);
 
         Button btnReview = findViewById(R.id.btn_book_detail_review);
         Button btnSelect = findViewById(R.id.btn_book_detail_select);
@@ -112,6 +112,7 @@ public class BookDetailActivity extends Activity {
                         String review = response.body().string();
                         Intent intent = new Intent();
                         intent.putExtra("review", review);
+                        intent.putExtra("indexId",map.get("indexId").toString());
                         intent.setClass(BookDetailActivity.this,
                                 BookReviewActivity.class);
                         startActivity(intent);
