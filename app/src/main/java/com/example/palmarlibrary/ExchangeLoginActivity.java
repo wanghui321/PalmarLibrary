@@ -109,9 +109,15 @@ public class ExchangeLoginActivity extends Activity{
                             Map <String,Object> map = gson.fromJson(msg,type);
                             user.setUserId(cardNum.getText().toString());
                             user.setNickname(map.get("nickname").toString());
-                            user.setUserName(map.get("userName").toString());
-                            user.setDepartment(map.get("department").toString());
-                            user.setEmail(map.get("email").toString());
+                            if (map.get("userName") != null) {
+                                user.setUserName(map.get("userName").toString());
+                            }
+                            if (map.get("department")!=null){
+                                user.setDepartment(map.get("department").toString());
+                            }
+                            if (map.get("email")!=null){
+                                user.setEmail(map.get("email").toString());
+                            }
                             Intent intent = new Intent();
                             intent.setClass(ExchangeLoginActivity.this,
                                     HomePageActivity.class);

@@ -5,8 +5,12 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +20,22 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.IOException;
+import java.lang.reflect.*;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by Administrator on 2018/5/17.
@@ -28,27 +44,44 @@ import java.util.Map;
 public class HoldingInformationActivity extends Activity{
 
     private int mHiddenHight = 450;
-
+    private List<Map<String,Object>> dataSource = new ArrayList<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.holding_information_layout);
 
-        List<Map<String,Object>> dataSource = new ArrayList<>();
-        for (int i = 0; i < 3; ++i){
-            Map map = new HashMap();
-            map.put("bookName","钢铁是怎样炼成的");
-            map.put("author","奥斯特洛夫斯基");
-            map.put("place","文献中心");
-            map.put("id","10086");
-            map.put("state","可借阅");
-            dataSource.add(map);
-        }
-        ListView holdingInformation = findViewById(R.id.holding_information_list);
-        HoldingInformationAdapter holdingInformationAdapter = new HoldingInformationAdapter(this,
-                R.layout.holding_informatin_item_layout,dataSource);
-        holdingInformation.setAdapter(holdingInformationAdapter);
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(Constant.BASE_URL + "getBooks.do")
+                .build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String bookListStr = response.body().string();
+                Log.e("boolList",bookListStr);
+                Gson gson = new Gson();
+                Type type = new TypeToken<List<Map<String,Object>>>(){}.getType();
+                dataSource = gson.fromJson(bookListStr,type);
+                Log.e("bookList",dataSource.size()+"");
+                final ListView holdingInformation = findViewById(R.id.holding_information_list);
+                final HoldingInformationAdapter holdingInformationAdapter = new HoldingInformationAdapter(HoldingInformationActivity.this,
+                        R.layout.holding_informatin_item_layout,dataSource);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        holdingInformation.setAdapter(holdingInformationAdapter);
+                    }
+                });
+            }
+        });
     }
+
 
     public class HoldingInformationAdapter extends BaseAdapter{
 

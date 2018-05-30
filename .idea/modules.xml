@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/PalmarLibrary.iml" filepath="$PROJECT_DIR$/PalmarLibrary.iml" />
-      <module fileurl="file://E:\ProjectTraining\code\PalmarLibrary\PalmarLibrary.iml" filepath="E:\ProjectTraining\code\PalmarLibrary\PalmarLibrary.iml" />
       <module fileurl="file://E:\androiddemo\PalmarLibrary\PalmarLibrary.iml" filepath="E:\androiddemo\PalmarLibrary\PalmarLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://E:\androiddemo\PalmarLibrary\app\app.iml" filepath="E:\androiddemo\PalmarLibrary\app\app.iml" />
