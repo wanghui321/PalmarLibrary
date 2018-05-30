@@ -136,7 +136,7 @@ public class FragmentTab1 extends android.support.v4.app.Fragment {
             tv_bookName.setText(dataSource.get(position).get("bookName").toString());
             tv_author.setText(dataSource.get(position).get("author").toString());
 
-            
+
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
