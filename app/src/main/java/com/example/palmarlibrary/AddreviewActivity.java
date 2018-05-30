@@ -34,6 +34,7 @@ public class AddreviewActivity extends Activity {
 
         Intent intent = getIntent();
         final String indexId = intent.getStringExtra("indexId");
+        final String msg1 = intent.getStringExtra("msg");
 
         ImageView addreviewback = findViewById(R.id.addreview_back);
         final EditText editText = findViewById(R.id.review_review);
@@ -85,6 +86,7 @@ public class AddreviewActivity extends Activity {
                             Intent intent = new Intent();
                             intent.setClass(AddreviewActivity.this,BookReviewActivity.class);
                             intent.putExtra("indexId",indexId);
+                            intent.putExtra("msg",msg1);
                             startActivity(intent);
                         } else{
                             runOnUiThread(new Runnable() {

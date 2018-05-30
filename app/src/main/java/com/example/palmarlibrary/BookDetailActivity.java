@@ -41,7 +41,7 @@ public class BookDetailActivity extends Activity {
         setContentView(R.layout.book_detail_layout);
 
         Intent intent = getIntent();
-        String msg = intent.getStringExtra("msg");
+        final String msg = intent.getStringExtra("msg");
         Log.e("detail",msg);
         Gson gson = new Gson();
         Type type = new TypeToken<Map<String,Object>>(){}.getType();
@@ -91,6 +91,7 @@ public class BookDetailActivity extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.putExtra("indexId",map.get("indexId").toString());
+                intent.putExtra("msg",msg);
                 intent.setClass(BookDetailActivity.this,BookReviewActivity.class);
                 startActivity(intent);
             }

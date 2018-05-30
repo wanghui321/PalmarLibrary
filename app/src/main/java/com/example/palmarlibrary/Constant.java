@@ -5,6 +5,6 @@ package com.example.palmarlibrary;
  */
 
 public class Constant {
-    public static final String BASE_URL = "http://10.7.84.104:8080/PalmarLibraryService/";
+    public static final String BASE_URL = "http://192.168.137.1:8080/PalmarLibraryService/";
     public static final User user = new User();
 }
