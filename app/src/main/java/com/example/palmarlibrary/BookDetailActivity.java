@@ -30,6 +30,12 @@ public class BookDetailActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.book_detail_layout);
 
+        Intent intent = getIntent();
+        String msg = intent.getStringExtra("msg");
+        Gson gson = new Gson();
+        Type type = new TypeToken<Map<String,Object>>(){}.getType();
+        Map<String,Object> map = gson.fromJson(msg,type);
+
         Button btnReview = findViewById(R.id.btn_book_detail_review);
         Button btnSelect = findViewById(R.id.btn_book_detail_select);
         ImageView detailback = findViewById(R.id.detail_back);
@@ -51,8 +57,7 @@ public class BookDetailActivity extends Activity {
                 //找到需要比较的图片ConstantState类对象
                 //Drawable.ConstantState t2 = ContextCompat.getDrawable(BookDetailActivity.this,R.drawable.collect).getConstantState();
                 Drawable.ConstantState t2 = getResources().getDrawable(R.drawable.collect).getConstantState();
-                if(t1.equals(t2))
-                {
+                if(t1.equals(t2)) {
                     collect.setImageResource(R.drawable.collected);
                 }
                 else{
@@ -88,19 +93,13 @@ public class BookDetailActivity extends Activity {
             }
         });
 
-        String bookdetailstr = getIntent().getStringExtra("bookdetailstr");
-        Gson gson = new Gson();
-        List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
-        Type type = new TypeToken<List<Map<String,Object>>>(){}.getType();
-        list = gson.fromJson(bookdetailstr,type);
-
-        bookname.setText(list.get(0).get("bookname").toString());
-        author.setText(list.get(0).get("author").toString());
-        booknumber.setText(list.get(0).get("booknumber").toString());
-        publish.setText(list.get(0).get("publish").toString());
-        price.setText(list.get(0).get("price").toString());
-        detailtype.setText(list.get(0).get("detailtype").toString());
-        congbianxiang.setText(list.get(0).get("congbianxiang").toString());
-        topic.setText(list.get(0).get("topic").toString());
+        bookname.setText(map.get("bookName").toString());
+        author.setText(map.get("author").toString());
+        booknumber.setText(map.get("indexId").toString());
+        publish.setText(map.get("publish").toString());
+        price.setText(map.get("ISBN").toString() + "/" + map.get("price").toString());
+        detailtype.setText(map.get("shape").toString());
+        congbianxiang.setText(map.get("series").toString());
+        topic.setText(map.get("typename").toString());
     }
 }

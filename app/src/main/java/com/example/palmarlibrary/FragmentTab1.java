@@ -158,10 +158,10 @@ public class FragmentTab1 extends android.support.v4.app.Fragment {
                         @Override
                         public void onResponse(Call call, Response response) throws IOException {
                             String msg = response.body().string();
-                            Gson gson = new Gson();
-                            Type type = new TypeToken<Map<String,Object>>(){}.getType();
-                            Map<String,Object> map = gson.fromJson(msg,type);
-                            
+                            Intent intent = new Intent();
+                            intent.putExtra("msg",msg);
+                            intent.setClass(context,BookDetailActivity.class);
+                            startActivity(intent);
                         }
                     });
                 }
