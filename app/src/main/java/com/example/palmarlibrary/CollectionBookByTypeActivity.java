@@ -20,7 +20,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
-
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -83,9 +83,9 @@ public class CollectionBookByTypeActivity extends Activity {
                 String bookListStr = response.body().string();
                 Log.e("boolList",bookListStr);
                 Gson gson = new Gson();
-//                Type type = new TypeToken<List<Map<String,Object>>>(){}.getType();
-//                bookList = gson.fromJson(bookListStr,type);
-//                Log.e("bookList",bookList.size()+"");
+                Type type = new TypeToken<List<Map<String,Object>>>(){}.getType();
+                bookList = gson.fromJson(bookListStr,type);
+                Log.e("bookList",bookList.size()+"");
 //                adapter = new BookNameAdapter(context,R.layout.collection_type_search_item_layout,
 //                        bookList);
 //                listView = view.findViewById(R.id.lv_collection_book);
