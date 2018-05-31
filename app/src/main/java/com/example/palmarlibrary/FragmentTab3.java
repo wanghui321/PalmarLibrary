@@ -1,6 +1,7 @@
 package com.example.palmarlibrary;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -39,11 +40,14 @@ import okhttp3.Response;
 
 public class FragmentTab3 extends Fragment {
 
-
+    //从数据库读取的图书类型列表
     private List<String> bookTypeList = new ArrayList<>();
+    //用户选择搜索的图书类型列表
+    private List<String> selectTypeList = new ArrayList<>();
     private Handler handler = null;
     private ListView listView = null;
     private TypeNameAdapter adapter = null;
+    private Map<Integer, Boolean> status = new HashMap<Integer, Boolean>();
 
     @Nullable
     @Override
@@ -72,15 +76,41 @@ public class FragmentTab3 extends Fragment {
 
 
                 Gson gson = new Gson();
-                Type type = new TypeToken<List<String>>() {
-                }.getType();
+
+                Type type = new TypeToken<List<String>>() {}.getType();
+
+
                 bookTypeList = gson.fromJson(bookTypeListStr, type);
 
-                Log.e("bookList", bookTypeList.size() + "");
+                Log.e("bookTypeList", bookTypeList.size() + "");
 
                 adapter = new TypeNameAdapter(context, R.layout.collection_type_item_layout, bookTypeList);
 
                 listView = view.findViewById(R.id.lv_collection_type);
+
+
+                Button searchType = view.findViewById(R.id.select_by_type);
+                searchType.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        for(Map.Entry<Integer,Boolean> entry : status.entrySet()){
+                            if(entry.getValue()){
+                                selectTypeList.add(entry.getKey().toString());
+                            }
+                        }
+
+                        Intent intent = new Intent(context,CollectionBookByTypeActivity.class);
+
+                        Gson gson = new Gson();
+                        Type type = new TypeToken<List<String>>(){}.getType();
+                        String bookTypeListStr = gson.toJson(selectTypeList,type);
+                        intent.putExtra("selectTypeList",bookTypeListStr);
+
+                        startActivity(intent);
+
+
+                    }
+                });
 
 
 
@@ -108,18 +138,14 @@ public class FragmentTab3 extends Fragment {
         private Context context;
         private int item_layout_id;
         private List<String> dataSource;
-        List<Boolean> mChecked;
-        HashMap<Integer,View> map = new HashMap<Integer,View>();
+
+
         public TypeNameAdapter(Context context, int item_layout_id, List<String> dataSource) {
             this.context = context;
             this.item_layout_id = item_layout_id;
             this.dataSource = dataSource;
 
 
-            mChecked = new ArrayList<Boolean>();
-            for(int i=0;i<dataSource.size();i++){
-                mChecked.add(false);
-            }
         }
 
         @Override
@@ -138,41 +164,40 @@ public class FragmentTab3 extends Fragment {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
                 convertView = LayoutInflater.from(context).inflate(item_layout_id, null);
             }
 
-            ViewHolder holder = null;
-
-            if (map.get(position) == null) {
-                Log.e("MainActivity","position1 = "+position);
+            TextView tv_typename=convertView.findViewById(R.id.tv_typeName);
 
 
-                holder = new ViewHolder();
-                holder.selected = (CheckBox)convertView.findViewById(R.id.type_cb);
-                holder.typename = (TextView)convertView.findViewById(R.id.tv_typeName);
-                final int p = position;
-                map.put(position, convertView);
-                holder.selected.setOnClickListener(new View.OnClickListener() {
+            CheckBox cb_type = convertView.findViewById(R.id.type_cb);
 
-                    @Override
-                    public void onClick(View v) {
-                        CheckBox cb = (CheckBox)v;
-                        mChecked.set(p, cb.isChecked());
-                    }
-                });
-                convertView.setTag(holder);
-            }else{
-                Log.e("MainActivity","position2 = "+position);
-                convertView = map.get(position);
-                holder = (ViewHolder)convertView.getTag();
-            }
+            cb_type.setChecked(status.get(position));
+            tv_typename.setText(dataSource.get(position).toString());
+            cb_type.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    status.put(position,!status.get(position));
+                }
+            });
 
-            holder.selected.setChecked(mChecked.get(position));
-            holder.typename.setText(dataSource.get(position).toString());
-
-
+//            Button searchType = convertView.findViewById(R.id.select_by_type);
+//            searchType.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    for(Map.Entry<Integer,Boolean> entry : status.entrySet()){
+//                        if(entry.getValue()){
+//                            selectTypeList.add(entry.getKey().toString());
+//                        }
+//                    }
+//
+//
+//
+//
+//                }
+//            });
 
             return convertView;
 
@@ -197,10 +222,7 @@ public class FragmentTab3 extends Fragment {
 
 
 
-    static class ViewHolder{
-        CheckBox selected;
-        TextView typename;
-    }
+
 
 
 //    public class MultiSelectOrderAdapter extends RecyclerView.Adapter<MultiSelectOrderAdapter.MultiSelectOrderViewHolder> {
