@@ -52,9 +52,22 @@ public class HoldingInformationActivity extends Activity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.holding_information_layout);
+        ImageView back = findViewById(R.id.holding_back_img);
 
         Intent intent = getIntent();
-        String indexId = intent.getStringExtra("indexId");
+        final String indexId = intent.getStringExtra("indexId");
+        final String msg = intent.getStringExtra("msg");
+        final String flag = intent.getStringExtra("flag");
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.putExtra("msg",msg);
+                intent.putExtra("flag",flag);
+                intent.setClass(HoldingInformationActivity.this,BookDetailActivity.class);
+                startActivity(intent);
+            }
+        });
 
         OkHttpClient okHttpClient = new OkHttpClient();
         RequestBody requestBody = new FormBody.Builder()

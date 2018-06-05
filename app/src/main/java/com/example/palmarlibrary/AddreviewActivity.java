@@ -35,6 +35,7 @@ public class AddreviewActivity extends Activity {
         Intent intent = getIntent();
         final String indexId = intent.getStringExtra("indexId");
         final String msg1 = intent.getStringExtra("msg");
+        final String flag = intent.getStringExtra("flag");
 
         ImageView addreviewback = findViewById(R.id.addreview_back);
         final EditText editText = findViewById(R.id.review_review);
@@ -44,6 +45,11 @@ public class AddreviewActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
+                intent.putExtra("indexId",indexId);
+                intent.putExtra("msg",msg1);
+                if (flag != null){
+                    intent.putExtra("flag",flag);
+                }
                 intent.setClass(AddreviewActivity.this,BookReviewActivity.class);
                 startActivity(intent);
             }
@@ -87,6 +93,9 @@ public class AddreviewActivity extends Activity {
                             intent.setClass(AddreviewActivity.this,BookReviewActivity.class);
                             intent.putExtra("indexId",indexId);
                             intent.putExtra("msg",msg1);
+                            if (flag != null){
+                                intent.putExtra("flag",flag);
+                            }
                             startActivity(intent);
                         } else{
                             runOnUiThread(new Runnable() {

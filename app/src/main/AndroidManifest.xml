@@ -43,6 +43,7 @@
         <activity android:name=".LoginActivity"/>
         <activity android:name=".ExchangeLoginActivity"/>
         <activity android:name=".CollectionBookByTypeActivity"/>
+        <activity android:name=".SearchAuthorActivity"/>
     </application>
 
 

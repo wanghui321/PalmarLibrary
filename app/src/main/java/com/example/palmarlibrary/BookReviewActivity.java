@@ -47,6 +47,7 @@ public class BookReviewActivity extends Activity {
         Intent intent = getIntent();
         final String indexId = intent.getStringExtra("indexId");
         final String msg = intent.getStringExtra("msg");
+        final String flag = intent.getStringExtra("flag");
 
         RequestBody requestBody = new FormBody.Builder()
                 .add("indexId",indexId)
@@ -89,6 +90,9 @@ public class BookReviewActivity extends Activity {
                 Intent intent = new Intent();
                 intent.putExtra("indexId",indexId);
                 intent.putExtra("msg",msg);
+                if (flag != null){
+                    intent.putExtra("flag",flag);
+                }
                 intent.setClass(BookReviewActivity.this,AddreviewActivity.class);
                 startActivity(intent);
             }
@@ -102,6 +106,11 @@ public class BookReviewActivity extends Activity {
                 Intent intent = new Intent();
                 intent.setClass(BookReviewActivity.this,BookDetailActivity.class);
                 intent.putExtra("msg",msg);
+                if (flag != null){
+                    intent.putExtra("flag",flag);
+                } else {
+                    intent.putExtra("flag","BookReviewActivity");
+                }
                 startActivity(intent);
             }
         });

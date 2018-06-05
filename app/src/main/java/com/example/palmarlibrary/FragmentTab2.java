@@ -1,6 +1,7 @@
 package com.example.palmarlibrary;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -109,13 +110,25 @@ public class FragmentTab2 extends android.support.v4.app.Fragment {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             if(convertView == null){
                 convertView = LayoutInflater.from(context).inflate(item_layout_id,null);
             }
             Log.e("author",dataSource.get(position).toString());
+
             TextView tv_author = convertView.findViewById(R.id.collection_author_tv);
             tv_author.setText(dataSource.get(position).toString());
+
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.putExtra("author",dataSource.get(position).toString());
+                    intent.setClass(context,SearchAuthorActivity.class);
+                    startActivity(intent);
+                }
+            });
+
             return convertView;
         }
     }

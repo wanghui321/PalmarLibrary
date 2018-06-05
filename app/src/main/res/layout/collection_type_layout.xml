@@ -13,7 +13,7 @@
     <ListView
         android:id="@+id/lv_collection_type"
         android:layout_width="match_parent"
-        android:layout_height="350dp" />
+        android:layout_height="300dp" />
     <Button
         android:id="@+id/select_by_type"
         android:layout_marginTop="10dp"
