@@ -41,6 +41,7 @@ public class BookDetailActivity extends Activity {
         setContentView(R.layout.book_detail_layout);
 
         Intent intent = getIntent();
+
         final String msg = intent.getStringExtra("msg");
         Log.e("detail",msg);
         Gson gson = new Gson();
