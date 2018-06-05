@@ -49,11 +49,11 @@ public class MyFavoritesActivity extends Activity{
         });
 
         RequestBody requestBody = new FormBody.Builder()
-                .add("user",Constant.user.toString())
+                .add("userId",Constant.user.getUserId())
                 .build();
         Request request = new Request.Builder()
                 .post(requestBody)
-                .url(Constant.BASE_URL + "getFavorites.do")
+                .url(Constant.BASE_URL + "getFavoriteBook.do")
                 .build();
         OkHttpClient okHttpClient = new OkHttpClient();
         Call call = okHttpClient.newCall(request);
@@ -119,10 +119,10 @@ public class MyFavoritesActivity extends Activity{
                 convertView = LayoutInflater.from(context).inflate(item_layout_id,null);
             }
 
-            ImageView imageView = findViewById(R.id.my_favorities_book);
+            ImageView imageView = convertView.findViewById(R.id.my_favorities_book);
             String myUrl = dataSource.get(position).get("imgUrl").toString();
             Glide.with(MyFavoritesActivity.this)
-                    .load(myUrl)
+                    .load(Constant.BASE_URL + myUrl)
                     .into(imageView);
 
             convertView.setOnClickListener(new View.OnClickListener() {
