@@ -67,6 +67,7 @@ public class CollectionBookByTypeActivity extends Activity {
             }
         });
 
+        
         handler=new Handler();
         OkHttpClient okHttpClient = new OkHttpClient();
         RequestBody requestBody = new FormBody.Builder()
