@@ -47,7 +47,7 @@ public class BookReviewActivity extends Activity {
         Intent intent = getIntent();
         final String indexId = intent.getStringExtra("indexId");
         final String msg = intent.getStringExtra("msg");
-
+;
         RequestBody requestBody = new FormBody.Builder()
                 .add("indexId",indexId)
                 .build();

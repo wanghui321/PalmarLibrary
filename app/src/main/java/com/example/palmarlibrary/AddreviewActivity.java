@@ -44,6 +44,8 @@ public class AddreviewActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
+                intent.putExtra("indexId",indexId);
+                intent.putExtra("msg",msg1);
                 intent.setClass(AddreviewActivity.this,BookReviewActivity.class);
                 startActivity(intent);
             }
