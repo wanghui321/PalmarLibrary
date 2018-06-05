@@ -42,6 +42,7 @@ public class BookDetailActivity extends Activity {
 
         Intent intent = getIntent();
         final String msg = intent.getStringExtra("msg");
+        final String authorMsg = intent.getStringExtra("author");
         Log.e("detail",msg);
         Gson gson = new Gson();
         Type type = new TypeToken<Map<String,Object>>(){}.getType();
@@ -81,7 +82,12 @@ public class BookDetailActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(BookDetailActivity.this,CollectionBookActivity.class);
+                if (authorMsg == null){
+                    intent.setClass(BookDetailActivity.this,CollectionBookActivity.class);
+                }else{
+                    intent.setClass(BookDetailActivity.this,SearchAuthorActivity.class);
+                }
+
                 startActivity(intent);
             }
         });
