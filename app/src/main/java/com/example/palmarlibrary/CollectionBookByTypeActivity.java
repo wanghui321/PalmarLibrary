@@ -67,7 +67,6 @@ public class CollectionBookByTypeActivity extends Activity {
             }
         });
 
-        
         handler=new Handler();
         OkHttpClient okHttpClient = new OkHttpClient();
         RequestBody requestBody = new FormBody.Builder()
@@ -91,6 +90,7 @@ public class CollectionBookByTypeActivity extends Activity {
                 Type type = new TypeToken<List<Map<String,Object>>>(){}.getType();
                 bookList = gson.fromJson(bookListStr,type);
                 Log.e("bookList",bookList.size()+"");
+                
 //                adapter = new BookNameAdapter(context,R.layout.collection_type_search_item_layout,
 //                        bookList);
 //                listView = view.findViewById(R.id.lv_collection_book);
