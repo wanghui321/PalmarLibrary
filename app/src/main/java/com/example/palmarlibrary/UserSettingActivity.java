@@ -30,6 +30,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -215,9 +216,15 @@ public class UserSettingActivity extends Activity{
         //构建请求体
         RequestBody requestBody = RequestBody.create(
                 MediaType.parse("image/#"),file);
+        MultipartBody multipartBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("userId","2018001")
+                .addFormDataPart("passwd","pppp")
+                .addFormDataPart("mPhoto","test2.jpg",requestBody)
+                .build();
         Request request = new Request.Builder()
                 .url(Constant.BASE_URL + "uploadFile.do")
-                .post(requestBody)
+                .post(multipartBody)
                 .build();
         OkHttpClient okHttpClient = new OkHttpClient();
         Call call =okHttpClient.newCall(request);

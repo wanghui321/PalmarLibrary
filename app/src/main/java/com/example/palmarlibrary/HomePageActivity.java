@@ -32,7 +32,14 @@ public class HomePageActivity extends Activity implements View.OnClickListener{
         user.setOnClickListener(this);
         search.setOnClickListener(this);
         history.setOnClickListener(this);
-        favorite.setOnClickListener(this);
+        favorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(HomePageActivity.this,MyFavoritesActivity.class);
+                startActivity(intent);
+            }
+        });
         readed.setOnClickListener(this);
         hotbooks.setOnClickListener(this);
         message.setOnClickListener(this);

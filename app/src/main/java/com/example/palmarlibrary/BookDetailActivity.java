@@ -42,8 +42,8 @@ public class BookDetailActivity extends Activity {
 
         Intent intent = getIntent();
         final String msg = intent.getStringExtra("msg");
-        final String authorMsg = intent.getStringExtra("author");
-        Log.e("detail",msg);
+        final String flag = intent.getStringExtra("flag");
+        final String authorStr = intent.getStringExtra("author");
         Gson gson = new Gson();
         Type type = new TypeToken<Map<String,Object>>(){}.getType();
         final Map<String,Object> map = gson.fromJson(msg,type);
@@ -82,10 +82,19 @@ public class BookDetailActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                if (authorMsg == null){
-                    intent.setClass(BookDetailActivity.this,CollectionBookActivity.class);
-                }else{
-                    intent.setClass(BookDetailActivity.this,SearchAuthorActivity.class);
+                switch (flag){
+                    case "FragmentTab1":
+                        intent.setClass(BookDetailActivity.this,CollectionBookActivity.class);
+                        break;
+                    case "SearchAuthorActivity":
+                        intent.putExtra("author",authorStr);
+                        intent.setClass(BookDetailActivity.this,SearchAuthorActivity.class);
+                        break;
+                    case "HotBookActivity":
+                        intent.setClass(BookDetailActivity.this,HotBookActivity.class);
+                        break;
+                    default:
+                        intent.setClass(BookDetailActivity.this,CollectionBookActivity.class);
                 }
 
                 startActivity(intent);
@@ -98,6 +107,11 @@ public class BookDetailActivity extends Activity {
                 Intent intent = new Intent();
                 intent.putExtra("indexId",map.get("indexId").toString());
                 intent.putExtra("msg",msg);
+                switch (flag){
+                    case "HotBookActivity":
+                        intent.putExtra("flag","HotBookActivity");
+                        break;
+                }
                 intent.setClass(BookDetailActivity.this,BookReviewActivity.class);
                 startActivity(intent);
             }
@@ -109,6 +123,8 @@ public class BookDetailActivity extends Activity {
                 Intent intent = new Intent();
                 intent.setClass(BookDetailActivity.this,HoldingInformationActivity.class);
                 intent.putExtra("indexId",map.get("indexId").toString());
+                intent.putExtra("flag",flag);
+                intent.putExtra("msg",msg);
                 startActivity(intent);
             }
         });

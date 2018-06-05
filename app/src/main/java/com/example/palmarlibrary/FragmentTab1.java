@@ -161,6 +161,7 @@ public class FragmentTab1 extends android.support.v4.app.Fragment {
                             String msg = response.body().string();
                             Intent intent = new Intent();
                             intent.putExtra("msg",msg);
+                            intent.putExtra("flag","FragmentTab1");
                             intent.setClass(context,BookDetailActivity.class);
                             startActivity(intent);
                         }
