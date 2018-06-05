@@ -43,7 +43,7 @@ public class FragmentTab3 extends Fragment {
     //从数据库读取的图书类型列表
     private List<String> bookTypeList = new ArrayList<>();
     //用户选择搜索的图书类型列表
-    private List<String> selectTypeList = new ArrayList<>();
+    private ArrayList<String> selectTypeList = new ArrayList<>();
     private Handler handler = null;
     private ListView listView = null;
     private TypeNameAdapter adapter = null;
@@ -71,7 +71,7 @@ public class FragmentTab3 extends Fragment {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                String bookTypeListStr = response.body().string();
+                final String bookTypeListStr = response.body().string();
                 Log.e("bookTypeList", bookTypeListStr);
 
 
@@ -95,16 +95,17 @@ public class FragmentTab3 extends Fragment {
                     public void onClick(View v) {
                         for(Map.Entry<Integer,Boolean> entry : status.entrySet()){
                             if(entry.getValue()){
-                                selectTypeList.add(entry.getKey().toString());
+                                selectTypeList.add(bookTypeList.get(entry.getKey()));
+                                Log.e("type:",entry.getKey().toString());
                             }
                         }
-
+                        Log.e("selectTypeList",selectTypeList.toString());
                         Intent intent = new Intent(context,CollectionBookByTypeActivity.class);
 
-                        Gson gson = new Gson();
-                        Type type = new TypeToken<List<String>>(){}.getType();
-                        String bookTypeListStr = gson.toJson(selectTypeList,type);
-                        intent.putExtra("selectTypeList",bookTypeListStr);
+//                        Gson gson = new Gson();
+//                        Type type = new TypeToken<List<String>>(){}.getType();
+//                        String bookTypeListStr = gson.toJson(selectTypeList,type);
+                        intent.putExtra("selectTypeList",selectTypeList);
 
                         startActivity(intent);
 
@@ -174,7 +175,10 @@ public class FragmentTab3 extends Fragment {
 
             CheckBox cb_type = convertView.findViewById(R.id.type_cb);
 
-            cb_type.setChecked(status.get(position));
+          //  Log.e("复选框位置",status.get(position).toString());
+          //  cb_type.setChecked(status.get(position));
+            status.put(position,false);
+
             tv_typename.setText(dataSource.get(position).toString());
             cb_type.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -183,134 +187,14 @@ public class FragmentTab3 extends Fragment {
                 }
             });
 
-//            Button searchType = convertView.findViewById(R.id.select_by_type);
-//            searchType.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    for(Map.Entry<Integer,Boolean> entry : status.entrySet()){
-//                        if(entry.getValue()){
-//                            selectTypeList.add(entry.getKey().toString());
-//                        }
-//                    }
-//
-//
-//
-//
-//                }
-//            });
 
             return convertView;
 
-//            final TextView tv_typeName = convertView.findViewById(R.id.tv_typeName);
-//
-//            final CheckBox cb_type = convertView.findViewById(R.id.type_cb);
-//
-//            final Button search = convertView.findViewById(R.id.select_by_type);
-//            tv_typeName.setText(dataSource.get(position).toString());
 
 
 
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-//    public class MultiSelectOrderAdapter extends RecyclerView.Adapter<MultiSelectOrderAdapter.MultiSelectOrderViewHolder> {
-//
-//        private Context mContext;
-//
-//        private List<String> mList = new ArrayList<>();
-//
-//        private List<String> mSelectList = new ArrayList<>();
-//
-//        private Map<Integer, Boolean> mMap = new HashMap<>();
-//
-//        public MultiSelectOrderAdapter(Context context) {
-//            mContext = context;
-//        }
-//
-//        public void setDataList(List<String> list) {
-//            mList = list;
-//
-//            initMap();
-//
-//            notifyDataSetChanged();
-//        }
-//
-//        // 初始化集合，默认不选中
-//        private void initMap() {
-//            for (int i = 0; i < mList.size(); i++) {
-//                mMap.put(i, false);
-//            }
-//        }
-//
-//        // 返回给 Activity 当前 CheckBox 选择的顺序的数据
-//        public List<String> getSelectList() {
-//            return mSelectList;
-//        }
-//
-//        @Override
-//        public MultiSelectOrderViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//            View view = LayoutInflater.from(mContext).inflate(R.layout.item_multi_select_order, parent, false);
-//            return new MultiSelectOrderViewHolder(view);
-//        }
-//
-//        @Override
-//        public void onBindViewHolder(MultiSelectOrderViewHolder holder, final int position) {
-//            holder.tvName.setText(mList.get(position));
-//
-//            holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//                @Override
-//                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                    mMap.put(position, isChecked);
-//
-//                /* 将 CheckBox 选中的 item 按选择顺序添加到 List 里 */
-//                    if (isChecked) {
-//                        // 将 position 对应的 item 存到 List 里
-//                        mSelectList.add(mList.get(position));
-//                    } else {
-//                        // 将 position 对应的 item 从 List 里移除
-//                        mSelectList.remove(mList.get(position));
-//                    }
-//                }
-//            });
-//
-//            if (mMap.get(position) == null) {
-//                mMap.put(position, false);
-//            }
-//
-//            // 根据 Map 来设置 CheckBox 的选中状况
-//            holder.checkBox.setChecked(mMap.get(position));
-//        }
-//
-//        @Override
-//        public int getItemCount() {
-//            return mList == null ? 0 : mList.size();
-//        }
-//
-//        public class MultiSelectOrderViewHolder extends RecyclerView.ViewHolder {
-//
-//            CheckBox checkBox;
-//            TextView tvName;
-//
-//            public MultiSelectOrderViewHolder(View itemView) {
-//                super(itemView);
-//                checkBox = itemView.findViewById(R.id.cb_multi);
-//                tvName = itemView.findViewById(R.id.tv_name_multi);
-//            }
-//        }
-//    }
-
 
 }
 
