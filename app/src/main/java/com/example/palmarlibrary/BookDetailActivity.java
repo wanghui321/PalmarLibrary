@@ -44,7 +44,7 @@ public class BookDetailActivity extends Activity {
 
         final String msg = intent.getStringExtra("msg");
         Log.e("detail",msg);
-        Gson gson = new Gson();
+        Gson gson = new Gson();/*提交失败专用注释*/
         Type type = new TypeToken<Map<String,Object>>(){}.getType();
         final Map<String,Object> map = gson.fromJson(msg,type);
 
