@@ -36,6 +36,9 @@ import okhttp3.Response;
  */
 
 public class SearchAuthorActivity extends Activity {
+
+    String author = null;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +53,7 @@ public class SearchAuthorActivity extends Activity {
             }
         });
         Intent intent = getIntent();
-        String author = intent.getStringExtra("author");
+        author = intent.getStringExtra("author");
         final ListView listView = findViewById(R.id.auhtor_search_book_list);
         OkHttpClient okHttpClient = new OkHttpClient();
         RequestBody requestBody = new FormBody.Builder()
@@ -154,7 +157,8 @@ public class SearchAuthorActivity extends Activity {
                             String msg = response.body().string();
                             Intent intent = new Intent();
                             intent.putExtra("msg",msg);
-                            intent.putExtra("author","SearchAuthor");
+                            intent.putExtra("author",author);
+                            intent.putExtra("flag","SearchAuthorActivity");
                             intent.setClass(context,BookDetailActivity.class);
                             startActivity(intent);
                         }

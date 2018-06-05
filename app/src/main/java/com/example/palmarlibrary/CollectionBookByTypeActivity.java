@@ -49,10 +49,14 @@ public class CollectionBookByTypeActivity extends Activity {
 
         setContentView(R.layout.collection_type_search_layout);
 
+        final Intent intent = getIntent();
+        ArrayList<String> TypeNameList = new ArrayList<String>();
+        TypeNameList = (ArrayList<String>)intent.getSerializableExtra("selectTypeList");
+        Log.e("xinyemian",TypeNameList.toString());
+
+
         ImageView back = findViewById(R.id.type_search_back);
 
-        final Intent intent = getIntent();
-        String TypeNameList = intent.getStringExtra("selectTypeList");
 
 
         back.setOnClickListener(new View.OnClickListener() {
@@ -66,7 +70,7 @@ public class CollectionBookByTypeActivity extends Activity {
         handler=new Handler();
         OkHttpClient okHttpClient = new OkHttpClient();
         RequestBody requestBody = new FormBody.Builder()
-                .add("typeNameList",TypeNameList)
+                .add("typeNameList",TypeNameList.toString())
                 .build();
         Request request = new Request.Builder()
                 .url(Constant.BASE_URL + "selectBookByType.do")
@@ -86,6 +90,7 @@ public class CollectionBookByTypeActivity extends Activity {
                 Type type = new TypeToken<List<Map<String,Object>>>(){}.getType();
                 bookList = gson.fromJson(bookListStr,type);
                 Log.e("bookList",bookList.size()+"");
+                
 //                adapter = new BookNameAdapter(context,R.layout.collection_type_search_item_layout,
 //                        bookList);
 //                listView = view.findViewById(R.id.lv_collection_book);
