@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -38,25 +39,28 @@ import okhttp3.Response;
  */
 
 public class CollectionBookByTypeActivity extends Activity {
+
+
     private List<Map<String,Object>> bookList = new ArrayList<>();
-    private Handler handler=null;
+
     private ListView listView=null;
     private BookNameAdapter adapter=null;
+
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-
-        super.onCreate(savedInstanceState, persistentState);
-
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.collection_type_search_layout);
 
         final Intent intent = getIntent();
-        ArrayList<String> TypeNameList = new ArrayList<String>();
-        TypeNameList = (ArrayList<String>)intent.getSerializableExtra("selectTypeList");
-        Log.e("xinyemian",TypeNameList.toString());
+        String TypeList = intent.getStringExtra("selectTypeList");
+//        Gson gson = new Gson();
+//        Type type = new TypeToken<List<String>>(){}.getType();
+//        List<String>TypeNameList =gson.fromJson(TypeList,type);
+        Log.e("xinyemian",TypeList);
 
 
         ImageView back = findViewById(R.id.type_search_back);
-
+        listView = findViewById(R.id.type_search_booklist);
 
 
         back.setOnClickListener(new View.OnClickListener() {
@@ -67,12 +71,13 @@ public class CollectionBookByTypeActivity extends Activity {
             }
         });
 
-        handler=new Handler();
+
         OkHttpClient okHttpClient = new OkHttpClient();
         RequestBody requestBody = new FormBody.Builder()
-                .add("typeNameList",TypeNameList.toString())
+                .add("typeNameList",TypeList)
                 .build();
         Request request = new Request.Builder()
+                .post(requestBody)
                 .url(Constant.BASE_URL + "selectBookByType.do")
                 .build();
         Call call = okHttpClient.newCall(request);
@@ -90,21 +95,21 @@ public class CollectionBookByTypeActivity extends Activity {
                 Type type = new TypeToken<List<Map<String,Object>>>(){}.getType();
                 bookList = gson.fromJson(bookListStr,type);
                 Log.e("bookList",bookList.size()+"");
-                
-//                adapter = new BookNameAdapter(context,R.layout.collection_type_search_item_layout,
-//                        bookList);
-//                listView = view.findViewById(R.id.lv_collection_book);
+
+                adapter = new BookNameAdapter(CollectionBookByTypeActivity.this,
+                        R.layout.collection_type_search_item_layout,
+                        bookList);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        listView.setAdapter(adapter);
+                    }
+                });
 
 
             }
         });
-
-
     }
-
-
-
-
 
     public class BookNameAdapter extends BaseAdapter {
         private Context context;
@@ -142,13 +147,15 @@ public class CollectionBookByTypeActivity extends Activity {
 
             final TextView tv_bookName = convertView.findViewById(R.id.type_bookName);
             final TextView tv_author = convertView.findViewById(R.id.type_author);
-
+            final ImageView imageView= convertView.findViewById(R.id.type_bookImg);
             final TextView tv_hot = convertView.findViewById(R.id.type_hot);
 
             tv_bookName.setText(dataSource.get(position).get("bookName").toString());
             tv_author.setText(dataSource.get(position).get("author").toString());
             tv_hot.setText(dataSource.get(position).get("hot").toString());
-
+            Glide.with(CollectionBookByTypeActivity.this)
+                    .load(Constant.BASE_URL + dataSource.get(position).get("imgUrl"))
+                    .into(imageView);
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

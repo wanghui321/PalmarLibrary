@@ -102,10 +102,10 @@ public class FragmentTab3 extends Fragment {
                         Log.e("selectTypeList",selectTypeList.toString());
                         Intent intent = new Intent(context,CollectionBookByTypeActivity.class);
 
-//                        Gson gson = new Gson();
-//                        Type type = new TypeToken<List<String>>(){}.getType();
-//                        String bookTypeListStr = gson.toJson(selectTypeList,type);
-                        intent.putExtra("selectTypeList",selectTypeList);
+                        Gson gson = new Gson();
+                        Type type = new TypeToken<List<String>>(){}.getType();
+                        String TypeListStr = gson.toJson(selectTypeList,type);
+                        intent.putExtra("selectTypeList",TypeListStr);
 
                         startActivity(intent);
 
