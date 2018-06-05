@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +14,29 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.IOException;
+import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * Created by Administrator on 2018/5/15.
  */
 
 public class ReadBookActivity extends Activity{
+    private ReadBookListAdapter adapter = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,24 +51,60 @@ public class ReadBookActivity extends Activity{
             }
         });
 
-        List<Book> books = new ArrayList<Book>();
-        for (int i = 0; i < 10; ++i){
-            Book book = new Book();
-            book.setBookName("钢铁是怎样炼成的" + i);
-            book.setAuthor("奥斯特洛夫斯基" + i);
-            books.add(book);
-        }
-        ListView listView = findViewById(R.id.read_book_list);
-        ReadBookListAdapter readBookListAdapter = new ReadBookListAdapter(this,
-                books,R.layout.read_book_item_layout);
-        listView.setAdapter(readBookListAdapter);
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request requst = new Request.Builder()
+                .url(Constant.BASE_URL+"getReadBook.do")
+                .build();
+        Call call = okHttpClient.newCall(requst);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String bookListStr = response.body().string();
+                Log.e("boolList",bookListStr);
+                Gson gson = new Gson();
+                java.lang.reflect.Type type = new TypeToken<List<Map<String,Object>>>(){}.getType();
+                final List<Map<String,Object>>bookList = gson.fromJson(bookListStr,type);
+                Log.e("bookList",bookList.size()+"");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter = new ReadBookListAdapter(ReadBookActivity.this,bookList,R.layout.read_book_item_layout);
+                        ListView listView = findViewById(R.id.read_book_list);
+                        ReadBookListAdapter readBookListAdapter = new ReadBookListAdapter(ReadBookActivity.this,bookList,R.layout.read_book_item_layout);
+                        listView.setAdapter(adapter);
+                    }
+                });
+            }
+        });
+
+//        List<Book> books = new ArrayList<Book>();
+//        for (int i = 0; i < 10; ++i){
+//            Book book = new Book();
+//            book.setBookName("钢铁是怎样炼成的" + i);
+//            book.setAuthor("奥斯特洛夫斯基" + i);
+//            books.add(book);
+//        }
+//        ListView listView = findViewById(R.id.read_book_list);
+//        ReadBookListAdapter readBookListAdapter = new ReadBookListAdapter(this,
+//                bookList,R.layout.read_book_item_layout);
+//        Runnable runnable = new Runnable() {
+//            @Override
+//            public void run() {
+//                listView.setAdapter(adapter);
+//            }
+//        };
     }
 
     public class ReadBookListAdapter extends BaseAdapter{
         private Context context;
-        private List<Book> books;
+        private List<Map<String,Object>> books;
         private int item_layout_id;
-        public ReadBookListAdapter(Context context,List<Book> books,int item_layout_id){
+        public ReadBookListAdapter(Context context,List<Map<String,Object>> books,int item_layout_id){
             this.context = context;
             this.books = books;
             this.item_layout_id = item_layout_id;
@@ -80,12 +132,43 @@ public class ReadBookActivity extends Activity{
                 convertView = LayoutInflater.from(context).inflate(item_layout_id,null);
             }
 
-            TextView tvRedBookName = convertView.findViewById(R.id.red_bookName);
-            TextView tvRedAuthor = convertView.findViewById(R.id.red_author);
+            final TextView tvRedBookName = convertView.findViewById(R.id.red_bookName);
+            final TextView tvRedAuthor = convertView.findViewById(R.id.red_author);
 
-            Book book = books.get(position);
+            Book book = (Book) books.get(position);
             tvRedBookName.setText(book.getBookName());
             tvRedAuthor.setText(book.getAuthor());
+
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    RequestBody requestBody = new FormBody.Builder()
+                            .add("bookName",tvRedBookName.getText().toString())
+                            .add("author",tvRedAuthor.getText().toString())
+                            .build();
+                    Request request = new Request.Builder()
+                            .post(requestBody)
+                            .url(Constant.BASE_URL + "getBookDetails.do")
+                            .build();
+                    OkHttpClient okHttpClient = new OkHttpClient();
+                    Call call = okHttpClient.newCall(request);
+                    call.enqueue(new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            String msg = response.body().string();
+                            Intent intent = new Intent();
+                            intent.putExtra("msg",msg);
+                            intent.setClass(context,BookDetailActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+                }
+            });
             return convertView;
         }
     }
