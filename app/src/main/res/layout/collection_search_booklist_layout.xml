@@ -3,14 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#3f40b5">
 
         <ImageView
+            android:id="@+id/bookname_search_book_back"
             android:src="@drawable/back"
-            android:id="@+id/recommend_back"
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_weight="1"
@@ -21,34 +22,21 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_margin="10dp"
-            android:layout_weight="4"
-            android:text="个人推荐"
+            android:layout_weight="5"
+            android:text="相关书籍"
             android:textColor="#ffffff"
             android:textSize="30dp" />
 
         <TextView
-            android:text=""
-            android:textColor="#ffffff"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
     </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/recommendation_page"
+    <ListView
+        android:id="@+id/bookname_search_book_list"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent">
 
-        <GridView
-            android:id="@+id/recommendation_book"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:numColumns="2"
-            android:gravity="center"
-            android:verticalSpacing="26dp"
-            android:horizontalSpacing="10dp">
+    </ListView>
 
-        </GridView>
-    </FrameLayout>
 </LinearLayout>
