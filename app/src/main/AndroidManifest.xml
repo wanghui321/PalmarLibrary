@@ -24,18 +24,18 @@
         <activity android:name=".HoldingInformationActivity"/>
         <activity android:name=".choseprovinceActivity"/>
         <activity android:name=".choseschoolActivity"/>
-        <activity android:name=".CollectionBookActivity"/>
-        <activity android:name=".AddreviewActivity"/>
-        <activity android:name=".AdviseActivity"/>
-        <activity android:name=".AdviseSubmitLoadingActivity"/>
-        <activity android:name=".RecommendationActivity"/>
-        <activity android:name=".HomePageActivity">
+        <activity android:name=".CollectionBookActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".AddreviewActivity"/>
+        <activity android:name=".AdviseActivity"/>
+        <activity android:name=".AdviseSubmitLoadingActivity"/>
+        <activity android:name=".RecommendationActivity"/>
+        <activity android:name=".HomePageActivity"/>
         <activity android:name=".HotBookActivity"/>
         <activity android:name=".MyFavoritesActivity"/>
         <activity android:name=".UserSettingActivity"/>

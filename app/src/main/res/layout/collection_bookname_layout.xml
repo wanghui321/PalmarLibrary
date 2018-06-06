@@ -4,12 +4,29 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_marginTop="50dp">
+    <!--
     <SearchView
         android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:iconifiedByDefault="false"
         android:queryHint="输入书名进行搜索..." />
+        -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/searchbookname"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="输入书名进行搜索..."/>
+        <Button
+            android:id="@+id/btn_searchbookname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="搜索"/>
+    </LinearLayout>
     <TextView
         android:layout_margin="25dp"
         android:textSize="20dp"

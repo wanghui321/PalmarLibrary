@@ -6,13 +6,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,7 +43,7 @@ import okhttp3.Response;
  * Created by Administrator on 2018/5/21.
  */
 
-public class FragmentTab1 extends android.support.v4.app.Fragment {
+public class FragmentTab1 extends android.support.v4.app.Fragment{
 
     private List<Map<String,Object>> bookList = new ArrayList<>();
     private Handler handler=null;
@@ -52,10 +56,51 @@ public class FragmentTab1 extends android.support.v4.app.Fragment {
                              @Nullable ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.collection_bookname_layout, container, false);
-
         final Context context = this.getActivity();
         handler=new Handler();
-        OkHttpClient okHttpClient = new OkHttpClient();
+
+        final OkHttpClient okHttpClient = new OkHttpClient();
+
+        final EditText searchbookname = view.findViewById(R.id.searchbookname);
+        Button button = view.findViewById(R.id.btn_searchbookname);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String sbookname = searchbookname.getText().toString();
+                RequestBody requestBody = new FormBody.Builder()
+                        .add("sbookname",sbookname)
+                        .build();
+                Request request0 = new Request.Builder()
+                    .post(requestBody)
+                    .url(Constant.BASE_URL + "searchBook.do").build();
+
+                Call call = okHttpClient.newCall(request0);
+                call.enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        String bookListStr = response.body().string();
+                        Intent intent = new Intent();
+                        intent.putExtra("bookListStr",bookListStr);
+                        intent.setClass(context, SearchBooknameBooklistActivity.class);
+                        startActivity(intent);
+                        new Thread(){
+                            @Override
+                            public void run() {
+                                handler.post(runnableUi);
+                            }
+                        }.start();
+                    }
+                });
+            }
+        });
+
+
         Request request = new Request.Builder()
                 .url(Constant.BASE_URL + "getHotBook.do")
                 .build();
@@ -88,6 +133,7 @@ public class FragmentTab1 extends android.support.v4.app.Fragment {
 
         return view;
     }
+
 
     Runnable runnableUi = new Runnable() {
         @Override
