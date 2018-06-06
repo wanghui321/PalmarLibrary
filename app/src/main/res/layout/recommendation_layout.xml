@@ -10,6 +10,7 @@
 
         <ImageView
             android:src="@drawable/back"
+            android:id="@+id/recommend_back"
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_weight="1"
@@ -39,11 +40,15 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <ListView
+        <GridView
             android:id="@+id/recommendation_book"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:numColumns="2"
+            android:gravity="center"
+            android:verticalSpacing="26dp"
+            android:horizontalSpacing="10dp">
 
-        </ListView>
+        </GridView>
     </FrameLayout>
 </LinearLayout>
