@@ -132,6 +132,7 @@ public class MyFavoritesActivity extends Activity{
                     RequestBody requestBody = new FormBody.Builder()
                             .add("bookName",dataSource.get(position).get("bookName").toString())
                             .add("author",dataSource.get(position).get("author").toString())
+                            .add("userId",Constant.user.getUserId())
                             .build();
                     Request request = new Request.Builder()
                             .post(requestBody)
@@ -150,6 +151,7 @@ public class MyFavoritesActivity extends Activity{
                             String msg = response.body().string();
                             Intent intent = new Intent();
                             intent.putExtra("msg",msg);
+                            intent.putExtra("flag","MyFavoritesActivity");
                             intent.setClass(context,BookDetailActivity.class);
                             startActivity(intent);
                         }

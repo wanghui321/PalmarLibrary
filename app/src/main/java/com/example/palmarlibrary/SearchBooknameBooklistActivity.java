@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -31,70 +33,36 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * Created by 52943 on 2018/5/22.
+ * Created by ruiwang on 2018/6/6.
  */
 
-public class HotBookActivity extends Activity{
+public class SearchBooknameBooklistActivity extends Activity {
+
+    private List<Map<String,Object>> bookList = new ArrayList<>();
+    private BookNameAdapter adapter=null;
+    private ListView listView=null;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.hot_book_layout);
-        ImageView back = findViewById(R.id.hot_book_back);
-        TextView recommend = findViewById(R.id.hot_book_recommend);
-        final ListView listView = findViewById(R.id.hot_book_lv);
+        setContentView(R.layout.collection_search_booklist_layout);
 
-        recommend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(HotBookActivity.this,PersonalActivity.class);
-                startActivity(intent);
-            }
-        });
+        Intent intent = getIntent();
+        final String bookListStr = intent.getStringExtra("bookListStr");
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(HotBookActivity.this,HomePageActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        OkHttpClient okHttpClient = new OkHttpClient();
-        Request request = new Request.Builder()
-                .url(Constant.BASE_URL + "getHotBook.do")
-                .build();
-        Call call = okHttpClient.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String bookListStr = response.body().string();
-                Gson gson = new Gson();
-                Type type = new TypeToken<List<Map<String,Object>>>(){}.getType();
-                List<Map<String,Object>> bookList = gson.fromJson(bookListStr,type);
-                final HotBookAdapter adapter = new HotBookAdapter(HotBookActivity.this,
-                        R.layout.hot_book_item_layout,bookList);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        listView.setAdapter(adapter);
-                    }
-                });
-            }
-        });
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<Map<String,Object>>>(){}.getType();
+        bookList = gson.fromJson(bookListStr,type);
+        adapter = new BookNameAdapter(SearchBooknameBooklistActivity.this,R.layout.collection_search_booklist_item_layout, bookList);
+        listView = findViewById(R.id.bookname_search_book_list);
     }
 
-    public class HotBookAdapter extends BaseAdapter {
-
+    public class BookNameAdapter extends BaseAdapter {
         private Context context;
         private int item_layout_id;
         private List<Map<String,Object>> dataSource;
 
-        public HotBookAdapter (Context context,int item_layout_id,List<Map<String,Object>> dataSource){
+        public BookNameAdapter (Context context,int item_layout_id,List<Map<String,Object>> dataSource){
             this.context = context;
             this.item_layout_id = item_layout_id;
             this.dataSource = dataSource;
@@ -114,24 +82,24 @@ public class HotBookActivity extends Activity{
         public long getItemId(int position) {
             return position;
         }
-
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            if(convertView == null){
+            if (convertView == null){
                 convertView = LayoutInflater.from(context).inflate(item_layout_id,null);
             }
 
-            ImageView imageView = convertView.findViewById(R.id.hot_book_bookImg);
-            final TextView bookName = convertView.findViewById(R.id.hot_book_bookName);
-            final TextView author = convertView.findViewById(R.id.hot_book_author);
-            TextView hot = convertView.findViewById(R.id.hot_book_hot);
+            final TextView bookName = convertView.findViewById(R.id.bookname_search_bookName);
+            final TextView author = convertView.findViewById(R.id.bookname_search_author);
+            final ImageView imageView = convertView.findViewById(R.id.bookname_search_bookImg);
+            final TextView searchnumber = convertView.findViewById(R.id.bookname_search_hot);
 
-            Glide.with(HotBookActivity.this)
-                    .load(Constant.BASE_URL + dataSource.get(position).get("imgUrl"))
-                    .into(imageView);
             bookName.setText(dataSource.get(position).get("bookName").toString());
             author.setText(dataSource.get(position).get("author").toString());
-            hot.setText(dataSource.get(position).get("hot").toString());
+            searchnumber.setText(dataSource.get(position).get("searchnuber").toString());
+            String myUrl = dataSource.get(position).get("imgUrl").toString();
+            Glide.with(SearchBooknameBooklistActivity.this)
+                    .load(myUrl)
+                    .into(imageView);
 
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -139,7 +107,6 @@ public class HotBookActivity extends Activity{
                     RequestBody requestBody = new FormBody.Builder()
                             .add("bookName",bookName.getText().toString())
                             .add("author",author.getText().toString())
-                            .add("userId",Constant.user.getUserId())
                             .build();
                     Request request = new Request.Builder()
                             .post(requestBody)
@@ -158,7 +125,7 @@ public class HotBookActivity extends Activity{
                             String msg = response.body().string();
                             Intent intent = new Intent();
                             intent.putExtra("msg",msg);
-                            intent.putExtra("flag","HotBookActivity");
+                            intent.putExtra("flag","SearchBooknameBooklistActivity");
                             intent.setClass(context,BookDetailActivity.class);
                             startActivity(intent);
                         }
