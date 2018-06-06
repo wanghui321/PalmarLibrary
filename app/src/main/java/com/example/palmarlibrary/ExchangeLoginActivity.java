@@ -118,6 +118,9 @@ public class ExchangeLoginActivity extends Activity{
                             if (map.get("email")!=null){
                                 user.setEmail(map.get("email").toString());
                             }
+                            if (map.get("imgUrl") != null){
+                                user.setImgUrl(map.get("imgUrl").toString());
+                            }
                             Intent intent = new Intent();
                             intent.setClass(ExchangeLoginActivity.this,
                                     HomePageActivity.class);

@@ -160,37 +160,13 @@ public class UserSettingActivity extends Activity{
         if (user.getEmail() != null){
             userMail.setText(user.getUserName().toString());
         }
-
-//        OkHttpClient okHttpClient = new OkHttpClient();
-//        Request request = new Request.Builder()
-//                .url(Constant.BASE_URL + "getUser.do")
-//                .build();
-//        Call call = okHttpClient.newCall(request);
-//        call.enqueue(new Callback() {
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//                String userStr = response.body().string();
-//                Log.e("user",userStr);
-//                Gson gson = new Gson();
-//                User user = gson.fromJson(userStr,User.class);
-//                userName.setText(user.getNickname().toString());
-//                cardNum.setText(user.getUserId().toString());
-//                if (user.getUserName() != null){
-//                    realName.setText(user.getUserName().toString());
-//                }
-//                if (user.getDepartment() != null){
-//                    departName.setText(user.getUserName().toString());
-//                }
-//                if (user.getEmail() != null){
-//                    userMail.setText(user.getUserName().toString());
-//                }
-//            }
-//        });
+        if (user.getImgUrl() != null){
+            RequestOptions requestOptions = new RequestOptions().circleCrop();
+            Glide.with(UserSettingActivity.this)
+                    .load(Constant.BASE_URL + user.getImgUrl())
+                    .apply(requestOptions)
+                    .into(imgHead);
+        }
     }
 
     //相册界面返回后的回调方法
@@ -218,9 +194,8 @@ public class UserSettingActivity extends Activity{
                 MediaType.parse("image/#"),file);
         MultipartBody multipartBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
-                .addFormDataPart("userId","2018001")
-                .addFormDataPart("passwd","pppp")
-                .addFormDataPart("mPhoto","test2.jpg",requestBody)
+                .addFormDataPart("userId",Constant.user.getUserId())
+                .addFormDataPart("mPhoto",Constant.user.getUserId()+".jpg",requestBody)
                 .build();
         Request request = new Request.Builder()
                 .url(Constant.BASE_URL + "uploadFile.do")

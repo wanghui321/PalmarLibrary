@@ -11,7 +11,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -60,23 +62,6 @@ public class BookDetailActivity extends Activity {
         TextView detailtype = findViewById(R.id.book_detail_type);
         TextView congbianxiang = findViewById(R.id.book_detail_congbianxiang);
         TextView topic = findViewById(R.id.book_detail_topic);
-
-        collect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //获取当前图片ConstantState类对象
-                Drawable.ConstantState t1 = collect.getDrawable().getCurrent().getConstantState();
-                //找到需要比较的图片ConstantState类对象
-                //Drawable.ConstantState t2 = ContextCompat.getDrawable(BookDetailActivity.this,R.drawable.collect).getConstantState();
-                Drawable.ConstantState t2 = getResources().getDrawable(R.drawable.collect).getConstantState();
-                if(t1.equals(t2)) {
-                    collect.setImageResource(R.drawable.collected);
-                }
-                else{
-                    collect.setImageResource(R.drawable.collect);
-                }
-            }
-        });
 
         detailback.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,5 +134,146 @@ public class BookDetailActivity extends Activity {
         detailtype.setText(map.get("shape").toString());
         congbianxiang.setText(map.get("series").toString());
         topic.setText(map.get("typename").toString());
+
+        RequestBody requestBody = new FormBody.Builder()
+                .add("userId",Constant.user.getUserId())
+                .add("indexId",map.get("indexId").toString())
+                .build();
+        Request request = new Request.Builder()
+                .post(requestBody)
+                .url(Constant.BASE_URL + "getBookMark.do")
+                .build();
+        final OkHttpClient okHttpClient = new OkHttpClient();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String flag = response.body().string();
+                if (flag.equals("yes")){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Glide.with(BookDetailActivity.this)
+                                    .load(R.drawable.collected)
+                                    .into(collect);
+                        }
+                    });
+
+                } else {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Glide.with(BookDetailActivity.this)
+                                    .load(R.drawable.collect)
+                                    .into(collect);
+                        }
+                    });
+                }
+                collect.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //获取当前图片ConstantState类对象
+                        Drawable.ConstantState t1 = collect.getDrawable().getCurrent().getConstantState();
+                        //找到需要比较的图片ConstantState类对象
+                        //Drawable.ConstantState t2 = ContextCompat.getDrawable(BookDetailActivity.this,R.drawable.collect).getConstantState();
+                        Drawable.ConstantState t2 = getResources().getDrawable(R.drawable.collect).getConstantState();
+                        if(t1.equals(t2)) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    collect.setImageResource(R.drawable.collected);
+                                    RequestBody requestBody = new FormBody.Builder()
+                                            .add("userId",Constant.user.getUserId())
+                                            .add("indexId",map.get("indexId").toString())
+                                            .build();
+                                    Request request = new Request.Builder()
+                                            .post(requestBody)
+                                            .url(Constant.BASE_URL + "addFavoriteBook.do")
+                                            .build();
+                                    Call call = okHttpClient.newCall(request);
+                                    call.enqueue(new Callback() {
+                                        @Override
+                                        public void onFailure(Call call, IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                        @Override
+                                        public void onResponse(Call call, Response response) throws IOException {
+                                            String flag = response.body().string();
+                                            if (flag.equals("success")){
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        Toast.makeText(BookDetailActivity.this,
+                                                                "收藏成功",Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                            }else {
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        Toast.makeText(BookDetailActivity.this,
+                                                                "收藏失败",Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                        else{
+                            collect.setImageResource(R.drawable.collect);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    collect.setImageResource(R.drawable.collected);
+                                    RequestBody requestBody = new FormBody.Builder()
+                                            .add("userId",Constant.user.getUserId())
+                                            .add("indexId",map.get("indexId").toString())
+                                            .build();
+                                    Request request = new Request.Builder()
+                                            .post(requestBody)
+                                            .url(Constant.BASE_URL + "deleteFavoriteBook.do")
+                                            .build();
+                                    Call call = okHttpClient.newCall(request);
+                                    call.enqueue(new Callback() {
+                                        @Override
+                                        public void onFailure(Call call, IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                        @Override
+                                        public void onResponse(Call call, Response response) throws IOException {
+                                            String flag = response.body().string();
+                                            if (flag.equals("success")){
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        Toast.makeText(BookDetailActivity.this,
+                                                                "取消收藏",Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                            }else {
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        Toast.makeText(BookDetailActivity.this,
+                                                                "取消收藏失败",Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        });
     }
 }
