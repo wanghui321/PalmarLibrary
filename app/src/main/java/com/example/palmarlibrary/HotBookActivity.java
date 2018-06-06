@@ -139,6 +139,7 @@ public class HotBookActivity extends Activity{
                     RequestBody requestBody = new FormBody.Builder()
                             .add("bookName",bookName.getText().toString())
                             .add("author",author.getText().toString())
+                            .add("userId",Constant.user.getUserId())
                             .build();
                     Request request = new Request.Builder()
                             .post(requestBody)

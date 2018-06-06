@@ -143,6 +143,7 @@ public class FragmentTab1 extends android.support.v4.app.Fragment {
                     RequestBody requestBody = new FormBody.Builder()
                             .add("bookName",tv_bookName.getText().toString())
                             .add("author",tv_author.getText().toString())
+                            .add("userId",Constant.user.getUserId())
                             .build();
                     Request request = new Request.Builder()
                             .post(requestBody)

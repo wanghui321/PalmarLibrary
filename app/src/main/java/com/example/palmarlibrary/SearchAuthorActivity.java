@@ -139,6 +139,7 @@ public class SearchAuthorActivity extends Activity {
                     RequestBody requestBody = new FormBody.Builder()
                             .add("bookName",tvName.getText().toString())
                             .add("author",tvAuthor.getText().toString())
+                            .add("userId",Constant.user.getUserId())
                             .build();
                     Request request = new Request.Builder()
                             .post(requestBody)

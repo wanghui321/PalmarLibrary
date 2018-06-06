@@ -14,8 +14,11 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.lang.reflect.*;
@@ -30,6 +33,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 /**
  * Created by Administrator on 2018/5/15.
@@ -52,7 +56,11 @@ public class ReadBookActivity extends Activity{
         });
 
         OkHttpClient okHttpClient = new OkHttpClient();
+        RequestBody requestBody = new FormBody.Builder()
+                .add("userId",Constant.user.getUserId())
+                .build();
         Request requst = new Request.Builder()
+                .post(requestBody)
                 .url(Constant.BASE_URL+"getReadBook.do")
                 .build();
         Call call = okHttpClient.newCall(requst);
@@ -70,34 +78,17 @@ public class ReadBookActivity extends Activity{
                 java.lang.reflect.Type type = new TypeToken<List<Map<String,Object>>>(){}.getType();
                 final List<Map<String,Object>>bookList = gson.fromJson(bookListStr,type);
                 Log.e("bookList",bookList.size()+"");
+                final ListView listView = findViewById(R.id.read_book_list);
+                final ReadBookListAdapter adapter = new ReadBookListAdapter(ReadBookActivity.this
+                        ,bookList,R.layout.read_book_item_layout);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        adapter = new ReadBookListAdapter(ReadBookActivity.this,bookList,R.layout.read_book_item_layout);
-                        ListView listView = findViewById(R.id.read_book_list);
-                        ReadBookListAdapter readBookListAdapter = new ReadBookListAdapter(ReadBookActivity.this,bookList,R.layout.read_book_item_layout);
                         listView.setAdapter(adapter);
                     }
                 });
             }
         });
-
-//        List<Book> books = new ArrayList<Book>();
-//        for (int i = 0; i < 10; ++i){
-//            Book book = new Book();
-//            book.setBookName("钢铁是怎样炼成的" + i);
-//            book.setAuthor("奥斯特洛夫斯基" + i);
-//            books.add(book);
-//        }
-//        ListView listView = findViewById(R.id.read_book_list);
-//        ReadBookListAdapter readBookListAdapter = new ReadBookListAdapter(this,
-//                bookList,R.layout.read_book_item_layout);
-//        Runnable runnable = new Runnable() {
-//            @Override
-//            public void run() {
-//                listView.setAdapter(adapter);
-//            }
-//        };
     }
 
     public class ReadBookListAdapter extends BaseAdapter{
@@ -132,12 +123,18 @@ public class ReadBookActivity extends Activity{
                 convertView = LayoutInflater.from(context).inflate(item_layout_id,null);
             }
 
+            ImageView imageView = convertView.findViewById(R.id.red_bookImg);
             final TextView tvRedBookName = convertView.findViewById(R.id.red_bookName);
             final TextView tvRedAuthor = convertView.findViewById(R.id.red_author);
+            TextView tvRedHot = convertView.findViewById(R.id.read_hot);
 
-            Book book = (Book) books.get(position);
-            tvRedBookName.setText(book.getBookName());
-            tvRedAuthor.setText(book.getAuthor());
+            tvRedBookName.setText(books.get(position).get("bookName").toString());
+            tvRedAuthor.setText(books.get(position).get("author").toString());
+            tvRedHot.setText(books.get(position).get("hot").toString());
+            Glide.with(ReadBookActivity.this)
+                    .load(Constant.BASE_URL + books.get(position).get("imgUrl").toString())
+                    .into(imageView);
+
 
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -145,6 +142,7 @@ public class ReadBookActivity extends Activity{
                     RequestBody requestBody = new FormBody.Builder()
                             .add("bookName",tvRedBookName.getText().toString())
                             .add("author",tvRedAuthor.getText().toString())
+                            .add("userId",Constant.user.getUserId())
                             .build();
                     Request request = new Request.Builder()
                             .post(requestBody)
@@ -163,6 +161,7 @@ public class ReadBookActivity extends Activity{
                             String msg = response.body().string();
                             Intent intent = new Intent();
                             intent.putExtra("msg",msg);
+                            intent.putExtra("flag","ReadBookActivity");
                             intent.setClass(context,BookDetailActivity.class);
                             startActivity(intent);
                         }
