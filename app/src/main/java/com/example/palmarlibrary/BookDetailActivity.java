@@ -44,7 +44,6 @@ public class BookDetailActivity extends Activity {
         final String msg = intent.getStringExtra("msg");
         final String flag = intent.getStringExtra("flag");
         final String authorStr = intent.getStringExtra("author");
-
         Gson gson = new Gson();
         Type type = new TypeToken<Map<String,Object>>(){}.getType();
         final Map<String,Object> map = gson.fromJson(msg,type);
@@ -94,8 +93,11 @@ public class BookDetailActivity extends Activity {
                     case "HotBookActivity":
                         intent.setClass(BookDetailActivity.this,HotBookActivity.class);
                         break;
-                    case "SearchBooknameBooklistActivity":
-                        intent.setClass(BookDetailActivity.this,SearchBooknameBooklistActivity.class);
+                    case "ReadBookActivity":
+                        intent.setClass(BookDetailActivity.this,ReadBookActivity.class);
+                        break;
+                    case "MyFavoritesActivity":
+                        intent.setClass(BookDetailActivity.this,MyFavoritesActivity.class);
                         break;
                     default:
                         intent.setClass(BookDetailActivity.this,CollectionBookActivity.class);
@@ -114,6 +116,12 @@ public class BookDetailActivity extends Activity {
                 switch (flag){
                     case "HotBookActivity":
                         intent.putExtra("flag","HotBookActivity");
+                        break;
+                    case "ReadBookActivity":
+                        intent.putExtra("flag","ReadBookActivity");
+                        break;
+                    case "MyFavoritesActivity":
+                        intent.putExtra("flag","MyFavoritesActivity");
                         break;
                 }
                 intent.setClass(BookDetailActivity.this,BookReviewActivity.class);

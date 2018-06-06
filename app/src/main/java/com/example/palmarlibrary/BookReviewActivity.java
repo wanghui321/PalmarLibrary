@@ -104,13 +104,13 @@ public class BookReviewActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(BookReviewActivity.this,BookDetailActivity.class);
                 intent.putExtra("msg",msg);
                 if (flag != null){
                     intent.putExtra("flag",flag);
                 } else {
                     intent.putExtra("flag","BookReviewActivity");
                 }
+                intent.setClass(BookReviewActivity.this,BookDetailActivity.class);
                 startActivity(intent);
             }
         });
