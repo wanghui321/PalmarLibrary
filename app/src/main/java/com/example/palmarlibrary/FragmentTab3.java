@@ -186,16 +186,9 @@ public class FragmentTab3 extends Fragment {
                     status.put(position,!status.get(position));
                 }
             });
-
-
             return convertView;
-
-
-
-
         }
     }
-
 }
 
 

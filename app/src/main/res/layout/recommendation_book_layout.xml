@@ -3,13 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#3f40b5">
 
         <ImageView
-            android:id="@+id/personal_back"
+            android:id="@+id/recommend_book_back"
             android:src="@drawable/back"
             android:layout_width="0dp"
             android:layout_height="30dp"
@@ -22,7 +23,7 @@
             android:gravity="center"
             android:layout_margin="10dp"
             android:layout_weight="5"
-            android:text="个人推荐"
+            android:text="相关书籍"
             android:textColor="#ffffff"
             android:textSize="30dp" />
 
@@ -31,10 +32,12 @@
             android:layout_height="wrap_content"
             android:layout_weight="1" />
     </LinearLayout>
-    <GridView
-        android:id="@+id/personal_list"
+
+    <ListView
+        android:id="@+id/recommend_book_booklist"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </GridView>
+    </ListView>
+
 </LinearLayout>

@@ -43,6 +43,7 @@
         <activity android:name=".ExchangeLoginActivity"/>
         <activity android:name=".CollectionBookByTypeActivity"/>
         <activity android:name=".SearchAuthorActivity"/>
+        <activity android:name=".RecommendBookActivity"/>
     </application>
 
 

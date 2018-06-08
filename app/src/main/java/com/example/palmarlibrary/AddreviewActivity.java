@@ -36,6 +36,7 @@ public class AddreviewActivity extends Activity {
         final String indexId = intent.getStringExtra("indexId");
         final String msg1 = intent.getStringExtra("msg");
         final String flag = intent.getStringExtra("flag");
+        final String typeName = intent.getStringExtra("typeName");
 
         ImageView addreviewback = findViewById(R.id.addreview_back);
         final EditText editText = findViewById(R.id.review_review);
@@ -49,6 +50,9 @@ public class AddreviewActivity extends Activity {
                 intent.putExtra("msg",msg1);
                 if (flag != null){
                     intent.putExtra("flag",flag);
+                }
+                if (typeName != null){
+                    intent.putExtra("typeName",typeName);
                 }
                 intent.setClass(AddreviewActivity.this,BookReviewActivity.class);
                 startActivity(intent);
@@ -95,6 +99,9 @@ public class AddreviewActivity extends Activity {
                             intent.putExtra("msg",msg1);
                             if (flag != null){
                                 intent.putExtra("flag",flag);
+                            }
+                            if (typeName != null){
+                                intent.putExtra("typeName",typeName);
                             }
                             startActivity(intent);
                         } else{

@@ -4,10 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +18,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.lang.reflect.Type;
 import java.util.Map;
 
 import okhttp3.Call;
@@ -35,51 +32,45 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * Created by Administrator on 2018/5/31 0031.
+ * Created by Administrator on 2018/6/8.
  */
 
-public class CollectionBookByTypeActivity extends Activity {
+public class RecommendBookActivity extends Activity {
 
-
-    private List<Map<String,Object>> bookList = new ArrayList<>();
-
-    private ListView listView=null;
-    private BookNameAdapter adapter=null;
+    private String typeName = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.collection_type_search_layout);
+        setContentView(R.layout.recommendation_book_layout);
+        ImageView back = findViewById(R.id.recommend_book_back);
+        final ListView tvBook = findViewById(R.id.recommend_book_booklist);
 
-        final Intent intent = getIntent();
-        String TypeList = intent.getStringExtra("selectTypeList");
-//        Gson gson = new Gson();
-//        Type type = new TypeToken<List<String>>(){}.getType();
-//        List<String>TypeNameList =gson.fromJson(TypeList,type);
-        Log.e("xinyemian",TypeList);
-
-
-        ImageView back = findViewById(R.id.type_search_back);
-        listView = findViewById(R.id.type_search_booklist);
-
+        Intent intent = getIntent();
+        typeName = intent.getStringExtra("typeName");
+        List<String> typeList = new ArrayList<>();
+        typeList.add(typeName);
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<String>>(){}.getType();
+        String typeStr =  gson.toJson(typeList,type);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent(CollectionBookByTypeActivity.this,CollectionBookActivity.class);
-                startActivity(intent1);
+                Intent intent = new Intent();
+                intent.setClass(RecommendBookActivity.this,PersonalActivity.class);
+                startActivity(intent);
             }
         });
 
-
-        OkHttpClient okHttpClient = new OkHttpClient();
         RequestBody requestBody = new FormBody.Builder()
-                .add("typeNameList",TypeList)
+                .add("typeNameList",typeStr)
                 .build();
-        Request request = new Request.Builder()
+        final Request request = new Request.Builder()
                 .post(requestBody)
                 .url(Constant.BASE_URL + "selectBookByType.do")
                 .build();
+        OkHttpClient okHttpClient = new OkHttpClient();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
             @Override
@@ -90,33 +81,28 @@ public class CollectionBookByTypeActivity extends Activity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String bookListStr = response.body().string();
-                Log.e("boolList",bookListStr);
                 Gson gson = new Gson();
                 Type type = new TypeToken<List<Map<String,Object>>>(){}.getType();
-                bookList = gson.fromJson(bookListStr,type);
-                Log.e("bookList",bookList.size()+"");
-
-                adapter = new BookNameAdapter(CollectionBookByTypeActivity.this,
-                        R.layout.collection_type_search_item_layout,
-                        bookList);
+                List<Map<String,Object>> bookList = gson.fromJson(bookListStr,type);
+                final RecommendBookAdapter adapter = new RecommendBookAdapter(RecommendBookActivity.this,
+                        R.layout.recommendation_item_layout,bookList);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        listView.setAdapter(adapter);
+                        tvBook.setAdapter(adapter);
                     }
                 });
-
-
             }
         });
     }
 
-    public class BookNameAdapter extends BaseAdapter {
+    private class RecommendBookAdapter extends BaseAdapter{
+
         private Context context;
         private int item_layout_id;
         private List<Map<String,Object>> dataSource;
 
-        public BookNameAdapter (Context context,int item_layout_id,List<Map<String,Object>> dataSource){
+        public RecommendBookAdapter (Context context,int item_layout_id,List<Map<String,Object>> dataSource){
             this.context = context;
             this.item_layout_id = item_layout_id;
             this.dataSource = dataSource;
@@ -136,32 +122,28 @@ public class CollectionBookByTypeActivity extends Activity {
         public long getItemId(int position) {
             return position;
         }
+
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null){
                 convertView = LayoutInflater.from(context).inflate(item_layout_id,null);
             }
-
-            Log.e("bookName",dataSource.get(position).get("bookName").toString());
-            Log.e("author",dataSource.get(position).get("author").toString());
-
-            final TextView tv_bookName = convertView.findViewById(R.id.type_bookName);
-            final TextView tv_author = convertView.findViewById(R.id.type_author);
-            final ImageView imageView= convertView.findViewById(R.id.type_bookImg);
-            final TextView tv_hot = convertView.findViewById(R.id.type_hot);
-
-            tv_bookName.setText(dataSource.get(position).get("bookName").toString());
-            tv_author.setText(dataSource.get(position).get("author").toString());
-            tv_hot.setText(dataSource.get(position).get("hot").toString());
-            Glide.with(CollectionBookByTypeActivity.this)
+            ImageView imageView = convertView.findViewById(R.id.recommend_bookImg);
+            final TextView tvBookName = convertView.findViewById(R.id.recommend_bookName);
+            final TextView tvAuthor = convertView.findViewById(R.id.recommend_author);
+            TextView tvBookHot = convertView.findViewById(R.id.recommend_hot);
+            Glide.with(RecommendBookActivity.this)
                     .load(Constant.BASE_URL + dataSource.get(position).get("imgUrl"))
                     .into(imageView);
+            tvBookName.setText(dataSource.get(position).get("bookName").toString());
+            tvBookHot.setText(dataSource.get(position).get("hot").toString());
+            tvAuthor.setText(dataSource.get(position).get("author").toString());
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     RequestBody requestBody = new FormBody.Builder()
-                            .add("bookName",tv_bookName.getText().toString())
-                            .add("author",tv_author.getText().toString())
+                            .add("bookName",tvBookName.getText().toString())
+                            .add("author",tvAuthor.getText().toString())
                             .add("userId",Constant.user.getUserId())
                             .build();
                     Request request = new Request.Builder()
@@ -181,18 +163,15 @@ public class CollectionBookByTypeActivity extends Activity {
                             String msg = response.body().string();
                             Intent intent = new Intent();
                             intent.putExtra("msg",msg);
-                            intent.putExtra("flag","CollectionByTypeActivity");
+                            intent.putExtra("flag","RecommendBookActivity");
+                            intent.putExtra("typeName",typeName);
                             intent.setClass(context,BookDetailActivity.class);
                             startActivity(intent);
                         }
                     });
                 }
             });
-
             return convertView;
         }
     }
-
-    }
-
-
+}
