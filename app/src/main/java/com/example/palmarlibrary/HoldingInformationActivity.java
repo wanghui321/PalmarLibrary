@@ -74,7 +74,7 @@ public class HoldingInformationActivity extends Activity{
                     intent.putExtra("bookListStr",bookListStr);
                 }
                 if (author != null){
-                    intent.putExtra("author",author);
+                    intent.putExtra("likeAuthor",author);
                 }
                 intent.setClass(HoldingInformationActivity.this,BookDetailActivity.class);
                 startActivity(intent);

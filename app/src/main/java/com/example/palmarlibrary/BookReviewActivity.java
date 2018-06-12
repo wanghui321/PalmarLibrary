@@ -129,7 +129,7 @@ public class BookReviewActivity extends Activity {
                     intent.putExtra("bookListStr",bookListStr);
                 }
                 if (author != null){
-                    intent.putExtra("author",author);
+                    intent.putExtra("likeAuthor",author);
                 }
                 intent.setClass(BookReviewActivity.this,BookDetailActivity.class);
                 startActivity(intent);
