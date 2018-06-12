@@ -49,6 +49,8 @@ public class BookReviewActivity extends Activity {
         final String msg = intent.getStringExtra("msg");
         final String flag = intent.getStringExtra("flag");
         final String typeName = intent.getStringExtra("typeName");
+        final String bookListStr = intent.getStringExtra("bookListStr");
+        final String author = intent.getStringExtra("author");
 
         RequestBody requestBody = new FormBody.Builder()
                 .add("indexId",indexId)
@@ -97,6 +99,12 @@ public class BookReviewActivity extends Activity {
                 if (typeName != null){
                     intent.putExtra("typeName",typeName);
                 }
+                if (bookListStr != null){
+                    intent.putExtra("bookListStr",bookListStr);
+                }
+                if (author != null){
+                    intent.putExtra("author",author);
+                }
                 intent.setClass(BookReviewActivity.this,AddreviewActivity.class);
                 startActivity(intent);
             }
@@ -116,6 +124,12 @@ public class BookReviewActivity extends Activity {
                 }
                 if (typeName != null){
                     intent.putExtra("typeName",typeName);
+                }
+                if (bookListStr != null){
+                    intent.putExtra("bookListStr",bookListStr);
+                }
+                if (author != null){
+                    intent.putExtra("author",author);
                 }
                 intent.setClass(BookReviewActivity.this,BookDetailActivity.class);
                 startActivity(intent);

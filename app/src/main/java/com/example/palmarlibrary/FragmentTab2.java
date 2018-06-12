@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -23,8 +25,10 @@ import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -39,14 +43,26 @@ public class FragmentTab2 extends android.support.v4.app.Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater,
+    public View onCreateView(final LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.collection_author_layout,container,false);
-
+        final EditText searchAuthor = view.findViewById(R.id.searchauthorname);
         final Context context = this.getActivity();
+        final OkHttpClient okHttpClient = new OkHttpClient();
+        Button button = view.findViewById(R.id.btn_searchauthorname);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String author = searchAuthor.getText().toString();
+                Intent intent = new Intent();
+                intent.putExtra("author",author);
+                intent.setClass(context,SearchLikeAuthorActivity.class);
+                startActivity(intent);
+            }
+        });
+
         handler=new Handler();
-        OkHttpClient okHttpClient = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(Constant.BASE_URL+"getAuthor.do")
                 .build();

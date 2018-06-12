@@ -58,12 +58,24 @@ public class HoldingInformationActivity extends Activity{
         final String indexId = intent.getStringExtra("indexId");
         final String msg = intent.getStringExtra("msg");
         final String flag = intent.getStringExtra("flag");
+        final String typeName = intent.getStringExtra("typeName");
+        final String bookListStr = intent.getStringExtra("bookListStr");
+        final String author = intent.getStringExtra("author");
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.putExtra("msg",msg);
                 intent.putExtra("flag",flag);
+                if (typeName != null){
+                    intent.putExtra("typeName",typeName);
+                }
+                if (bookListStr != null){
+                    intent.putExtra("bookListStr",bookListStr);
+                }
+                if (author != null){
+                    intent.putExtra("author",author);
+                }
                 intent.setClass(HoldingInformationActivity.this,BookDetailActivity.class);
                 startActivity(intent);
             }
