@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -98,16 +99,6 @@ public class BorrowingRecordsActivity extends Activity {
 
             }
         });
-        Button borrowagin = findViewById(R.id.bt_borrowagin);
-
-//        borrowagin.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent();
-//                //intent.setClass(BorrowingRecordsActivity.this,.class);
-//                startActivity(intent);
-//            }
-//        });
 
     }
 
@@ -138,7 +129,7 @@ public class BorrowingRecordsActivity extends Activity {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             if (convertView == null){
                 convertView = LayoutInflater.from(context).inflate(item_layout_id,null);
             }
@@ -174,15 +165,71 @@ public class BorrowingRecordsActivity extends Activity {
             TextView tiaoxingma = convertView.findViewById(R.id.tv_tiaoxingma_number);
             TextView author = convertView.findViewById(R.id.tv_author_name);
             TextView borrowTime = convertView.findViewById(R.id.tv_borrow_time_number);
-            TextView returnTime = convertView.findViewById(R.id.tv_return_time_number);
-            TextView borrowAgin = convertView.findViewById(R.id.tv_borrowagin_number);
+            final TextView returnTime = convertView.findViewById(R.id.tv_return_time_number);
+            final TextView borrowNumber = convertView.findViewById(R.id.tv_borrowagin_number);
+
+            Button borrowAgain = convertView.findViewById(R.id.bt_borrowagin);
+            borrowAgain.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Double dou = Double.parseDouble(borrowNumber.getText().toString());
+                    int number = dou.intValue();
+                    if (number < 3) {
+                        OkHttpClient okHttpClient = new OkHttpClient();
+                        RequestBody requestBody = new FormBody.Builder()
+                                .add("userId", Constant.user.getUserId())
+                                .add("bookId", dataSource.get(position).get("bookId").toString())
+                                .add("number",borrowNumber.getText().toString())
+                                .add("returnTime",returnTime.getText().toString())
+                                .build();
+                        Request request = new Request.Builder()
+                                .post(requestBody)
+                                .url(Constant.BASE_URL + "addBorrowNumber.do")
+                                .build();
+                        Call call = okHttpClient.newCall(request);
+                        call.enqueue(new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+                                e.printStackTrace();
+                            }
+
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                String msg = response.body().string();
+                                Gson gson = new Gson();
+                                Type type = new TypeToken<Map<String, Object>>() {}.getType();
+                                final Map<String, Object> map = gson.fromJson(msg, type);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        returnTime.setText(map.get("returnDate").toString());
+                                        borrowNumber.setText(map.get("number").toString());
+                                        Toast.makeText(BorrowingRecordsActivity.this,
+                                                "续借成功", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(BorrowingRecordsActivity.this,
+                                        "续借次数不能查过三次", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                    }
+                }
+            });
+
 
             bookName.setText(dataSource.get(position).get("bookName").toString());
             tiaoxingma.setText(dataSource.get(position).get("indexId").toString());
             author.setText(dataSource.get(position).get("author").toString());
             borrowTime.setText(dataSource.get(position).get("borrowDate").toString());
             returnTime.setText(dataSource.get(position).get("returnDate").toString());
-            borrowAgin.setText(dataSource.get(position).get("number").toString());
+            borrowNumber.setText(dataSource.get(position).get("number").toString());
             return convertView;
         }
     }
