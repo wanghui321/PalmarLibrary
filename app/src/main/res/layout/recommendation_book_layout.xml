@@ -25,7 +25,7 @@
             android:layout_weight="5"
             android:text="相关书籍"
             android:textColor="#ffffff"
-            android:textSize="30dp" />
+            android:textSize="25dp" />
 
         <TextView
             android:layout_width="0dp"

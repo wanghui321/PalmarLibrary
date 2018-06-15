@@ -5,8 +5,8 @@
     <TextView
         android:id="@+id/sch_name"
         android:text="河北师范大学"
-        android:textSize="30dp"
+        android:textSize="25dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"/>
+        android:layout_marginTop="20dp"/>
 </LinearLayout>

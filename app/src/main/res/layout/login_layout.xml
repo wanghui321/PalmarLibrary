@@ -17,7 +17,7 @@
         android:textSize="20dp"
         android:textColor="#FFFFFF"
         android:gravity="center"
-        android:text="昵        称："
+        android:text="昵    称："
         />
         <EditText
             android:id="@+id/login_name"
@@ -63,7 +63,7 @@
             android:textColor="#FFFFFF"
             android:textSize="20dp"
             android:gravity="center"
-            android:text="密        码："
+            android:text="密     码："
             />
 
         <EditText
@@ -98,12 +98,12 @@
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:id="@+id/btn_reset"
-            android:text="重置"
+            android:text="重   置"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <Button
             android:id="@+id/go_exchange_login"
-            android:text="已有账号登录"
+            android:text="账号登录"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>

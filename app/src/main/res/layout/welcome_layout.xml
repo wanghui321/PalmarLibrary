@@ -25,7 +25,7 @@
             android:layout_height="50dp"
             android:layout_marginTop="30dp"
             android:gravity="center"
-            android:text="欢迎使用掌上图书馆"
+            android:text="欢迎使用掌上图书馆 "
             android:textSize="25dp" />
 
     </LinearLayout>

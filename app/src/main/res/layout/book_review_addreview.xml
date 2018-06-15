@@ -11,7 +11,7 @@
             android:id="@+id/addreview_back"
             android:src="@drawable/back"
             android:layout_width="0dp"
-            android:layout_height="30dp"
+            android:layout_height="25dp"
             android:layout_weight="1"
             android:layout_gravity="center"/>
         <TextView
@@ -22,7 +22,7 @@
             android:layout_weight="4"
             android:text="添加评论"
             android:textColor="#ffffff"
-            android:textSize="30dp" />
+            android:textSize="25dp" />
 
         <TextView
             android:text=""
@@ -52,7 +52,7 @@
             android:layout_marginRight="50dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="提交"
+            android:text="提  交"
             android:background="#3f40b5"
             android:textSize="24dp"
             android:textColor="#FFFFFF"/>

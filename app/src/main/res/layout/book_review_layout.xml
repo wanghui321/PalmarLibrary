@@ -12,7 +12,7 @@
             android:id="@+id/review_back"
             android:src="@drawable/back"
             android:layout_width="0dp"
-            android:layout_height="30dp"
+            android:layout_height="25dp"
             android:layout_weight="1"
             android:layout_gravity="center"/>
 
@@ -24,7 +24,7 @@
             android:layout_weight="5"
             android:text="相关评论"
             android:textColor="#ffffff"
-            android:textSize="30dp" />
+            android:textSize="25dp" />
 
         <TextView
             android:id="@+id/book_review_add"

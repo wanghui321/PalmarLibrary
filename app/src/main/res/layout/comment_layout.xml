@@ -24,7 +24,7 @@
             android:layout_weight="5"
             android:text="添加评论"
             android:textColor="#ffffff"
-            android:textSize="30dp" />
+            android:textSize="25dp" />
 
         <TextView
             android:layout_width="0dp"
@@ -40,7 +40,7 @@
     <Button
         android:layout_marginTop="30dp"
         android:layout_marginLeft="300dp"
-        android:text="提交"
+        android:text="提  交"
         android:id="@+id/confirm"
         android:textSize="15dp"
         android:textColor="#FFF"

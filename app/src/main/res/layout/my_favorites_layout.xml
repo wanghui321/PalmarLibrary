@@ -24,7 +24,7 @@
             android:layout_weight="5"
             android:text="我的收藏"
             android:textColor="#ffffff"
-            android:textSize="30dp" />
+            android:textSize="25dp" />
 
         <TextView
             android:layout_width="0dp"

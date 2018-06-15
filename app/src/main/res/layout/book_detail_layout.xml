@@ -12,7 +12,7 @@
             android:id="@+id/detail_back"
             android:src="@drawable/back"
             android:layout_width="0dp"
-            android:layout_height="30dp"
+            android:layout_height="25dp"
             android:layout_weight="1"
             android:layout_gravity="center"/>
 
@@ -24,7 +24,7 @@
             android:layout_weight="5"
             android:text="书籍详情"
             android:textColor="#ffffff"
-            android:textSize="30dp" />
+            android:textSize="25dp" />
 
         <TextView
             android:layout_width="0dp"
@@ -183,9 +183,10 @@
         <Button
             android:id="@+id/btn_book_detail_review"
             android:text="查看书评"
+            android:textSize="18dp"
             android:textColor="#ffffff"
             android:background="#3f40b5"
-            android:layout_width="0dp"
+            android:layout_width="40dp"
             android:layout_weight="1"
             android:layout_height="wrap_content" />
         <View
@@ -195,9 +196,10 @@
         <Button
             android:id="@+id/btn_book_detail_select"
             android:text="馆藏查询"
+            android:textSize="18dp"
             android:textColor="#ffffff"
             android:background="#3f40b5"
-            android:layout_width="0dp"
+            android:layout_width="40dp"
             android:layout_weight="1"
             android:layout_height="wrap_content" />
         <View
