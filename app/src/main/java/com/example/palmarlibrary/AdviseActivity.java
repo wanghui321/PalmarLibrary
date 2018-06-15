@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -32,15 +33,39 @@ public class AdviseActivity extends Activity {
         ImageView adviseback = findViewById(R.id.advise_back);
         Button advisesubmit = findViewById(R.id.advise_submit);
         final TextView advisetv = findViewById(R.id.et_advise);
-
         advisesubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String advise = advisetv.getText().toString();
-                Intent intent = new Intent();
-                intent.putExtra("advise",advise);
-                intent.setClass(AdviseActivity.this,AdviseSubmitLoadingActivity.class);
-                startActivity(intent);
+                OkHttpClient okHttpClient = new OkHttpClient();
+                RequestBody requestBody = new FormBody.Builder()
+                        .add("advise", advise)
+                        .add("userId", Constant.user.getUserId())
+                        .build();
+                Request request = new Request.Builder()
+                        .post(requestBody)
+                        .url(Constant.BASE_URL + "submitAdvise.do")
+                        .build();
+                Call call = okHttpClient.newCall(request);
+                call.enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        String success = response.body().string();
+                        if (success.equals("yes")) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getApplicationContext(), "提交成功", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    }
+                });
             }
         });
 
