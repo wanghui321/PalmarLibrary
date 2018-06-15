@@ -53,6 +53,7 @@
             android:width="300dp"
             android:height="300dp"
             android:gravity="top"
+            android:id="@+id/et_advise"
         />
         <Button
             android:id="@+id/advise_submit"
