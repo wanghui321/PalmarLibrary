@@ -50,6 +50,8 @@ public class BookDetailActivity extends Activity {
         final String flag = intent.getStringExtra("flag");
         final String authorStr = intent.getStringExtra("author");
         final String typeName = intent.getStringExtra("typeName");
+        final String bookListStr = intent.getStringExtra("bookListStr");
+        final String likeAuthor = intent.getStringExtra("likeAuthor");
         Gson gson = new Gson();
         Type type = new TypeToken<Map<String,Object>>(){}.getType();
         final Map<String,Object> map = gson.fromJson(msg,type);
@@ -92,6 +94,14 @@ public class BookDetailActivity extends Activity {
                         intent.putExtra("typeName",typeName);
                         intent.setClass(BookDetailActivity.this,RecommendBookActivity.class);
                         break;
+                    case "SearchBooknameBooklistActivity":
+                        intent.putExtra("bookListStr",bookListStr);
+                        intent.setClass(BookDetailActivity.this,SearchBooknameBooklistActivity.class);
+                        break;
+                    case "SearchLikeAuthorActivity":
+                        intent.putExtra("author",likeAuthor);
+                        intent.setClass(BookDetailActivity.this,SearchLikeAuthorActivity.class);
+                        break;
                     default:
                         intent.setClass(BookDetailActivity.this,CollectionBookActivity.class);
                 }
@@ -120,6 +130,14 @@ public class BookDetailActivity extends Activity {
                         intent.putExtra("typeName",typeName);
                         intent.putExtra("flag","RecommendBookActivity");
                         break;
+                    case "SearchBooknameBooklistActivity":
+                        intent.putExtra("bookListStr",bookListStr);
+                        intent.putExtra("flag","SearchBooknameBooklistActivity");
+                        break;
+                    case "SearchLikeAuthorActivity":
+                        intent.putExtra("author",likeAuthor);
+                        intent.putExtra("flag","SearchLikeAuthorActivity");
+                        break;
                 }
                 intent.setClass(BookDetailActivity.this,BookReviewActivity.class);
                 startActivity(intent);
@@ -134,6 +152,15 @@ public class BookDetailActivity extends Activity {
                 intent.putExtra("indexId",map.get("indexId").toString());
                 intent.putExtra("flag",flag);
                 intent.putExtra("msg",msg);
+                if (typeName != null){
+                    intent.putExtra("typeName",typeName);
+                }
+                if (bookListStr != null){
+                    intent.putExtra("bookListStr",bookListStr);
+                }
+                if (author != null){
+                    intent.putExtra("author",likeAuthor);
+                }
                 startActivity(intent);
             }
         });

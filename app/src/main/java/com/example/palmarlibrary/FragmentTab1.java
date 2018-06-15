@@ -61,19 +61,19 @@ public class FragmentTab1 extends android.support.v4.app.Fragment{
 
         final OkHttpClient okHttpClient = new OkHttpClient();
 
-        final EditText searchbookname = view.findViewById(R.id.searchbookname);
+        final EditText searchBookName = view.findViewById(R.id.searchbookname);
         Button button = view.findViewById(R.id.btn_searchbookname);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String sbookname = searchbookname.getText().toString();
+                String bookName = searchBookName.getText().toString();
                 RequestBody requestBody = new FormBody.Builder()
-                        .add("sbookname",sbookname)
+                        .add("bookName",bookName)
                         .build();
                 Request request0 = new Request.Builder()
                     .post(requestBody)
-                    .url(Constant.BASE_URL + "searchBook.do").build();
+                    .url(Constant.BASE_URL + "searchLikeBookName.do").build();
 
                 Call call = okHttpClient.newCall(request0);
                 call.enqueue(new Callback() {
@@ -85,16 +85,11 @@ public class FragmentTab1 extends android.support.v4.app.Fragment{
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
                         String bookListStr = response.body().string();
+                        Log.e("bookListStr",bookListStr);
                         Intent intent = new Intent();
                         intent.putExtra("bookListStr",bookListStr);
                         intent.setClass(context, SearchBooknameBooklistActivity.class);
                         startActivity(intent);
-                        new Thread(){
-                            @Override
-                            public void run() {
-                                handler.post(runnableUi);
-                            }
-                        }.start();
                     }
                 });
             }
