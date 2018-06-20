@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -174,15 +175,17 @@ public class BookReviewActivity extends Activity {
             TextView bookReviewUserName = convertView.findViewById(R.id.book_review_userName);
             TextView bookReviewDetail = convertView.findViewById(R.id.book_review_detail);
             TextView reviewTime = convertView.findViewById(R.id.review_time);
-
+            final RequestOptions requestOptions = new RequestOptions().circleCrop();
             if (dataSource.get(position).get("imgUrl")==null){
                 Glide.with(BookReviewActivity.this)
                         .load(R.drawable.userhead)
+                        .apply(requestOptions)
                         .into(head);
             }else {
                 String myUrl = dataSource.get(position).get("imgUrl").toString();
                 Glide.with(BookReviewActivity.this)
-                        .load(myUrl)
+                        .load(Constant.BASE_URL + myUrl)
+                        .apply(requestOptions)
                         .into(head);
             }
             bookReviewUserName.setText(dataSource.get(position).get("nickname").toString());
