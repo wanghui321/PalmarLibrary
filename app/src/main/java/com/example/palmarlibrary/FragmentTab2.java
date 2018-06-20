@@ -40,6 +40,7 @@ public class FragmentTab2 extends android.support.v4.app.Fragment {
     private Handler handler=null;
     private ListView listView=null;
     private AuthorNameAdapter adapter=null;
+    private Context context = null;
 
     @Nullable
     @Override
@@ -48,17 +49,48 @@ public class FragmentTab2 extends android.support.v4.app.Fragment {
                              @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.collection_author_layout,container,false);
         final EditText searchAuthor = view.findViewById(R.id.searchauthorname);
-        final Context context = this.getActivity();
+        context = this.getActivity();
         final OkHttpClient okHttpClient = new OkHttpClient();
         Button button = view.findViewById(R.id.btn_searchauthorname);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String author = searchAuthor.getText().toString();
-                Intent intent = new Intent();
-                intent.putExtra("author",author);
-                intent.setClass(context,SearchLikeAuthorActivity.class);
-                startActivity(intent);
+                final String author = searchAuthor.getText().toString();
+                OkHttpClient okHttpClient = new OkHttpClient();
+                RequestBody requestBody = new FormBody.Builder()
+                        .add("author",author)
+                        .build();
+                Request request = new Request.Builder()
+                        .post(requestBody)
+                        .url(Constant.BASE_URL + "searchLikeAuthor.do")
+                        .build();
+                Call call = okHttpClient.newCall(request);
+                call.enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        String bookListStr = response.body().string();
+                        if(bookListStr.equals("[]")){
+                            new Thread(){
+                                @Override
+                                public void run() {
+                                    super.run();
+                                    handler.post(runnable);
+                                }
+                            }.start();
+                        }
+                        Intent intent = new Intent();
+                        intent.putExtra("bookListStr",bookListStr);
+                        intent.putExtra("author",author);
+                        intent.setClass(context,SearchLikeAuthorActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
             }
         });
 
@@ -100,6 +132,16 @@ public class FragmentTab2 extends android.support.v4.app.Fragment {
         @Override
         public void run() {
             listView.setAdapter(adapter);
+        }
+    };
+
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            Intent intent = new Intent();
+            intent.putExtra("flag","CollectionBookActivity");
+            intent.setClass(context,NoBookActivity.class);
+            startActivity(intent);
         }
     };
 

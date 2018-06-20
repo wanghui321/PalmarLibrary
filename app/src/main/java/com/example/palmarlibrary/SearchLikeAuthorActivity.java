@@ -46,6 +46,7 @@ public class SearchLikeAuthorActivity extends Activity {
         ImageView back = findViewById(R.id.author_like_book_back);
         final ListView listView = findViewById(R.id.auhtor_like_book_list);
         Intent intent = getIntent();
+        String bookListStr = intent.getStringExtra("bookListStr");
         author = intent.getStringExtra("author");
 
         back.setOnClickListener(new View.OnClickListener() {
@@ -57,37 +58,13 @@ public class SearchLikeAuthorActivity extends Activity {
             }
         });
 
-        OkHttpClient okHttpClient = new OkHttpClient();
-        RequestBody requestBody = new FormBody.Builder()
-                .add("author",author)
-                .build();
-        Request request = new Request.Builder()
-                .post(requestBody)
-                .url(Constant.BASE_URL + "searchLikeAuthor.do")
-                .build();
-        Call call = okHttpClient.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-            }
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<Map<String,Object>>>(){}.getType();
+        List<Map<String,Object>> bookList = gson.fromJson(bookListStr,type);
+        SearchLikeAuthorAdapter adapter = new SearchLikeAuthorAdapter(SearchLikeAuthorActivity.this,
+                R.layout.search_like_author_item_layout,bookList);
+        listView.setAdapter(adapter);
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String bookListStr = response.body().string();
-                Gson gson = new Gson();
-                Type type = new TypeToken<List<Map<String,Object>>>(){}.getType();
-                List<Map<String,Object>> dataSource = gson.fromJson(bookListStr,type);
-                final SearchLikeAuthorAdapter adapter = new SearchLikeAuthorAdapter(SearchLikeAuthorActivity.this,
-                        R.layout.search_like_author_item_layout,dataSource);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        listView.setAdapter(adapter);
-                    }
-                });
-            }
-        });
     }
 
     public class SearchLikeAuthorAdapter extends BaseAdapter {

@@ -30,8 +30,10 @@ import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -47,16 +49,17 @@ public class FragmentTab3 extends Fragment {
     private Handler handler = null;
     private ListView listView = null;
     private TypeNameAdapter adapter = null;
-    private Map<Integer, Boolean> status = new HashMap<Integer, Boolean>();
+    private Map<Integer, Boolean> status = new HashMap<>();
+    private Context context= null;
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater,
+    public View onCreateView(final LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.collection_type_layout, container, false);
 
-        final Context context = this.getActivity();
+        context = this.getActivity();
         handler = new Handler();
         OkHttpClient okHttpClient = new OkHttpClient();
         Request request = new Request.Builder()
@@ -99,22 +102,41 @@ public class FragmentTab3 extends Fragment {
                                 Log.e("type:",entry.getKey().toString());
                             }
                         }
-                        Log.e("selectTypeList",selectTypeList.toString());
-                        Intent intent = new Intent(context,CollectionBookByTypeActivity.class);
+                        OkHttpClient okHttpClient = new OkHttpClient();
+                        RequestBody requestBody = new FormBody.Builder()
+                                .add("typeNameList",selectTypeList.toString())
+                                .build();
+                        Request request = new Request.Builder()
+                                .post(requestBody)
+                                .url(Constant.BASE_URL + "selectBookByType.do")
+                                .build();
+                        Call call = okHttpClient.newCall(request);
+                        call.enqueue(new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+                                e.printStackTrace();
+                            }
 
-                        Gson gson = new Gson();
-                        Type type = new TypeToken<List<String>>(){}.getType();
-                        String TypeListStr = gson.toJson(selectTypeList,type);
-                        intent.putExtra("selectTypeList",TypeListStr);
-
-                        startActivity(intent);
-
-
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                String bookListStr = response.body().string();
+                                if(bookListStr.equals("[]")){
+                                    new Thread(){
+                                        @Override
+                                        public void run() {
+                                            super.run();
+                                            handler.post(runnable);
+                                        }
+                                    }.start();
+                                }
+                                Intent intent = new Intent();
+                                intent.putExtra("bookListStr",bookListStr);
+                                intent.setClass(context,CollectionBookByTypeActivity.class);
+                                startActivity(intent);
+                            }
+                        });
                     }
                 });
-
-
-
                 new Thread() {
                     @Override
                     public void run() {
@@ -132,6 +154,16 @@ public class FragmentTab3 extends Fragment {
         @Override
         public void run() {
             listView.setAdapter(adapter);
+        }
+    };
+
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            Intent intent = new Intent();
+            intent.putExtra("flag","CollectionBookByType");
+            intent.setClass(context,NoBookActivity.class);
+            startActivity(intent);
         }
     };
 
@@ -175,8 +207,8 @@ public class FragmentTab3 extends Fragment {
 
             CheckBox cb_type = convertView.findViewById(R.id.type_cb);
 
-          //  Log.e("复选框位置",status.get(position).toString());
-          //  cb_type.setChecked(status.get(position));
+            //  Log.e("复选框位置",status.get(position).toString());
+            //  cb_type.setChecked(status.get(position));
             status.put(position,false);
 
             tv_typename.setText(dataSource.get(position).toString());
@@ -190,8 +222,3 @@ public class FragmentTab3 extends Fragment {
         }
     }
 }
-
-
-
-
-
