@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 /**
  * Created by 52943 on 2018/5/22.
  */
@@ -28,6 +31,14 @@ public class HomePageActivity extends Activity implements View.OnClickListener{
         LinearLayout readed = findViewById(R.id.home_page_readed);
         LinearLayout hotbooks = findViewById(R.id.home_page_hotbooks);
         LinearLayout message = findViewById(R.id.message);
+
+        if (Constant.user.getImgUrl() != null){
+            RequestOptions requestOptions = new RequestOptions().circleCrop();
+            Glide.with(HomePageActivity.this)
+                    .load(Constant.BASE_URL + Constant.user.getImgUrl())
+                    .apply(requestOptions)
+                    .into(user);
+        }
 
         user.setOnClickListener(this);
         search.setOnClickListener(this);
