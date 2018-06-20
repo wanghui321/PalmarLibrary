@@ -46,7 +46,7 @@ import okhttp3.internal.tls.OkHostnameVerifier;
 
 public class BorrowingRecordsActivity extends Activity {
 
-    private int mHiddenHight = 500;
+    private int mHiddenHight = 620;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
