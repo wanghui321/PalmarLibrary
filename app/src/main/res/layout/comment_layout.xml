@@ -2,11 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/backg">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#3f40b5">
+        android:background="#800000">
 
         <ImageView
             android:src="@drawable/back"
@@ -33,9 +34,11 @@
     </LinearLayout>
     <TextView
         android:id="@+id/my_comment"
+        android:background="#ffffff"
         android:hint="我想说..."
         android:textSize="15dp"
         android:layout_width="match_parent"
+        android:layout_margin="10dp"
         android:layout_height="160dp" />
     <Button
         android:layout_marginTop="30dp"
@@ -43,8 +46,6 @@
         android:text="提  交"
         android:id="@+id/confirm"
         android:textSize="15dp"
-        android:textColor="#FFF"
-        android:background="#3f40b5"
         android:layout_width="80dp"
         android:layout_height="40dp" />
 </LinearLayout>

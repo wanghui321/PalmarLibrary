@@ -2,9 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#3F40B5"
+    android:background="@drawable/lan"
     android:orientation="vertical"
     android:gravity="center">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,13 +20,13 @@
         android:layout_width="101dp"
         android:layout_height="29dp"
         android:textSize="20dp"
-        android:textColor="#FFFFFF"
+        android:textColor="#000000"
         android:gravity="center"
         android:text="昵    称："
         />
         <EditText
             android:id="@+id/login_name"
-            android:textColor="#ffffff"
+            android:textColor="#000000"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -37,14 +42,14 @@
             android:top="270dp"
             android:layout_width="101dp"
             android:layout_height="29dp"
-            android:textColor="#FFFFFF"
+            android:textColor="#000000"
             android:textSize="20dp"
             android:gravity="center"
             android:text="借书卡号："
             />
         <EditText
             android:id="@+id/login_card_number"
-            android:textColor="#ffffff"
+            android:textColor="#000000"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -60,7 +65,7 @@
             android:top="330dp"
             android:layout_width="101dp"
             android:layout_height="29dp"
-            android:textColor="#FFFFFF"
+            android:textColor="#000000"
             android:textSize="20dp"
             android:gravity="center"
             android:text="密     码："
@@ -68,7 +73,7 @@
 
         <EditText
             android:id="@+id/login_password"
-            android:textColor="#ffffff"
+            android:textColor="#000000"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -76,7 +81,7 @@
             android:inputType="textPassword"
             android:theme="@style/MyEditText"/>
     </LinearLayout>
-
+    </LinearLayout>
     <TextView
         android:id="@+id/login_error"
         android:textSize="20dp"

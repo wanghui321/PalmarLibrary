@@ -7,7 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#3f40b5">
+        android:background="#800000">
 
         <ImageView
             android:id="@+id/recommend_book_back"
