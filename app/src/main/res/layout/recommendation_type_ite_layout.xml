@@ -9,14 +9,21 @@
         android:layout_margin="10dp"
         android:gravity="center"
         android:id="@+id/recommend_book"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@drawable/biankung">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="45613123"
+            android:textSize="23dp"
             android:id="@+id/recommend_type_name"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="456789"
+            android:textSize="18dp"
             android:id="@+id/recommend_type_booknum"/>
     </LinearLayout>
 

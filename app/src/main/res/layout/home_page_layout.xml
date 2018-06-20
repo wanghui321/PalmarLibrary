@@ -2,109 +2,129 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#faf6d0">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#3f40b5">
+        android:background="#800000">
 
         <ImageView
             android:layout_width="0dp"
             android:layout_height="30dp"
-            android:layout_weight="1"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:layout_weight="1" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_margin="10dp"
             android:layout_weight="5"
+            android:gravity="center"
             android:text="掌上图书馆"
             android:textColor="#ffffff"
             android:textSize="25dp" />
 
         <ImageView
+            android:id="@+id/home_page_user"
             android:layout_width="0dp"
             android:layout_height="30dp"
-            android:layout_weight="1"
             android:layout_gravity="center"
-            android:src="@drawable/user"
-            android:id="@+id/home_page_user"/>
+            android:layout_weight="1"
+            android:src="@drawable/user" />
     </LinearLayout>
+
     <ImageView
+        android:id="@+id/home_page_school_image"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/school1"
+        android:layout_height="120dp"
         android:scaleType="fitXY"
-        android:id="@+id/home_page_school_image"/>
+        android:src="@drawable/school" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ffffff"
         android:layout_margin="1dp">
+
         <LinearLayout
+            android:id="@+id/home_page_search"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="120dp"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:background="#3f40b5"
-            android:id="@+id/home_page_search">
+            android:layout_weight="1"
+            android:background="@drawable/hujiao"
+            android:orientation="vertical">
+
             <ImageView
                 android:layout_width="42dp"
                 android:layout_height="42dp"
-                android:src="@drawable/search"/>
+                android:layout_gravity="right"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/search" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="25dp"
                 android:text="馆藏查询"
-                android:textSize="20dp"
-                android:textColor="#FFFFFF"/>
+                android:textColor="#FFFFFF"
+                android:textSize="25dp" />
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/home_page_history"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="120dp"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:background="#3f40b5"
             android:layout_marginLeft="2dp"
-            android:id="@+id/home_page_history">
+            android:layout_weight="1"
+            android:background="@drawable/hujiao1"
+            android:orientation="vertical">
+
             <ImageView
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:src="@drawable/history"/>
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="right"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/history" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="25dp"
                 android:text="借阅记录"
-                android:textSize="20dp"
-                android:textColor="#FFFFFF"/>
+                android:textColor="#FFFFFF"
+                android:textSize="25dp" />
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ffffff"
         android:layout_margin="1dp">
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="120dp"
             android:orientation="vertical"
-            android:gravity="center"
-            android:background="#3f40b5"
+            android:background="@drawable/hujiao2"
             android:id="@+id/home_page_favorite">
             <ImageView
                 android:layout_width="42dp"
                 android:layout_height="42dp"
+                android:layout_gravity="right"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
                 android:src="@drawable/favorite"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="25dp"
                 android:text="我的收藏"
-                android:textSize="20dp"
+                android:textSize="25dp"
                 android:textColor="#FFFFFF"/>
         </LinearLayout>
         <LinearLayout
@@ -112,44 +132,51 @@
             android:layout_weight="1"
             android:layout_height="120dp"
             android:orientation="vertical"
-            android:gravity="center"
-            android:background="#3f40b5"
+            android:background="@drawable/hujiao3"
             android:layout_marginLeft="2dp"
             android:id="@+id/home_page_readed">
             <ImageView
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:src="@drawable/readed"/>
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="right"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/readed" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="25dp"
                 android:text="已读图书"
-                android:textSize="20dp"
+                android:textSize="25dp"
                 android:textColor="#FFFFFF"/>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ffffff"
         android:layout_margin="1dp">
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="120dp"
             android:orientation="vertical"
-            android:gravity="center"
-            android:background="#3f40b5"
+            android:background="@drawable/hujiao4"
             android:id="@+id/home_page_hotbooks">
             <ImageView
                 android:layout_width="42dp"
                 android:layout_height="42dp"
+                android:layout_gravity="right"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
                 android:src="@drawable/like"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="25dp"
                 android:text="热门书籍"
-                android:textSize="20dp"
+                android:textSize="25dp"
                 android:textColor="#FFFFFF"/>
         </LinearLayout>
         <LinearLayout
@@ -157,26 +184,30 @@
             android:layout_weight="1"
             android:layout_height="120dp"
             android:orientation="vertical"
-            android:gravity="center"
-            android:background="#3f40b5"
+            android:background="@drawable/hujiao5"
             android:layout_marginLeft="1dp"
             android:id="@+id/message">
             <ImageView
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:src="@drawable/message"/>
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="right"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/message" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="25dp"
                 android:text="意见反馈"
-                android:textSize="20dp"
+                android:textSize="25dp"
                 android:textColor="#FFFFFF"/>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#3f40b5"
+        android:background="@drawable/hujiao6"
         android:gravity="center">
         <TextView
             android:layout_width="wrap_content"
