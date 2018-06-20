@@ -45,7 +45,8 @@
         <activity android:name=".RecommendBookActivity"/>
         <activity android:name=".SearchBooknameBooklistActivity"/>
         <activity android:name=".SearchLikeAuthorActivity"/>
+        <activity android:name=".NoBookActivity"/>
     </application>
 
 
-</manifest>
+    </manifest>

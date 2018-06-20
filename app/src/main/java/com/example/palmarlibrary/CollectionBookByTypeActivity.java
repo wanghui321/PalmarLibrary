@@ -52,16 +52,15 @@ public class CollectionBookByTypeActivity extends Activity {
         setContentView(R.layout.collection_type_search_layout);
 
         final Intent intent = getIntent();
-        String TypeList = intent.getStringExtra("selectTypeList");
-//        Gson gson = new Gson();
-//        Type type = new TypeToken<List<String>>(){}.getType();
-//        List<String>TypeNameList =gson.fromJson(TypeList,type);
-        Log.e("xinyemian",TypeList);
-
-
+        String bookListStr = intent.getStringExtra("bookListStr");
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<Map<String,Object>>>(){}.getType();
+        List<Map<String,Object>> bookList = gson.fromJson(bookListStr,type);
         ImageView back = findViewById(R.id.type_search_back);
         listView = findViewById(R.id.type_search_booklist);
-
+        adapter = new BookNameAdapter(CollectionBookByTypeActivity.this,
+                R.layout.collection_type_search_item_layout,bookList);
+        listView.setAdapter(adapter);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,44 +70,6 @@ public class CollectionBookByTypeActivity extends Activity {
             }
         });
 
-
-        OkHttpClient okHttpClient = new OkHttpClient();
-        RequestBody requestBody = new FormBody.Builder()
-                .add("typeNameList",TypeList)
-                .build();
-        Request request = new Request.Builder()
-                .post(requestBody)
-                .url(Constant.BASE_URL + "selectBookByType.do")
-                .build();
-        Call call = okHttpClient.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String bookListStr = response.body().string();
-                Log.e("boolList",bookListStr);
-                Gson gson = new Gson();
-                Type type = new TypeToken<List<Map<String,Object>>>(){}.getType();
-                bookList = gson.fromJson(bookListStr,type);
-                Log.e("bookList",bookList.size()+"");
-
-                adapter = new BookNameAdapter(CollectionBookByTypeActivity.this,
-                        R.layout.collection_type_search_item_layout,
-                        bookList);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        listView.setAdapter(adapter);
-                    }
-                });
-
-
-            }
-        });
     }
 
     public class BookNameAdapter extends BaseAdapter {
