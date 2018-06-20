@@ -49,14 +49,15 @@ public class FragmentTab1 extends android.support.v4.app.Fragment{
     private Handler handler=null;
     private ListView listView=null;
     private BookNameAdapter adapter=null;
+    private Context context = null;
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater,
+    public View onCreateView(final LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.collection_bookname_layout, container, false);
-        final Context context = this.getActivity();
+        context = this.getActivity();
         handler=new Handler();
 
         final OkHttpClient okHttpClient = new OkHttpClient();
@@ -86,6 +87,16 @@ public class FragmentTab1 extends android.support.v4.app.Fragment{
                     public void onResponse(Call call, Response response) throws IOException {
                         String bookListStr = response.body().string();
                         Log.e("bookListStr",bookListStr);
+                        if (bookListStr.equals("[]")){
+                            new Thread(){
+                                @Override
+                                public void run() {
+                                    super.run();
+                                    handler.post(runnable);
+                                }
+                            }.start();
+                        }
+                        Log.e("asd","asd");
                         Intent intent = new Intent();
                         intent.putExtra("bookListStr",bookListStr);
                         intent.setClass(context, SearchBooknameBooklistActivity.class);
@@ -129,6 +140,15 @@ public class FragmentTab1 extends android.support.v4.app.Fragment{
         return view;
     }
 
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            Intent intent = new Intent();
+            intent.putExtra("flag","CollectionBookActivity");
+            intent.setClass(context,NoBookActivity.class);
+            startActivity(intent);
+        }
+    };
 
     Runnable runnableUi = new Runnable() {
         @Override
