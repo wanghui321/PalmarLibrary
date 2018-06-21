@@ -48,6 +48,8 @@ public class MyFavoritesActivity extends Activity{
             }
         });
 
+
+
         RequestBody requestBody = new FormBody.Builder()
                 .add("userId",Constant.user.getUserId())
                 .build();
@@ -100,7 +102,11 @@ public class MyFavoritesActivity extends Activity{
 
         @Override
         public int getCount() {
-            return dataSource.size();
+            if (dataSource.size()<=15){
+                return 15;
+            } else {
+                return (dataSource.size()/3+1)*3;
+            }
         }
 
         @Override
@@ -120,44 +126,46 @@ public class MyFavoritesActivity extends Activity{
             }
 
             ImageView imageView = convertView.findViewById(R.id.my_favorities_book);
-            String myUrl = dataSource.get(position).get("imgUrl").toString();
-            Glide.with(MyFavoritesActivity.this)
-                    .load(Constant.BASE_URL + myUrl)
-                    .into(imageView);
+            if (position < dataSource.size()){
+                String myUrl = dataSource.get(position).get("imgUrl").toString();
+                Glide.with(MyFavoritesActivity.this)
+                        .load(Constant.BASE_URL + myUrl)
+                        .into(imageView);
+                convertView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-            convertView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                        RequestBody requestBody = new FormBody.Builder()
+                                .add("bookName",dataSource.get(position).get("bookName").toString())
+                                .add("author",dataSource.get(position).get("author").toString())
+                                .add("userId",Constant.user.getUserId())
+                                .build();
+                        Request request = new Request.Builder()
+                                .post(requestBody)
+                                .url(Constant.BASE_URL + "getBookDetails.do")
+                                .build();
+                        OkHttpClient okHttpClient = new OkHttpClient();
+                        Call call = okHttpClient.newCall(request);
+                        call.enqueue(new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+                                e.printStackTrace();
+                            }
 
-                    RequestBody requestBody = new FormBody.Builder()
-                            .add("bookName",dataSource.get(position).get("bookName").toString())
-                            .add("author",dataSource.get(position).get("author").toString())
-                            .add("userId",Constant.user.getUserId())
-                            .build();
-                    Request request = new Request.Builder()
-                            .post(requestBody)
-                            .url(Constant.BASE_URL + "getBookDetails.do")
-                            .build();
-                    OkHttpClient okHttpClient = new OkHttpClient();
-                    Call call = okHttpClient.newCall(request);
-                    call.enqueue(new Callback() {
-                        @Override
-                        public void onFailure(Call call, IOException e) {
-                            e.printStackTrace();
-                        }
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                String msg = response.body().string();
+                                Intent intent = new Intent();
+                                intent.putExtra("msg",msg);
+                                intent.putExtra("flag","MyFavoritesActivity");
+                                intent.setClass(context,BookDetailActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                });
+            }
 
-                        @Override
-                        public void onResponse(Call call, Response response) throws IOException {
-                            String msg = response.body().string();
-                            Intent intent = new Intent();
-                            intent.putExtra("msg",msg);
-                            intent.putExtra("flag","MyFavoritesActivity");
-                            intent.setClass(context,BookDetailActivity.class);
-                            startActivity(intent);
-                        }
-                    });
-                }
-            });
             return convertView;
         }
     }

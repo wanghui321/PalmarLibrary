@@ -2,6 +2,7 @@ package com.example.palmarlibrary;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -109,6 +110,14 @@ public class ExchangeLoginActivity extends Activity{
                             Map <String,Object> map = gson.fromJson(msg,type);
                             user.setUserId(cardNum.getText().toString());
                             user.setNickname(map.get("nickname").toString());
+
+                            SharedPreferences preferences = getSharedPreferences("userData",
+                                    MODE_PRIVATE);
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putString("userId",cardNum.getText().toString());
+                            editor.putString("password",newPassword.getText().toString());
+                            editor.commit();
+
                             if (map.get("userName") != null) {
                                 user.setUserName(map.get("userName").toString());
                             }

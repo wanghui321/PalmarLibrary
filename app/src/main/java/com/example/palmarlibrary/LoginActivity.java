@@ -3,6 +3,7 @@ package com.example.palmarlibrary;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -86,6 +87,14 @@ public class LoginActivity extends Activity{
                             User user = Constant.user;
                             user.setUserId(cardNum.getText().toString());
                             user.setNickname(userName.getText().toString());
+
+                            SharedPreferences preferences = getSharedPreferences("userData",
+                                    MODE_PRIVATE);
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putString("userId",cardNum.getText().toString());
+                            editor.putString("password",userPassword.getText().toString());
+                            editor.commit();
+
                             Intent intent = new Intent();
                             intent.setClass(LoginActivity.this,HomePageActivity.class);
                             intent.putExtra("schoolName",schoolName);
