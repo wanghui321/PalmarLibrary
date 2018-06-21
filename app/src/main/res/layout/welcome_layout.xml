@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -29,11 +33,16 @@
             android:textSize="25dp" />
 
     </LinearLayout>
-    <Button
-        android:id="@+id/login"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="85dp"
-        android:text="登   录"
-        android:textSize="15dp"/>
+
 </LinearLayout>
+    <TextView
+        android:id="@+id/tz"
+        android:layout_gravity="right"
+        android:text="跳转"
+        android:textSize="18dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:background="#85ffffff"/>
+</FrameLayout>
