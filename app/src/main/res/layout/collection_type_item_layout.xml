@@ -10,10 +10,10 @@
             android:layout_height="30dp"
             android:layout_weight="9"
             android:text="文学"
-            android:textSize="20dp"
+            android:textSize="25dp"
             android:layout_margin="10dp"/>
         <CheckBox
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="1dp"
             android:id="@+id/type_cb"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
