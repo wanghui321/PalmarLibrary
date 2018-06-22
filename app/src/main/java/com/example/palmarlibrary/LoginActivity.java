@@ -37,8 +37,8 @@ public class LoginActivity extends Activity{
         final Button reset = findViewById(R.id.btn_reset);
         Button gotoexchange = findViewById(R.id.go_exchange_login);
 
-        Intent intent = getIntent();
-        final String schoolName = intent.getStringExtra("schoolName");
+        SharedPreferences preferences = getSharedPreferences("userData",Context.MODE_PRIVATE);
+        final String schoolName = preferences.getString("schoolName",null);
 
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +93,8 @@ public class LoginActivity extends Activity{
                             SharedPreferences.Editor editor = preferences.edit();
                             editor.putString("userId",cardNum.getText().toString());
                             editor.putString("password",userPassword.getText().toString());
+                            editor.putString("nickName",userName.getText().toString());
+                            editor.putString("schoolName",schoolName);
                             editor.commit();
 
                             Intent intent = new Intent();

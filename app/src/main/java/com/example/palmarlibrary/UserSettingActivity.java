@@ -2,10 +2,13 @@ package com.example.palmarlibrary;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,6 +28,8 @@ import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -60,15 +65,19 @@ public class UserSettingActivity extends Activity{
         final Button userSetting = findViewById(R.id.user_setting_btn);
         ImageView back = findViewById(R.id.user_setting_back);
 
-        Intent intent = getIntent();
-        final String schoolName = intent.getStringExtra("schoolName");
+        SharedPreferences preferences1 = getSharedPreferences("userData",Context.MODE_PRIVATE);
+        final String schoolName = preferences1.getString("schoolName",null);
 
         //切换账户
         exLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent =  new Intent(UserSettingActivity.this,ExchangeLoginActivity.class);
-                intent.putExtra("schoolName",schoolName);
+                SharedPreferences preferences = getSharedPreferences("userData", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.clear();
+                editor.putString("schoolName",schoolName);
+                editor.commit();
                 startActivity(intent);
             }
         });
@@ -148,22 +157,30 @@ public class UserSettingActivity extends Activity{
             }
         });
 
+        SharedPreferences preferences = getSharedPreferences("userData",Context.MODE_PRIVATE);
         User user = Constant.user;
-        userName.setText(user.getNickname().toString());
-        cardNum.setText(user.getUserId().toString());
-        if (user.getUserName() != null){
-            realName.setText(user.getUserName().toString());
+        userName.setText(user.getNickname());
+        cardNum.setText(preferences.getString("userId",null));
+        if (preferences.getString("userName",null) != null){
+            realName.setText(preferences.getString("userName",null));
         }
-        if (user.getDepartment() != null){
-            departName.setText(user.getUserName().toString());
+        if (preferences.getString("department",null) != null){
+            departName.setText(preferences.getString("department",null));
         }
-        if (user.getEmail() != null){
-            userMail.setText(user.getUserName().toString());
+        if (preferences.getString("email",null) != null){
+            userMail.setText(preferences.getString("email",null));
         }
-        if (user.getImgUrl() != null){
+        if (preferences.getString("imgUrl",null) != null &&
+                !preferences.getString("imgUrl",null).equals("")){
             RequestOptions requestOptions = new RequestOptions().circleCrop();
             Glide.with(UserSettingActivity.this)
-                    .load(Constant.BASE_URL + user.getImgUrl())
+                    .load(Constant.BASE_URL + preferences.getString("imgUrl",null))
+                    .apply(requestOptions)
+                    .into(imgHead);
+        } else {
+            RequestOptions requestOptions = new RequestOptions().circleCrop();
+            Glide.with(UserSettingActivity.this)
+                    .load(R.drawable.userhead)
                     .apply(requestOptions)
                     .into(imgHead);
         }
@@ -190,12 +207,14 @@ public class UserSettingActivity extends Activity{
     private void doUploadFile(File file) {
         Log.e("xiangce","123123123");
         //构建请求体
+        SimpleDateFormat df = new SimpleDateFormat("_yyyy_MM_dd_HH_mm_ss");
+        String time = df.format(new Date());
         RequestBody requestBody = RequestBody.create(
                 MediaType.parse("image/#"),file);
         MultipartBody multipartBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("userId",Constant.user.getUserId())
-                .addFormDataPart("mPhoto",Constant.user.getUserId()+".jpg",requestBody)
+                .addFormDataPart("mPhoto",Constant.user.getUserId()+time +".jpg",requestBody)
                 .build();
         Request request = new Request.Builder()
                 .url(Constant.BASE_URL + "uploadFile.do")
@@ -218,6 +237,10 @@ public class UserSettingActivity extends Activity{
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        SharedPreferences preferences = getSharedPreferences("userData",Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putString("imgUrl",user.getImgUrl());
+                        editor.commit();
                         Glide.with(UserSettingActivity.this)
                                 .load(Constant.BASE_URL + user.getImgUrl())
                                 .apply(requestOptions)
