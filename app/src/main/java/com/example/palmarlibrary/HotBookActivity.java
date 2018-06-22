@@ -131,7 +131,8 @@ public class HotBookActivity extends Activity{
                     .into(imageView);
             bookName.setText(dataSource.get(position).get("bookName").toString());
             author.setText(dataSource.get(position).get("author").toString());
-            hot.setText(dataSource.get(position).get("hot").toString());
+            hot.setText(dataSource.get(position).get("hot").toString()
+                    .substring(0,dataSource.get(position).get("hot").toString().indexOf(".")));
 
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override

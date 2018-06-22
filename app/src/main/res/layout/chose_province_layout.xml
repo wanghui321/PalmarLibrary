@@ -10,13 +10,7 @@
         android:layout_height="wrap_content"
         android:background="#800000">
 
-        <ImageView
-            android:id="@+id/province_back"
-            android:src="@drawable/back"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:layout_gravity="center"/>
+
 
         <TextView
             android:layout_width="0dp"
@@ -28,10 +22,7 @@
             android:textColor="#ffffff"
             android:textSize="25dp" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+
     </LinearLayout>
     <ListView
         android:id="@+id/province_list"

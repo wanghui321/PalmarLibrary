@@ -203,7 +203,8 @@ public class BorrowingRecordsActivity extends Activity {
                                     @Override
                                     public void run() {
                                         returnTime.setText(map.get("returnDate").toString());
-                                        borrowNumber.setText(map.get("number").toString());
+                                        borrowNumber.setText(map.get("number").toString()
+                                        .substring(0,map.get("number").toString().indexOf(".")));
                                         Toast.makeText(BorrowingRecordsActivity.this,
                                                 "续借成功", Toast.LENGTH_SHORT).show();
                                     }
@@ -229,7 +230,8 @@ public class BorrowingRecordsActivity extends Activity {
             author.setText(dataSource.get(position).get("author").toString());
             borrowTime.setText(dataSource.get(position).get("borrowDate").toString());
             returnTime.setText(dataSource.get(position).get("returnDate").toString());
-            borrowNumber.setText(dataSource.get(position).get("number").toString());
+            borrowNumber.setText(dataSource.get(position).get("number").toString()
+            .substring(0,dataSource.get(position).get("number").toString().indexOf(".")));
             return convertView;
         }
     }

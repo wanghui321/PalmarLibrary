@@ -136,7 +136,8 @@ public class RecommendBookActivity extends Activity {
                     .load(Constant.BASE_URL + dataSource.get(position).get("imgUrl"))
                     .into(imageView);
             tvBookName.setText(dataSource.get(position).get("bookName").toString());
-            tvBookHot.setText(dataSource.get(position).get("hot").toString());
+            tvBookHot.setText(dataSource.get(position).get("hot").toString()
+                    .substring(0,dataSource.get(position).get("hot").toString().indexOf(".")));
             tvAuthor.setText(dataSource.get(position).get("author").toString());
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override

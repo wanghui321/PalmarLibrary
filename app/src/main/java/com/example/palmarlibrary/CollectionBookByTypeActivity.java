@@ -110,7 +110,7 @@ public class CollectionBookByTypeActivity extends Activity {
 
             tv_bookName.setText(dataSource.get(position).get("bookName").toString());
             tv_author.setText(dataSource.get(position).get("author").toString());
-            tv_hot.setText(dataSource.get(position).get("hot").toString());
+            tv_hot.setText(dataSource.get(position).get("hot").toString().substring(0,dataSource.get(position).get("hot").toString().indexOf(".")));
             Glide.with(CollectionBookByTypeActivity.this)
                     .load(Constant.BASE_URL + dataSource.get(position).get("imgUrl"))
                     .into(imageView);

@@ -130,7 +130,8 @@ public class ReadBookActivity extends Activity{
 
             tvRedBookName.setText(books.get(position).get("bookName").toString());
             tvRedAuthor.setText(books.get(position).get("author").toString());
-            tvRedHot.setText(books.get(position).get("hot").toString());
+            tvRedHot.setText(books.get(position).get("hot").toString()
+                    .substring(0,books.get(position).get("hot").toString().indexOf(".")));
             Glide.with(ReadBookActivity.this)
                     .load(Constant.BASE_URL + books.get(position).get("imgUrl").toString())
                     .into(imageView);

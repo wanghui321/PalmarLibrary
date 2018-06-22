@@ -105,7 +105,8 @@ public class SearchBooknameBooklistActivity extends Activity {
 
             bookName.setText(dataSource.get(position).get("bookName").toString());
             author.setText(dataSource.get(position).get("author").toString());
-            searchnumber.setText(dataSource.get(position).get("hot").toString());
+            searchnumber.setText(dataSource.get(position).get("hot").toString()
+                    .substring(0,dataSource.get(position).get("hot").toString().indexOf(".")));
             String myUrl = dataSource.get(position).get("imgUrl").toString();
             Glide.with(SearchBooknameBooklistActivity.this)
                     .load(Constant.BASE_URL + myUrl)

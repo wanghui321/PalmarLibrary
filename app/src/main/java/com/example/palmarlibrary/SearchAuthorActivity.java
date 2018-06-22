@@ -131,7 +131,8 @@ public class SearchAuthorActivity extends Activity {
                     .into(imageView);
             tvName.setText(dataSource.get(position).get("bookName").toString());
             tvAuthor.setText(dataSource.get(position).get("author").toString());
-            tvHot.setText(dataSource.get(position).get("hot").toString());
+            tvHot.setText(dataSource.get(position).get("hot").toString()
+                    .substring(0,dataSource.get(position).get("hot").toString().indexOf(".")));
 
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override

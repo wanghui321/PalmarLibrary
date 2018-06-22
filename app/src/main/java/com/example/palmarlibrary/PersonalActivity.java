@@ -118,7 +118,8 @@ public class PersonalActivity extends Activity {
             final TextView tvType = convertView.findViewById(R.id.recommend_type_name);
             TextView tvNumber = convertView.findViewById(R.id.recommend_type_booknum);
             tvType.setText(dataSource.get(position).get("typeName").toString());
-            tvNumber.setText(dataSource.get(position).get("number").toString());
+            tvNumber.setText(dataSource.get(position).get("number").toString()
+            .substring(0,dataSource.get(position).get("number").toString().indexOf(".")));
             final String type = dataSource.get(position).get("typeName").toString();
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override

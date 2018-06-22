@@ -44,17 +44,10 @@ public class choseprovinceActivity extends Activity {
         setContentView(R.layout.chose_province_layout);
 
 
-        ImageView provinceback = findViewById(R.id.province_back);
+
         final ListView provincelist = findViewById(R.id.province_list);
 
-        provinceback.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(choseprovinceActivity.this,welcomeActivity.class);
-                startActivity(intent);
-            }
-        });
+       
 
         Resources res = getResources();
         String [] province = res.getStringArray(R.array.province);
