@@ -3,7 +3,9 @@ package com.example.palmarlibrary;
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,22 +24,40 @@ import java.util.TimerTask;
  */
 
 public class welcomeActivity extends Activity {
-    public void enterHome(){
-        Timer time = new Timer();
-        TimerTask tk = new TimerTask() {
-            Intent intent = new Intent(welcomeActivity.this,choseprovinceActivity.class);
-            @Override
-            public void run() {
-                // TODO Auto-generated method stub
-
-                startActivity(intent);
-                finish();
-            }
-        };time.schedule(tk, 5000);
-
-    }
+//    public void enterHome(){
+//        Timer time = new Timer();
+//        TimerTask tk = new TimerTask() {
+//            @Override
+//            public void run() {
+//                // TODO Auto-generated method stub
+//                SharedPreferences preferences = getSharedPreferences("userData",Context.MODE_PRIVATE);
+//                String userId = preferences.getString("userId","");
+//                String password = preferences.getString("password","");
+//                if (!userId.equals("") && !password.equals("")){
+//                    Intent intent = new Intent(welcomeActivity.this,HomePageActivity.class);
+//                    User user = Constant.user;
+//                    user.setUserId(userId);
+//                    user.setNickname(preferences.getString("nickName",""));
+//                    user.setUserName(preferences.getString("userName",""));
+//                    user.setDepartment(preferences.getString("department",""));
+//                    user.setEmail(preferences.getString("email",""));
+//                    user.setImgUrl(preferences.getString("imgUrl",null));
+//                    String schoolName = preferences.getString("schoolName","");
+//                    intent.putExtra("schoolName",schoolName);
+//                    Log.e("imgUrl",preferences.getString("imgUrl",""));
+//                    startActivity(intent);
+//                } else {
+//                    Intent intent = new Intent(welcomeActivity.this,choseprovinceActivity.class);
+//                    startActivity(intent);
+//                }
+//                finish();
+//            }
+//        };time.schedule(tk, 5000);
+//
+//    }
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+
         final int[] i = {5};
         i[0]=5;
         super.onCreate(savedInstanceState);
@@ -49,7 +69,6 @@ public class welcomeActivity extends Activity {
         animator.setStartDelay(500);
         animator.start();
         final TextView btn = findViewById(R.id.tz);
-        enterHome();
         class MyTask extends TimerTask {
 
             @Override
@@ -58,6 +77,29 @@ public class welcomeActivity extends Activity {
                 btn.setText("跳转("+ i[0]+")");
                 i[0] = i[0]-1;
 
+                if (i[0] == -1){
+                SharedPreferences preferences = getSharedPreferences("userData",Context.MODE_PRIVATE);
+                String userId = preferences.getString("userId","");
+                String password = preferences.getString("password","");
+                if (!userId.equals("") && !password.equals("")) {
+                    Intent intent = new Intent(welcomeActivity.this, HomePageActivity.class);
+                    User user = Constant.user;
+                    user.setUserId(userId);
+                    user.setNickname(preferences.getString("nickName", ""));
+                    user.setUserName(preferences.getString("userName", ""));
+                    user.setDepartment(preferences.getString("department", ""));
+                    user.setEmail(preferences.getString("email", ""));
+                    user.setImgUrl(preferences.getString("imgUrl", null));
+                    String schoolName = preferences.getString("schoolName", "");
+                    intent.putExtra("schoolName", schoolName);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent();
+                    intent.setClass(welcomeActivity.this,choseschoolActivity.class);
+                    startActivity(intent);
+                }
+                    finish();
+                }
             }
 
         }
@@ -78,8 +120,30 @@ public class welcomeActivity extends Activity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(welcomeActivity.this,choseprovinceActivity.class);
-                startActivity(intent);
+
+                SharedPreferences preferences = getSharedPreferences("userData", Context.MODE_PRIVATE);
+                String userId = preferences.getString("userId","");
+                String password = preferences.getString("password","");
+                if (!userId.equals("") && !password.equals("")){
+                    Intent intent = new Intent(welcomeActivity.this,HomePageActivity.class);
+                    User user = Constant.user;
+                    user.setUserId(userId);
+                    user.setNickname(preferences.getString("nickName",""));
+                    user.setUserName(preferences.getString("userName",""));
+                    user.setDepartment(preferences.getString("department",""));
+                    user.setEmail(preferences.getString("email",""));
+                    user.setImgUrl(preferences.getString("imgUrl",null));
+                    String schoolName = preferences.getString("schoolName","");
+                    Log.e("schoolName",schoolName);
+                    intent.putExtra("schoolName",schoolName);
+                    Log.e("imgUrl",preferences.getString("imgUrl","asd"));
+                    startActivity(intent);
+                    i[0] = -2;
+                } else {
+                    Intent intent = new Intent(welcomeActivity.this,choseprovinceActivity.class);
+                    startActivity(intent);
+                    i[0] = -2;
+                }
             }
         });
     }

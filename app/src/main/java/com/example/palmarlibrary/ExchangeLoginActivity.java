@@ -1,6 +1,7 @@
 package com.example.palmarlibrary;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -42,8 +43,8 @@ public class ExchangeLoginActivity extends Activity{
         Button reset = findViewById(R.id.ex_btn_reset);
         Button regist = findViewById(R.id.ex_btn_regist);
 
-        Intent intent = getIntent();
-        final String schoolName = intent.getStringExtra("schoolName");
+        SharedPreferences preferences = getSharedPreferences("userData", Context.MODE_PRIVATE);
+        final String schoolName = preferences.getString("schoolName",null);
 
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,20 +117,34 @@ public class ExchangeLoginActivity extends Activity{
                             SharedPreferences.Editor editor = preferences.edit();
                             editor.putString("userId",cardNum.getText().toString());
                             editor.putString("password",newPassword.getText().toString());
-                            editor.commit();
+                            editor.putString("nickName",map.get("nickname").toString());
+                            editor.putString("schoolName",schoolName);
 
                             if (map.get("userName") != null) {
                                 user.setUserName(map.get("userName").toString());
+                                editor.putString("userName",map.get("userName").toString());
+                            }else {
+                                editor.putString("userName","");
                             }
                             if (map.get("department")!=null){
                                 user.setDepartment(map.get("department").toString());
+                                editor.putString("department",map.get("department").toString());
+                            } else {
+                                editor.putString("department","");
                             }
                             if (map.get("email")!=null){
                                 user.setEmail(map.get("email").toString());
+                                editor.putString("email",map.get("email").toString());
+                            } else {
+                                editor.putString("email","");
                             }
                             if (map.get("imgUrl") != null){
                                 user.setImgUrl(map.get("imgUrl").toString());
+                                editor.putString("imgUrl",map.get("imgUrl").toString());
+                            } else {
+                                editor.putString("imgUrl",null);
                             }
+                            editor.commit();
                             Intent intent = new Intent();
                             intent.setClass(ExchangeLoginActivity.this,
                                     HomePageActivity.class);

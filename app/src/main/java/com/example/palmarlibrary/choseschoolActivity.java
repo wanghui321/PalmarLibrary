@@ -3,6 +3,7 @@ package com.example.palmarlibrary;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -96,7 +97,7 @@ public class choseschoolActivity extends Activity {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(int position, View convertView, final ViewGroup parent) {
 
             if (convertView == null){
                 convertView = LayoutInflater.from(context).inflate(item_layout_id,null);
@@ -110,7 +111,11 @@ public class choseschoolActivity extends Activity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
-                    intent.setClass(choseschoolActivity.this,LoginActivity.class).putExtra("schoolName",tvSchName.getText());
+                    intent.setClass(choseschoolActivity.this,LoginActivity.class);
+                    SharedPreferences preferences = getSharedPreferences("userData",Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("schoolName",tvSchName.getText().toString());
+                    editor.commit();
                     startActivity(intent);
                 }
             });

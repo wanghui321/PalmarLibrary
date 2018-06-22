@@ -2,8 +2,10 @@ package com.example.palmarlibrary;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,10 +34,18 @@ public class HomePageActivity extends Activity implements View.OnClickListener{
         LinearLayout hotbooks = findViewById(R.id.home_page_hotbooks);
         LinearLayout message = findViewById(R.id.message);
 
-        if (Constant.user.getImgUrl() != null){
+        SharedPreferences preferences = getSharedPreferences("userData",MODE_PRIVATE);
+        String imgUrl = preferences.getString("imgUrl",null);
+        if (imgUrl != null && !imgUrl.equals("")){
             RequestOptions requestOptions = new RequestOptions().circleCrop();
             Glide.with(HomePageActivity.this)
-                    .load(Constant.BASE_URL + Constant.user.getImgUrl())
+                    .load(Constant.BASE_URL + imgUrl)
+                    .apply(requestOptions)
+                    .into(user);
+        } else {
+            RequestOptions requestOptions = new RequestOptions().circleCrop();
+            Glide.with(HomePageActivity.this)
+                    .load(R.drawable.user)
                     .apply(requestOptions)
                     .into(user);
         }
