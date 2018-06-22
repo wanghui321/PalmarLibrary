@@ -78,7 +78,7 @@ public class BookDetailActivity extends Activity {
                         intent.setClass(BookDetailActivity.this,CollectionBookActivity.class);
                         break;
                     case "SearchAuthorActivity":
-                        intent.putExtra("author",authorStr);
+                        intent.putExtra("authorStr",authorStr);
                         intent.setClass(BookDetailActivity.this,SearchAuthorActivity.class);
                         break;
                     case "HotBookActivity":
@@ -138,6 +138,10 @@ public class BookDetailActivity extends Activity {
                         intent.putExtra("author",likeAuthor);
                         intent.putExtra("flag","SearchLikeAuthorActivity");
                         break;
+                    case "SearchAuthorActivity":
+                        intent.putExtra("authorStr",authorStr);
+                        intent.putExtra("flag","SearchAuthorActivity");
+                        break;
                 }
                 intent.setClass(BookDetailActivity.this,BookReviewActivity.class);
                 startActivity(intent);
@@ -160,6 +164,9 @@ public class BookDetailActivity extends Activity {
                 }
                 if (author != null){
                     intent.putExtra("author",likeAuthor);
+                }
+                if (authorStr != null){
+                    intent.putExtra("authorStr",authorStr);
                 }
                 startActivity(intent);
             }

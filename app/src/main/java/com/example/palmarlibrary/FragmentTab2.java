@@ -181,7 +181,7 @@ public class FragmentTab2 extends android.support.v4.app.Fragment {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
-                    intent.putExtra("author",dataSource.get(position).toString());
+                    intent.putExtra("authorStr",dataSource.get(position).toString());
                     intent.setClass(context,SearchAuthorActivity.class);
                     startActivity(intent);
                 }

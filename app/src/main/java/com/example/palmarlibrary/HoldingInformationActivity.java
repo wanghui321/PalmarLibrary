@@ -61,6 +61,7 @@ public class HoldingInformationActivity extends Activity{
         final String typeName = intent.getStringExtra("typeName");
         final String bookListStr = intent.getStringExtra("bookListStr");
         final String author = intent.getStringExtra("author");
+        final String authorStr = intent.getStringExtra("authorStr");
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,6 +76,9 @@ public class HoldingInformationActivity extends Activity{
                 }
                 if (author != null){
                     intent.putExtra("likeAuthor",author);
+                }
+                if (authorStr != null){
+                    intent.putExtra("author",authorStr);
                 }
                 intent.setClass(HoldingInformationActivity.this,BookDetailActivity.class);
                 startActivity(intent);

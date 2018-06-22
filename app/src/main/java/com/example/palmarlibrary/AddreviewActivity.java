@@ -39,6 +39,7 @@ public class AddreviewActivity extends Activity {
         final String typeName = intent.getStringExtra("typeName");
         final String bookListStr = intent.getStringExtra("bookListStr");
         final String author = intent.getStringExtra("author");
+        final String authorStr = intent.getStringExtra("authorStr");
 
         ImageView addreviewback = findViewById(R.id.addreview_back);
         final EditText editText = findViewById(R.id.review_review);
@@ -61,6 +62,9 @@ public class AddreviewActivity extends Activity {
                 }
                 if (author != null){
                     intent.putExtra("author",author);
+                }
+                if (authorStr != null){
+                    intent.putExtra("authorStr",authorStr);
                 }
                 intent.setClass(AddreviewActivity.this,BookReviewActivity.class);
                 startActivity(intent);

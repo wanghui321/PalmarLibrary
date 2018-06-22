@@ -53,7 +53,7 @@ public class SearchAuthorActivity extends Activity {
             }
         });
         Intent intent = getIntent();
-        author = intent.getStringExtra("author");
+        author = intent.getStringExtra("authorStr");
         final ListView listView = findViewById(R.id.auhtor_search_book_list);
         OkHttpClient okHttpClient = new OkHttpClient();
         RequestBody requestBody = new FormBody.Builder()
