@@ -102,6 +102,12 @@ public class UserSettingActivity extends Activity{
                 user.setUserName(realName.getText().toString());
                 user.setDepartment(departName.getText().toString());
                 user.setEmail(userMail.getText().toString());
+                SharedPreferences preferences = getSharedPreferences("userData",MODE_PRIVATE);
+                SharedPreferences.Editor editor= preferences.edit();
+                editor.putString("userName",realName.getText().toString());
+                editor.putString("department",departName.getText().toString());
+                editor.putString("email",userMail.getText().toString());
+                editor.commit();
                 RequestBody requestBody = new FormBody.Builder()
                         .add("userId",user.getUserId())
                         .add("nickname",userName.getText().toString())
