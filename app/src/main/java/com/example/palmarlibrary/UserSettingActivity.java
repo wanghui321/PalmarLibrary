@@ -104,6 +104,7 @@ public class UserSettingActivity extends Activity{
                 user.setEmail(userMail.getText().toString());
                 SharedPreferences preferences = getSharedPreferences("userData",MODE_PRIVATE);
                 SharedPreferences.Editor editor= preferences.edit();
+                editor.putString("nickName",userName.getText().toString());
                 editor.putString("userName",realName.getText().toString());
                 editor.putString("department",departName.getText().toString());
                 editor.putString("email",userMail.getText().toString());
@@ -165,6 +166,9 @@ public class UserSettingActivity extends Activity{
 
         SharedPreferences preferences = getSharedPreferences("userData",Context.MODE_PRIVATE);
         User user = Constant.user;
+        if (preferences.getString("nickName",null) != null){
+            userName.setText(preferences.getString("nickName",null));
+        }
         userName.setText(user.getNickname());
         cardNum.setText(preferences.getString("userId",null));
         if (preferences.getString("userName",null) != null){
